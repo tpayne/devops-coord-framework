@@ -1,13 +1,12 @@
-package org.devops.framework;
+package org.devops;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import junit.framework.*;
+import junit.textui.TestRunner;
 
 /**
  * Unit test for simple App.
  */
-public class AppTest 
+public class AppTest
     extends TestCase
 {
     /**
@@ -23,9 +22,11 @@ public class AppTest
     /**
      * @return the suite of tests being tested
      */
-    public static Test suite()
+    public static TestSuite suiteJava()
     {
-        return new TestSuite( AppTest.class );
+    	TestSuite allJavaTests = new TestSuite();
+    	//allJavaTests.addTestSuite(AppTest.class);
+        return allJavaTests;
     }
 
     /**
@@ -33,6 +34,8 @@ public class AppTest
      */
     public void testApp()
     {
+    	TestRunner.run(AppTest.suiteJava());
         assertTrue( true );
     }
 }
+

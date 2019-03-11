@@ -12,11 +12,11 @@
 		</fileSet>
 		<fileSet>
 			<directory>src/main/vars</directory>
-			<outputDirectory>devops-framework/org/devops/vars</outputDirectory>
+			<outputDirectory>devops-framework/vars</outputDirectory>
 		</fileSet>
 		<fileSet>
 			<directory>src/main/resources</directory>
-			<outputDirectory>devops-framework/org/devops/resources</outputDirectory>
+			<outputDirectory>devops-framework/resources</outputDirectory>
 		</fileSet>
 	</fileSets>
 </assembly>
