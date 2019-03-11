@@ -100,7 +100,7 @@ The Integration class is provided to control your integration process and has th
 - prepareForTest() - A callout provided to help prepare for testing
 - getTestAssets() - A callout provided to help pull test assets
 - preTest() - A callout provided to help prepare for the testing
-- runTest() - A callout provided to help run the testing
+- runTests() - A callout provided to help run the testing
 - postTest() - A callout provided to help perform any post testing activities
 - evaluateTestResults() - A callout provided to help evaluate test results
 - logTestResults() - A callout provided to help log test results
@@ -125,7 +125,7 @@ The ReleaseCandidate class is provided to control your release process and has t
 - prepareForTest() - A callout provided to help prepare for testing
 - getTestAssets() - A callout provided to help pull test assets
 - preTest() - A callout provided to help prepare for the testing
-- runTest() - A callout provided to help run the testing
+- runTests() - A callout provided to help run the testing
 - postTest() - A callout provided to help perform any post testing activities
 - evaluateTestResults() - A callout provided to help evaluate test results
 - logTestResults() - A callout provided to help log test results
