@@ -29,4 +29,72 @@ public class BuildTests extends GroovyTestCase {
 
 		bld.runPipeline()
    	}
+
+  	void testFunctionsWithException() {
+      	Build bld = new Build(null,null)
+
+      	// Register callbacks - any order...
+		bld.bakeImage(body:{println ">Bake image<"},
+					  exceptionHandler:{println ">Do exception<"})
+		bld.evaluateStaticCodeTests(body:{println ">Evaluate code analysis<"},
+					  exceptionHandler:{println ">Do exception<"})
+		bld.evaluateUnitTests(body:{println ">Evaluare unit-tests<"},
+					  exceptionHandler:{println ">Do exception<"})
+		bld.getCode(body:{println ">Get code<"},
+					  exceptionHandler:{println ">Do exception<"}) 
+		bld.logResults(body:{println ">Log results<"},
+					  exceptionHandler:{println ">Do exception<"})
+		bld.postBuild(body:{println ">Post build<"},
+					  exceptionHandler:{println ">Do exception<"})
+		bld.preBuild(body:{println ">Pre build<"},
+					  exceptionHandler:{println ">Do exception<"})
+		bld.promote(body:{println ">Promote<"},
+					  exceptionHandler:{println ">Do exception<"})     
+		bld.runBuild(body:{println ">Run build<"},
+					  exceptionHandler:{println ">Do exception<"})
+		bld.runStaticCodeTests(body:{println ">Run code analysis<"},
+					  exceptionHandler:{println ">Do exception<"})
+		bld.runUnitTests(body:{println ">Run unit tests<"},
+					  exceptionHandler:{println ">Do exception<"})
+		bld.uploadAssets(body:{println ">Upload assets<"},
+					  exceptionHandler:{println ">Do exception<"})
+      	bld.prepareWorkArea(body:{println ">Prepare workarea<"},
+					  exceptionHandler:{println ">Do exception<"})
+
+		bld.runPipeline()
+   	}
+
+  	void testFunctionsWithFinal() {
+      	Build bld = new Build(null,null)
+
+      	// Register callbacks - any order...
+		bld.bakeImage(body:{println ">Bake image<"},
+					  exceptionHandler:{println ">Do exception<"})
+		bld.evaluateStaticCodeTests(body:{println ">Evaluate code analysis<"},
+					  finalHandler:{println ">Do final<"})
+		bld.evaluateUnitTests(body:{println ">Evaluare unit-tests<"},
+					  finalHandler:{println ">Do final<"})
+		bld.getCode(body:{println ">Get code<"},
+					  finalHandler:{println ">Do final<"})
+		bld.logResults(body:{println ">Log results<"},
+					  finalHandler:{println ">Do final<"})
+		bld.postBuild(body:{println ">Post build<"},
+					  finalHandler:{println ">Do final<"})
+		bld.preBuild(body:{println ">Pre build<"},
+					  finalHandler:{println ">Do final<"})
+		bld.promote(body:{println ">Promote<"},
+					  finalHandler:{println ">Do final<"})
+		bld.runBuild(body:{println ">Run build<"},
+					  finalHandler:{println ">Do final<"})
+		bld.runStaticCodeTests(body:{println ">Run code analysis<"},
+					  finalHandler:{println ">Do final<"})
+		bld.runUnitTests(body:{println ">Run unit tests<"},
+					  finalHandler:{println ">Do final<"})
+		bld.uploadAssets(body:{println ">Upload assets<"},
+					  finalHandler:{println ">Do final<"})
+      	bld.prepareWorkArea(body:{println ">Prepare workarea<"},
+					  finalHandler:{println ">Do final<"})
+
+		bld.runPipeline()
+   	}   	
 }
