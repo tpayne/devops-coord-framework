@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly>
+	<id>artifact</id>
+	<formats>
+		<format>zip</format>
+	</formats>
+	<baseDirectory>/</baseDirectory>
+	<fileSets>
+		<fileSet>
+			<directory>src/main/groovy/org/devops/</directory>
+			<outputDirectory>devops-framework/src/org/devops/</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>src/main/vars</directory>
+			<outputDirectory>devops-framework/org/devops/vars</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>src/main/resources</directory>
+			<outputDirectory>devops-framework/org/devops/resources</outputDirectory>
+		</fileSet>
+	</fileSets>
+</assembly>
