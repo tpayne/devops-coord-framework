@@ -62,8 +62,8 @@ package org.devops;
         _replacePackage(CallbackConstants.runSmokeTests, args)
     } 
 
-    def evaluateSmoteTests(Map args = [:]) {
-        _replacePackage(CallbackConstants.evaluateSmoteTests, args)
+    def evaluateSmokeTests(Map args = [:]) {
+        _replacePackage(CallbackConstants.evaluateSmokeTests, args)
     } 
 
     def logDeployResults(Map args = [:]) {

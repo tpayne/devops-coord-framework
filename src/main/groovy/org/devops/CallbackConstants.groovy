@@ -87,6 +87,7 @@ class CallbackConstants {
     ]
 
     // Integration constants...
+    private static final String runTests = "runTests"
     
     // Integration callback stack...
     static final def IntegrationCallbackMap = [
@@ -102,7 +103,7 @@ class CallbackConstants {
         prepareForTest: null,
         getTestAssets: null,
         preTest: null,
-        runTest: null,
+        runTests: null,
         postTest: null,
         evaluateTestResults: null,
         logTestResults: null,
@@ -127,7 +128,7 @@ class CallbackConstants {
         prepareForTest: null,
         getTestAssets: null,
         preTest: null,
-        runTest: null,
+        runTests: null,
         postTest: null,
         evaluateTestResults: null,
         logTestResults: null,
