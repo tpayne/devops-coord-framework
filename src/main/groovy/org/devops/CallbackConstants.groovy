@@ -1,5 +1,8 @@
 package org.devops;
 
+/**
+ * Constant definitions for use with the framework
+ */
 class CallbackConstants {
     
     // Generic constants...
@@ -26,6 +29,7 @@ class CallbackConstants {
     static final String bakeImage = "bakeImage"
     static final String uploadAssets = "uploadAssets"
 
+    // Build callback stack...
     static final def BuildCallbackMap = [
         prepareWorkArea: null,
         getCode: null,
@@ -50,6 +54,7 @@ class CallbackConstants {
     static final String runSmokeTests = "runSmokeTests"
     static final String evaluateSmokeTests = "evaluateSmokeTests"
 
+    // Deploy callback stack...
     static final def DeployCallbackMap = [
         prepareForDeploy: null,
         getAssets: null,
@@ -69,6 +74,7 @@ class CallbackConstants {
     private static final String postTest = "postTest"
     private static final String evaluateTests = "evaluateTests"
  
+    // Test callback stack...
     static final def TestCallbackMap = [
         prepareForTest: null,
         getAssets: null,
@@ -81,6 +87,8 @@ class CallbackConstants {
     ]
 
     // Integration constants...
+    
+    // Integration callback stack...
     static final def IntegrationCallbackMap = [
         getComponentList: null,
         prepareForDeploy: null,
@@ -105,6 +113,7 @@ class CallbackConstants {
     static final String rollback = "rollback"
     static final String finish = "finish"
 
+    // Release callback stack...
     static final def ReleaseCandCallbackMap = [
         getComponentList: null,
         prepareForDeploy: null,

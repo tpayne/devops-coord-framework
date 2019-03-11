@@ -1,8 +1,13 @@
 package org.devops;
 
+/**
+ * Utility routines for use with the framework
+ */
 class Utilities implements Serializable {
     /**
-     * Utility routine to read file into memory.
+     * Utility routine to read file into memory
+     *
+     * @return byte[] - File contents
      */
     static final byte[] readAllBytes(final File file) throws IOException {
         long len = file.length();

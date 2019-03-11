@@ -1,6 +1,9 @@
 package org.devops;
 
-class Build implements Serializable {
+/**
+ * Build coordinator
+ */
+ class Build implements Serializable {
 
     def steps = null
     def config = null
@@ -8,10 +11,12 @@ class Build implements Serializable {
 
     private Map stepMap = null
 
+    // Run the pipeline
     def runPipeline() {
         cbFactory.executeStack(this.steps,this.stepMap)
     }
 
+    // Replace callbacks in the function stack with custom callbacks...
     private def _replacePackage(String key, Map args) {
         if (this.stepMap == null) {
             this.stepMap = cbFactory.getCallbacks(this,this.config)
@@ -28,6 +33,7 @@ class Build implements Serializable {
         }
     }
 
+    // Callback functions...
     def prepareWorkArea(Map args = [:]) {
         _replacePackage(CallbackConstants.prepareWorkArea, args)
     }

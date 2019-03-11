@@ -1,6 +1,9 @@
 package org.devops;
 
-class ReleaseCandidate implements Serializable {
+/**
+ * Release coordinator
+ */
+ class ReleaseCandidate implements Serializable {
 
     def steps = null
     def config = null
@@ -8,10 +11,12 @@ class ReleaseCandidate implements Serializable {
 
     private Map stepMap = null
 
+    // Run the pipeline
     def runPipeline() {
         cbFactory.executeStack(this.steps,this.stepMap)
     }
 
+    // Replace callbacks in the function stack with custom callbacks...
     private def _replacePackage(String key, Map args) {
         if (this.stepMap == null) {
             this.stepMap = cbFactory.getCallbacks(this,this.config)
@@ -28,6 +33,7 @@ class ReleaseCandidate implements Serializable {
         }    
     }
 
+    // Callback functions...
     def getComponentList(Map args = [:]) {
         _replacePackage(CallbackConstants.getComponentList, args)
     } 
