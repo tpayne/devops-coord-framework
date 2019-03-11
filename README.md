@@ -1,5 +1,3 @@
-# Devops framework example
-
 Devops framework example
 ========================
 
@@ -10,11 +8,11 @@ on the callouts that you use.
 
 There are 5 main interface classes provided. These are...
 
-Build - Which is used to control your build process
-Deploy - Which is used to control your deployment process
-Test - Which is used to control your test process
-Integration - Which is used to control your integration process
-ReleaseCandidate - Which is used to control your Release candidate process
+* Build - Which is used to control your build process
+* Deploy - Which is used to control your deployment process
+* Test - Which is used to control your test process
+* Integration - Which is used to control your integration process
+* ReleaseCandidate - Which is used to control your Release candidate process
 
 Build Class
 ===========
@@ -141,49 +139,47 @@ callbacks you want to use.
 
 For example, a sample pipeline might look like
 
->>>>
-@Library('devops-framework')
+	// Sample pipeline...
+	@Library('devops-framework')
 
-def config = [
-    property1: 'value1',
-    property2: 'value2',
-    property3: 'value3'
-]
+	def config = [
+	    property1: 'value1',
+	    property2: 'value2',
+	    property3: 'value3'
+	]
 
-def bld = new org.devops.Build(this, config)
+	def bld = new org.devops.Build(this, config)
 
-node {
-    // Register my build process...
-    bld.runBuild(body:{ 
-        println ">Start build...<"
-        sh label: '', script: '''cd /tmp
-        echo hello2
-        pwd
-        sh /Users/alexgray/build.sh
-        '''        
-    }, finalHandler:{ println ">Build Job Done<" })
-    
-    // Register my get code callback...
-	bld.getCode(body:{ println ">Get my code<" })
-	
-	// Register my bake callback...
-	bld.bakeImage(body:{ println ">Run my bake<" })
-	
-	// Register a pre-build callback...
-	bld.preBuild(body:{
-        println ">Pre-build - clean my files up...<"
-        sh label: 'Pre-build sh:', script: '''cd /tmp
-        if [ -f main ]; then
-            ls main
-            rm -f main
-        fi
-        '''        
-    })
-	
-	// Run my pipeline...
-	bld.runPipeline()
-}
-<<<<
+	node {    
+		// Register my build process...    
+		bld.runBuild(body:{ 
+			println ">Start build...<"
+			sh label: '', script: '''cd /tmp
+			echo hello2
+			pwd
+			sh /Users/alexgray/build.sh
+			'''        
+		}, finalHandler:{ println ">Build Job Done<" })
+
+		// Register my get code callback...
+		bld.getCode(body:{ println ">Get my code<" })
+
+		// Register my bake callback...
+		bld.bakeImage(body:{ println ">Run my bake<" })
+
+		// Register a pre-build callback...
+		bld.preBuild(body:{
+			println ">Pre-build - clean my files up...<"
+			sh label: 'Pre-build sh:', script: '''cd /tmp
+			if [ -f main ]; then
+				ls main
+				rm -f main
+			fi
+			'''        
+		})
+		// Run my pipeline...
+		bld.runPipeline()
+	}
 
 This will run the getCode(), preBuild(), runBuild() and bakeImage() callbacks in this
 order.
