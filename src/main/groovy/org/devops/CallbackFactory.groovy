@@ -32,15 +32,15 @@ class CallbackFactory implements Serializable {
     static def executeStack(def steps, Map stepsToRun) {
         stepsToRun.each{
             if (it.value != null) {
-                runStep(it.value,steps,stepsToRun)
+                runStep(it.value,it.key,steps,stepsToRun)
             }
         }
     }
 
-    static private runStep(Map toRun, def steps, Map stepsToRun) {
+    static private runStep(Map toRun, String key, def steps, Map stepsToRun) {
         if (toRun != null) {
             if (steps) {
-                steps.stage(toRun.getKey()) {
+                steps.stage(key) {
                     // Do nothing for now...
                 }
             }
