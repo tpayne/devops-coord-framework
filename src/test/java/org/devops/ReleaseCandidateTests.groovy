@@ -5,7 +5,7 @@ import junit.framework.*;
 import junit.textui.TestRunner;
 
 /**
- * Unit Integration for Integration class.
+ * Unit ReleaseCandidate for ReleaseCandidate class.
  */
 public class ReleaseCandidateTests extends GroovyTestCase {
 
