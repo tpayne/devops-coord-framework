@@ -30,4 +30,23 @@ class Utilities implements Serializable {
         }
         return bytes;
     }
- }
+
+    /**
+     * Utility routine to run a shell command
+     * 
+     * @param String - Command to run
+     * @param StringBuffer - return message
+     * @return int - Exit value
+     */
+    static int runCmd(final String cmdStr, StringBuffer returnStr) {
+        ProcessBuilder ph = new ProcessBuilder("sh","-c",cmdStr)
+        ph.redirectErrorStream(true);
+        Process shell = ph.start()
+        shell.waitFor()
+        if (returnStr.length() > 0) {
+            returnStr.delete(0, returnStr.length())
+        }
+        returnStr.append(shell.text.toString())
+        return shell.exitValue()
+    }
+}

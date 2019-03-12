@@ -7,24 +7,35 @@ import groovy.json.JsonOutput
  */
 class Notifications implements Serializable {
     /**
-     * Slack channel messaging routine
-     *
-     * @return bool
+     * Simple Slack channel messaging routine
+     * See https://api.slack.com/incoming-webhooks for how to setup 
+     * channel incoming webhooks
+     * @return boolean
      */
-    static def messageSlackChannel(String slackURI,
-                                   String channel,
-                                   String userName,
-                                   String text) {
-        def payload = JsonOutput.toJson([text      : text,
-                                         channel   : channel,
-                                         username  : userName,
-                                         icon_emoji: ":jenkins:"])
-
-        def returnStr
+    static boolean messageSlackChannel(String slackURI,
+                                       String text) {
+        
+        // Use a JSON payload
+        def payload = JsonOutput.toJson([text : text ])
         def cmdStr = "curl -X POST --data-urlencode \'payload=${payload}\' ${slackURI}"
-        int retStat = Utilities.runCmd()
-        if (retStat>0) {
-            println returnStr
+
+        // Use a direct payload
+        //def cmdStr = "curl -X POST -H \'Content-type: application/json\' --data \'{\"text\":"+
+        //                "\""+text+"\"}\' " + slackURI
+        
+        StringBuffer returnStr = new StringBuffer()
+
+        int retStat = Utilities.runCmd(cmdStr,returnStr)
+        String returnOutput = returnStr.toString()
+        returnOutput = returnOutput.trim()
+        returnStr = null
+        
+        if (retStat>0 || returnOutput.contains("invalid_payload") ||
+            returnOutput.isEmpty() || !returnOutput.contains("ok")) {
+            return false
+        } else if (retStat==0 && returnOutput.contains("ok")) {
+            return true
         } 
+        return false
     }
  }
