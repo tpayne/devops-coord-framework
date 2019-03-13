@@ -110,15 +110,15 @@ class Notifications implements Serializable {
      * @return boolean
      */
     static boolean messageSlackChannel(String slackURI,
-                                       String text) {
+                                       String ltext) {
         
         // Use a JSON payload
-        def payload = JsonOutput.toJson([text : text ])
+        def payload = JsonOutput.toJson([text : ltext ])
         def cmdStr = "curl -X POST --data-urlencode \'payload=${payload}\' ${slackURI}"
 
         // Use a direct payload
         //def cmdStr = "curl -X POST -H \'Content-type: application/json\' --data \'{\"text\":"+
-        //                "\""+text+"\"}\' " + slackURI
+        //                "\""+ltext+"\"}\' " + slackURI
         
         StringBuffer returnStr = new StringBuffer()
 
