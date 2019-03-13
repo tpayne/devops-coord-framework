@@ -4,10 +4,37 @@ package org.devops;
  * Utility routines for use with the framework
  */
 class Utilities implements Serializable {
+
+    private static class OsDetector {
+        private static String OS = System.getProperty("os.name").toLowerCase();
+
+        private static boolean isWindows() {
+            return (OS.indexOf("win") >= 0)
+        }
+
+        private static boolean isUnix() {
+            return (OS.indexOf("mac") >= 0 || OS.indexOf("nix") >= 0 || 
+                    OS.indexOf("nux") >= 0 || OS.indexOf("aix") >= 0 ||
+                    OS.indexOf("sunos") >= 0)
+        }
+    }
+
+    // Method for OS detection...
+    static boolean isUnix() {
+        return (OsDetector.isUnix()) 
+    }
+
+    // Method for OS detection...
+    static boolean isWindows() {
+        return (OsDetector.isWindows()) 
+    }
+
+
     /**
      * Utility routine to read file into memory
-     *
+     * @param final File - file
      * @return byte[] - File contents
+     * @throws IOException
      */
     static final byte[] readAllBytes(final File file) throws IOException {
         long len = file.length();
@@ -32,6 +59,50 @@ class Utilities implements Serializable {
     }
 
     /**
+     * Find a executable in the path
+     * @param String - exeName
+     * @return File - Location
+     * @throws FileNotFoundException
+     */
+    static File getExecutable(String exeName) 
+        throws FileNotFoundException {
+        
+        // Get the path environment.
+        String exec = exeName;
+        if (System.getProperty("os.name").toLowerCase(ConfigPropertiesConstants.ROOT_LOCALE).startsWith("windows")) {
+            exec += ".exe";
+        }
+
+        String path = System.getenv("PATH");
+        if (path == null) {
+            path = System.getenv("path");
+        }
+        if (path == null) {
+            path = System.getenv("Path");
+        }
+        if (path == null) {
+            throw new FileNotFoundException(exec + ": could not be found in the path");
+        }
+
+        // Split it into directories.
+        String[] pathDirs = path.split(File.pathSeparator);
+
+        // Hunt through the directories to find the file I want.
+        File exe = null;
+        for (String pathDir : pathDirs) {
+            File file = new File(pathDir, exec);
+            if (file.isFile()) {
+                exe = file;
+                break;
+            }
+        }
+        if (exe == null) {
+            throw new FileNotFoundException(exec + ": could not be found in the path");
+        }
+        return exe;
+    }
+
+    /**
      * Utility routine to run a shell command
      * 
      * @param String - Command to run
@@ -47,6 +118,44 @@ class Utilities implements Serializable {
             returnStr.delete(0, returnStr.length())
         }
         returnStr.append(shell.text.toString())
-        return shell.exitValue()
+        int retStatus = shell.exitValue()
+        if (Utilities.isUnix()) {
+            if (retStatus > 0) {
+                return 1
+            } else if (retStatus < 0) {
+                return -1
+            }
+            return 0
+        } else {
+            if (retStatus > 0) {
+                return 0
+            } else if (retStatus < 0) {
+                return -1
+            }
+            return 1            
+        }
+        return 1
+    }
+
+    // Utility function to get temporary directory...
+    static File getTmpDir() {
+        return new File(System.getProperty("java.io.tmpdir"))
+    }
+
+    /**
+     * Utility routine to emulate rm -fr
+     * 
+     * @param final File - Directory to delete
+     * @throws IOException
+     */   
+     static void deleteDirs(final File f) throws IOException {
+        if (f.isDirectory()) {
+            for (File c : f.listFiles()) {
+                c.setWritable(true)
+                deleteDirs(c)
+            }
+        }
+        if (!f.delete())
+            throw new FileNotFoundException("Failed to delete file: " + f)
     }
 }
