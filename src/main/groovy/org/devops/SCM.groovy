@@ -27,6 +27,27 @@ class SCM implements Serializable {
      * 
      * @param final String - scmType
      * @param final String - scmURI
+     * @param final String - scmUser
+     * @param final String - scmPwd
+     * @return boolean 
+     * @throws FileNotFoundException, IllegalArgumentException, Exception
+     */
+    static final boolean scmClone(final String scmType,
+                                final String scmURI,
+                                final String scmUser,
+                                final String scmPwd)
+        throws FileNotFoundException, IllegalArgumentException, Exception {
+        //
+        // SCM clone using user and passwd...
+        //
+        return scmClone(scmType,scmURI,scmUser,scmPwd,null)
+    }
+
+    /**
+     * Utility routine to clone code into a workarea
+     * 
+     * @param final String - scmType
+     * @param final String - scmURI
      * @param final File - targetWorkArea
      * @return boolean 
      * @throws FileNotFoundException, IllegalArgumentException, Exception
@@ -36,7 +57,7 @@ class SCM implements Serializable {
                                 final File targetWorkArea)
         throws FileNotFoundException, IllegalArgumentException, Exception {
         //
-        // SCM clone using no user or password...
+        // SCM clone using workarea...
         //
         return scmClone(scmType,scmURI,null,null,targetWorkArea)
     }
@@ -90,9 +111,10 @@ class SCM implements Serializable {
 
         // Construct the required command...
         String cmdStr = scmFile.getAbsolutePath()+" "
+        String pathURI = scmURI
+        
         if (scmType == ConfigPropertiesConstants.SCMGIT) {
             // In the future, we could use credential helpers, but not at this time...
-            String pathURI = scmURI
             String repoType
             if (pathURI.contains(":")) {
                 repoType = pathURI.substring(0,pathURI.lastIndexOf(':')+1).trim()
@@ -100,19 +122,26 @@ class SCM implements Serializable {
             }
             cmdStr += " clone "+repoType
             if (scmUser && scmPwd) {
-                cmdStr += scmUser+"@"+scmPwd
+                cmdStr += "//"+scmUser+":"+scmPwd+"@"
+                pathURI = pathURI.substring(2,pathURI.length())
             } 
             cmdStr += pathURI
             if (targetWorkArea) {
                 cmdStr += " "+targetWorkArea.getAbsolutePath()
             }
+            cmdStr += " --quiet"
         }
         else if (scmType == ConfigPropertiesConstants.SCMSVN) {
             cmdStr += " co "
             cmdStr += scmURI
+            if (scmUser && scmPwd) {
+                cmdStr += " --username "+scmUser+" --password "+scmPwd
+                pathURI = pathURI.substring(2,pathURI.length())
+            } 
             if (targetWorkArea) {
                 cmdStr += " "+targetWorkArea.getAbsolutePath()
-            }        
+            }
+            cmdStr += " --quiet"
         }
 
         StringBuffer returnStr = new StringBuffer()
