@@ -12,4 +12,8 @@ class ConfigPropertiesConstants {
 	// SCM constants...
 	static final String SCMGIT = "SCMGIT"
 	static final String SCMSVN = "SCMSVN"
+
+	// Container constants...
+	static final String DOCKER = "DOCKER"
 }
+
