@@ -30,6 +30,8 @@ to every product - like security scans - that cannot be overriden by manipulatin
 You can also add services and library routines that will then be available to everyone - building on the functionality
 already available.
 
+This callback format has already been used successfully in a number of companies to overcome various different issues.
+
 Build Class
 ===========
 
@@ -155,9 +157,9 @@ To install this Jenkins share library, do the following...
 How to Use
 ==========
 
-The shared library works can providing controller classes that you can use
+The shared library works by providing controller classes that you can use
 in a pipeline job. As such, you need to create a pipeline job and register the
-callbacks you want to use.
+callbacks that you want to use.
 
 For example, a sample pipeline might look like
 
