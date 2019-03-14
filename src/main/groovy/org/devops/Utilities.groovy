@@ -69,7 +69,7 @@ class Utilities implements Serializable {
         
         // Get the path environment.
         String exec = exeName;
-        if (System.getProperty("os.name").toLowerCase(ConfigPropertiesConstants.ROOT_LOCALE).startsWith("windows")) {
+        if (Utilities.isWindows()) {
             exec += ".exe";
         }
 

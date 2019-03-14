@@ -15,14 +15,14 @@ public class IntegrationTests extends GroovyTestCase {
       	// Register callbacks - any order...
 		bld.evaluateSmokeTests(body:{println ">Evaluare smoke-tests<"})
 		bld.evaluateTestResults(body:{println ">Evaluare tests<"})
-		bld.getDeployAssets(body:{println ">Get assets<"}) 
-		bld.getTestAssets(body:{println ">Get assets<"}) 
-		bld.logDeployResults(body:{println ">Log results<"})
-		bld.logTestResults(body:{println ">Log results<"})
+		bld.getDeployAssets(body:{println ">Get deploy assets<"}) 
+		bld.getTestAssets(body:{println ">Get test assets<"}) 
+		bld.logDeployResults(body:{println ">Log deploy results<"})
+		bld.logTestResults(body:{println ">Log test results<"})
 		bld.postDeploy(body:{println ">Post Deploy<"})
-		bld.postTest(body:{println ">Post Integration<"})
+		bld.postTest(body:{println ">Post test<"})
 		bld.preDeploy(body:{println ">Pre Deploy<"})
-		bld.preTest(body:{println ">Pre Integration<"})
+		bld.preTest(body:{println ">Pre test<"})
 		bld.promote(body:{println ">Promote<"})      
 		bld.runDeploy(body:{println ">Run Deploy<"})
 		bld.runTests(body:{println ">Run test<"})
@@ -42,21 +42,21 @@ public class IntegrationTests extends GroovyTestCase {
 				  exceptionHandler:{println ">Do exception<"})
 		bld.evaluateTestResults(body:{println ">Evaluare tests<"},
 				  exceptionHandler:{println ">Do exception<"})
-		bld.getDeployAssets(body:{println ">Get assets<"},
+		bld.getDeployAssets(body:{println ">Get deploy assets<"},
 				  exceptionHandler:{println ">Do exception<"}) 
-		bld.getTestAssets(body:{println ">Get assets<"},
+		bld.getTestAssets(body:{println ">Get test assets<"},
 				  exceptionHandler:{println ">Do exception<"}) 
-		bld.logDeployResults(body:{println ">Log results<"},
+		bld.logDeployResults(body:{println ">Log deploy results<"},
 				  exceptionHandler:{println ">Do exception<"})
-		bld.logTestResults(body:{println ">Log results<"},
+		bld.logTestResults(body:{println ">Log test results<"},
 				  exceptionHandler:{println ">Do exception<"})
 		bld.postDeploy(body:{println ">Post Deploy<"},
 				  exceptionHandler:{println ">Do exception<"})
-		bld.postTest(body:{println ">Post Integration<"},
+		bld.postTest(body:{println ">Post test<"},
 				  exceptionHandler:{println ">Do exception<"})
 		bld.preDeploy(body:{println ">Pre Deploy<"},
 				  exceptionHandler:{println ">Do exception<"})
-		bld.preTest(body:{println ">Pre Integration<"},
+		bld.preTest(body:{println ">Pre test<"},
 				  exceptionHandler:{println ">Do exception<"})
 		bld.promote(body:{println ">Promote<"},
 				  exceptionHandler:{println ">Do exception<"})     
@@ -84,21 +84,21 @@ public class IntegrationTests extends GroovyTestCase {
 					  finalHandler:{println ">Do final<"})
 		bld.evaluateTestResults(body:{println ">Evaluare tests<"},
 					  finalHandler:{println ">Do final<"})
-		bld.getDeployAssets(body:{println ">Get assets<"},
+		bld.getDeployAssets(body:{println ">Get deploy assets<"},
 					  finalHandler:{println ">Do final<"})
-		bld.getTestAssets(body:{println ">Get assets<"},
+		bld.getTestAssets(body:{println ">Get test assets<"},
 					  finalHandler:{println ">Do final<"})
-		bld.logDeployResults(body:{println ">Log results<"},
+		bld.logDeployResults(body:{println ">Log deploy results<"},
 					  finalHandler:{println ">Do final<"})
-		bld.logTestResults(body:{println ">Log results<"},
+		bld.logTestResults(body:{println ">Log test results<"},
 					  finalHandler:{println ">Do final<"})
 		bld.postDeploy(body:{println ">Post Deploy<"},
 					  finalHandler:{println ">Do final<"})
-		bld.postTest(body:{println ">Post Integration<"},
+		bld.postTest(body:{println ">Post test<"},
 					  finalHandler:{println ">Do final<"})
 		bld.preDeploy(body:{println ">Pre Deploy<"},
 					  finalHandler:{println ">Do final<"})
-		bld.preTest(body:{println ">Pre Integration<"},
+		bld.preTest(body:{println ">Pre test<"},
 					  finalHandler:{println ">Do final<"})
 		bld.promote(body:{println ">Promote<"},
 					  finalHandler:{println ">Do final<"})
