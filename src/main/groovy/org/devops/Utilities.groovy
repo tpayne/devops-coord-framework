@@ -6,7 +6,7 @@ package org.devops;
 class Utilities implements Serializable {
 
     private static class OsDetector {
-        private static String OS = System.getProperty("os.name").toLowerCase();
+        private static String OS = System.getProperty("os.name").toLowerCase(ConfigPropertiesConstants.ROOT_LOCALE);
 
         private static boolean isWindows() {
             return (OS.indexOf("win") >= 0)
