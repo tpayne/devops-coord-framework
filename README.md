@@ -13,6 +13,13 @@ There are 5 main interface classes provided. These are...
 	* Test - Which is used to control your test process
 	* Integration - Which is used to control your integration process
 	* ReleaseCandidate - Which is used to control your Release candidate process
+	
+There are also a number of service classes which wrap tools and make them available for use within
+framework. These are...
+
+	* Notifications - For email and slack IRC messaging
+	* SCM - For GIT and SVN SCM function(s) - currently only supporting cloning
+	* Container - For various container management commands - currently only supporting Docker
 
 Why have a framework?
 =====================
