@@ -4,9 +4,309 @@ package org.devops;
  * Container routines for use with the framework
  */
 class Container implements Serializable {
-    // push
-    // build
-    // clean
+
+    /**
+     * Utility routine to create a container registry
+     * Note: This routine is not intended for use, it is simply
+     *       present to support functional/unit-testing requirements
+     *
+     * @param final String - containerType
+     * @param final String - registryName
+     * @param final String - imageName
+     * @param final int    - portNo
+     * @param StringBuffer - outputStr
+     * @param final Map    - vararg list
+     * @return boolean 
+     * @throws IllegalArgumentException, Exception
+     */
+    static final boolean createContainerRegistry(final String containerType,
+                                      final String registryName,
+                                      final String imageName,
+                                      final int    portNo=5000,
+                                      final String commandStr=null,
+                                      StringBuffer outputStr=null,
+                                      final Map    args = [:])
+        throws IllegalArgumentException, Exception {
+        
+        if (containerType == null || registryName == null || imageName == null) {
+            throw new IllegalArgumentException("Error: Invalid parameters specified")
+        }
+        // Test that the specified container engine exists...
+        String containerExeName = null
+        if (containerType == ConfigPropertiesConstants.DOCKER) {
+            containerExeName = "docker"
+        } else {
+            throw new IllegalArgumentException("Error: The container type specified is not supported")
+        }
+
+        File containerFile = Utilities.getExecutable(containerExeName)
+        if (containerFile == null) {
+            throw new Exception("Error: Container engine "+containerExeName+" has not been located")
+        }
+
+        // Construct the required command...
+        String cmdStr = containerFile.getAbsolutePath()+" "
+        
+        if (containerType == ConfigPropertiesConstants.DOCKER) {
+            cmdStr += " run "
+            if (args) {
+                args.each{
+                    cmdStr += " "
+                    cmdStr += it.key
+                    cmdStr += " "
+                    if (it.value) {
+                        cmdStr += it.value
+                    }
+                }
+            }
+            cmdStr += " -d -p "+portNo+":"+portNo
+            cmdStr += " --restart=always --name "
+            cmdStr += " "+registryName+" "+imageName
+        }
+
+        StringBuffer returnStr = new StringBuffer()
+
+        int retStat = Utilities.runCmd(cmdStr,returnStr)
+        String returnOutput = returnStr.toString()
+        returnOutput = returnOutput.trim()
+        if (outputStr!=null) {
+            outputStr.append(returnOutput)
+        }
+        returnStr = null    
+
+        return(retStat==0)
+    }    
+
+    /**
+     * Utility to push a container
+     * 
+     * @param final String - containerType
+     * @param final String - imageName
+     * @param StringBuffer - outputStr
+     * @return boolean 
+     * @throws IllegalArgumentException, Exception
+     */
+    static final boolean pushContainer(final String containerType,
+                                      final String imageName,
+                                      StringBuffer outputStr=null)
+        throws IllegalArgumentException, Exception {
+        
+        if (containerType == null || imageName == null) {
+            throw new IllegalArgumentException("Error: Invalid parameters specified")
+        }
+        // Test that the specified container engine exists...
+        String containerExeName = null
+        if (containerType == ConfigPropertiesConstants.DOCKER) {
+            containerExeName = "docker"
+        } else {
+            throw new IllegalArgumentException("Error: The container type specified is not supported")
+        }
+
+        File containerFile = Utilities.getExecutable(containerExeName)
+        if (containerFile == null) {
+            throw new Exception("Error: Container engine "+containerExeName+" has not been located")
+        }
+
+        // Construct the required command...
+        String cmdStr = containerFile.getAbsolutePath()+" "
+        
+        if (containerType == ConfigPropertiesConstants.DOCKER) {
+            cmdStr += " push  "
+            cmdStr += imageName
+        }
+
+        StringBuffer returnStr = new StringBuffer()
+
+        int retStat = Utilities.runCmd(cmdStr,returnStr)
+        String returnOutput = returnStr.toString()
+        returnOutput = returnOutput.trim()
+        if (outputStr!=null) {
+            outputStr.append(returnOutput)
+        }
+        returnStr = null    
+
+        return(retStat==0)
+    }
+
+    /**
+     * Utility to tag a container
+     * 
+     * @param final String - containerType
+     * @param final String - srcImageName
+     * @param final String - trgImageName
+     * @param StringBuffer - outputStr
+     * @return boolean 
+     * @throws IllegalArgumentException, Exception
+     */
+    static final boolean tagContainer(final String containerType,
+                                      final String srcImageName,
+                                      final String trgImageName,
+                                      StringBuffer outputStr=null)
+        throws IllegalArgumentException, Exception {
+        
+        if (containerType == null || srcImageName == null || trgImageName == null) {
+            throw new IllegalArgumentException("Error: Invalid parameters specified")
+        }
+        // Test that the specified container engine exists...
+        String containerExeName = null
+        if (containerType == ConfigPropertiesConstants.DOCKER) {
+            containerExeName = "docker"
+        } else {
+            throw new IllegalArgumentException("Error: The container type specified is not supported")
+        }
+
+        File containerFile = Utilities.getExecutable(containerExeName)
+        if (containerFile == null) {
+            throw new Exception("Error: Container engine "+containerExeName+" has not been located")
+        }
+
+        // Construct the required command...
+        String cmdStr = containerFile.getAbsolutePath()+" "
+        
+        if (containerType == ConfigPropertiesConstants.DOCKER) {
+            cmdStr += " tag  "
+            cmdStr += " "+srcImageName
+            cmdStr += " "+trgImageName 
+        }
+
+        StringBuffer returnStr = new StringBuffer()
+
+        int retStat = Utilities.runCmd(cmdStr,returnStr)
+        String returnOutput = returnStr.toString()
+        returnOutput = returnOutput.trim()
+        if (outputStr!=null) {
+            outputStr.append(returnOutput)
+        }
+        returnStr = null    
+
+        return(retStat==0)
+    }
+
+    /**
+     * Utility to remove a registry
+     * 
+     * @param final String - containerType
+     * @param final String - registryName
+     * @param StringBuffer - outputStr
+     * @return boolean 
+     * @throws IllegalArgumentException, Exception
+     */
+    static final boolean deleteContainerRegistry(final String containerType,
+                                      final String registryName,
+                                      StringBuffer outputStr=null)
+        throws IllegalArgumentException, Exception {
+        
+        if (containerType == null || registryName == null) {
+            throw new IllegalArgumentException("Error: Invalid parameters specified")
+        }
+        // Test that the specified container engine exists...
+        String containerExeName = null
+        if (containerType == ConfigPropertiesConstants.DOCKER) {
+            containerExeName = "docker"
+        } else {
+            throw new IllegalArgumentException("Error: The container type specified is not supported")
+        }
+
+        File containerFile = Utilities.getExecutable(containerExeName)
+        if (containerFile == null) {
+            throw new Exception("Error: Container engine "+containerExeName+" has not been located")
+        }
+
+        // Construct the required command...
+        String cmdStr = containerFile.getAbsolutePath()+" "
+        
+        if (containerType == ConfigPropertiesConstants.DOCKER) {
+            cmdStr += " container stop "+registryName
+        }
+
+        StringBuffer returnStr = new StringBuffer()
+
+        int retStat = Utilities.runCmd(cmdStr,returnStr)
+        String returnOutput = returnStr.toString()
+        returnOutput = returnOutput.trim()
+        if (outputStr!=null) {
+            outputStr.append(returnOutput)
+        }
+
+        if (retStat!=0) {
+            returnStr = null
+            return false
+        }
+
+        returnOutput = null
+        cmdStr = null
+        cmdStr = containerFile.getAbsolutePath()+" "
+
+        if (returnStr.length() > 0) {
+            returnStr.delete(0, returnStr.length())
+        }
+
+        if (containerType == ConfigPropertiesConstants.DOCKER) {
+            cmdStr += " container rm -v "+registryName
+        }
+
+        retStat = Utilities.runCmd(cmdStr,returnStr)
+        returnOutput = returnStr.toString()
+        returnOutput = returnOutput.trim()
+        if (outputStr!=null) {
+            outputStr.append("\n"+returnOutput)
+        }        
+
+        returnStr = null    
+
+        return(retStat==0)
+    }
+
+    /**
+     * Utility to pull a container
+     * 
+     * @param final String - containerType
+     * @param final String - imageName
+     * @param StringBuffer - outputStr
+     * @return boolean 
+     * @throws IllegalArgumentException, Exception
+     */
+    static final boolean pullContainerImage(final String containerType,
+                                            final String imageName,
+                                            StringBuffer outputStr=null)
+        throws IllegalArgumentException, Exception {
+        
+        if (containerType == null || imageName == null) {
+            throw new IllegalArgumentException("Error: Invalid parameters specified")
+        }
+        // Test that the specified container engine exists...
+        String containerExeName = null
+        if (containerType == ConfigPropertiesConstants.DOCKER) {
+            containerExeName = "docker"
+        } else {
+            throw new IllegalArgumentException("Error: The container type specified is not supported")
+        }
+
+        File containerFile = Utilities.getExecutable(containerExeName)
+        if (containerFile == null) {
+            throw new Exception("Error: Container engine "+containerExeName+" has not been located")
+        }
+
+        // Construct the required command...
+        String cmdStr = containerFile.getAbsolutePath()+" "
+        
+        if (containerType == ConfigPropertiesConstants.DOCKER) {
+            cmdStr += " pull  "
+            cmdStr += " "+imageName
+        }
+
+        StringBuffer returnStr = new StringBuffer()
+
+        int retStat = Utilities.runCmd(cmdStr,returnStr)
+        String returnOutput = returnStr.toString()
+        returnOutput = returnOutput.trim()
+        if (outputStr!=null) {
+            outputStr.append(returnOutput)
+        }
+        returnStr = null    
+
+        return(retStat==0)
+    }
 
     /**
      * Utility to delete a container
@@ -27,7 +327,7 @@ class Container implements Serializable {
         throws IllegalArgumentException, Exception {
         
         if (containerType == null || containerName == null) {
-            throw new IllegalArgumentException("Error: Invalud parameters specified")
+            throw new IllegalArgumentException("Error: Invalid parameters specified")
         }
         // Test that the specified container engine exists...
         String containerExeName = null
@@ -38,6 +338,9 @@ class Container implements Serializable {
         }
 
         File containerFile = Utilities.getExecutable(containerExeName)
+        if (containerFile == null) {
+            throw new Exception("Error: Container engine "+containerExeName+" has not been located")
+        }
 
         // Construct the required command...
         String cmdStr = containerFile.getAbsolutePath()+" "
@@ -92,7 +395,7 @@ class Container implements Serializable {
         throws IllegalArgumentException, Exception {
         
         if (containerType == null || containerName == null) {
-            throw new IllegalArgumentException("Error: Invalud parameters specified")
+            throw new IllegalArgumentException("Error: Invalid parameters specified")
         }
         // Test that the specified container engine exists...
         String containerExeName = null
@@ -103,6 +406,9 @@ class Container implements Serializable {
         }
 
         File containerFile = Utilities.getExecutable(containerExeName)
+        if (containerFile == null) {
+            throw new Exception("Error: Container engine "+containerExeName+" has not been located")
+        }
 
         // Construct the required command...
         String cmdStr = containerFile.getAbsolutePath()+" "
@@ -159,7 +465,7 @@ class Container implements Serializable {
         throws FileNotFoundException, IllegalArgumentException, Exception {
         
         if (containerType == null || containerName == null || buildDirectory == null) {
-            throw new IllegalArgumentException("Error: Invalud parameters specified")
+            throw new IllegalArgumentException("Error: Invalid parameters specified")
         }
 
         // Test build directory exists...
@@ -183,6 +489,9 @@ class Container implements Serializable {
         }
 
         File containerExeFile = Utilities.getExecutable(containerExeName)
+        if (containerExeFile == null) {
+            throw new Exception("Error: Container engine "+containerExeName+" has not been located")
+        }
 
         // Construct the required command...
         String cmdStr = containerExeFile.getAbsolutePath()+" "

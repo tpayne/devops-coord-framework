@@ -273,4 +273,32 @@ public class ContainerTests extends GroovyTestCase {
       assertTrue(retStat)
       assertTrue(retStr.contains("sha256:"))
    }
+
+   void testtagContainerBasic() {
+      String regName = "centos-"
+      String imageName = "centos"
+      String regImageName = "registry:2"
+      Random rand = new Random()
+      Long uid = rand.nextLong()
+      int portNo = 5000
+
+      regName += uid
+
+      boolean retStat = Container.createContainerRegistry(ConfigPropertiesConstants.DOCKER,regName,regImageName, portNo)
+      assertTrue(retStat)
+      retStat = Container.pullContainerImage(ConfigPropertiesConstants.DOCKER,imageName)
+      assertTrue(retStat)
+      String regURI = "localhost:"+portNo+"/"+regName
+      retStat = Container.tagContainer(ConfigPropertiesConstants.DOCKER,imageName,regURI)
+      assertTrue(retStat)
+      retStat = Container.pushContainer(ConfigPropertiesConstants.DOCKER,regURI)
+      assertTrue(retStat)
+      retStat = Container.deleteContainerImage(ConfigPropertiesConstants.DOCKER,regURI,true)
+      retStat = Container.deleteContainerImage(ConfigPropertiesConstants.DOCKER,imageName,true)
+      retStat = Container.pullContainerImage(ConfigPropertiesConstants.DOCKER,regURI)
+      retStat = Container.deleteContainerRegistry(ConfigPropertiesConstants.DOCKER,regName)
+      assertTrue(retStat)
+      retStat = Container.deleteContainerImage(ConfigPropertiesConstants.DOCKER,regURI,true)
+      retStat = Container.deleteContainerImage(ConfigPropertiesConstants.DOCKER,imageName,true)
+   }   
 }
