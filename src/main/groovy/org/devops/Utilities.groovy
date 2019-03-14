@@ -110,6 +110,12 @@ class Utilities implements Serializable {
      * @return int - Exit value
      */
     static int runCmd(final String cmdStr, StringBuffer returnStr) {
+        //
+        // Enable this if need to debug commands. Not adding debug facility due
+        // to password concerns
+        //
+        //println "[DEBUG] "+cmdStr
+
         ProcessBuilder ph = new ProcessBuilder("sh","-c",cmdStr)
         ph.redirectErrorStream(true);
         Process shell = ph.start()
