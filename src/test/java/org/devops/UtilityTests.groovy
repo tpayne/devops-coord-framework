@@ -9,31 +9,37 @@ import junit.textui.TestRunner;
  */
 public class UtilityTests extends GroovyTestCase {
 
-      void testReadFile() {
+   void testReadFile() {
 
-      }
+   }
 
-      void testShellCmdSuccess() {
-         def cmdStr
-         StringBuffer returnStr = new StringBuffer()
+   void testShellCmdSuccess() {
+      def cmdStr
+      StringBuffer returnStr = new StringBuffer()
 
-         cmdStr = "echo 1"
-         int retStat = Utilities.runCmd(cmdStr,returnStr)
-         String returnOutput = returnStr.toString()
-         returnOutput = returnOutput.trim()
-         assertEquals(retStat,0)
-         assertEquals(returnOutput,"1")
-      }
+      cmdStr = "echo 1"
+      int retStat = Utilities.runCmd(cmdStr,returnStr)
+      String returnOutput = returnStr.toString()
+      returnOutput = returnOutput.trim()
+      assertEquals(retStat,0)
+      assertEquals(returnOutput,"1")
+   }
 
-      void testShellCmdFailure() {
-         def cmdStr
-         StringBuffer returnStr = new StringBuffer()
-         
-         cmdStr = "lsdx"
-         int retStat = Utilities.runCmd(cmdStr,returnStr)
-         String returnOutput = returnStr.toString()
-         returnOutput = returnOutput.trim()
-         assertTrue(retStat>0)
-         assertTrue(returnOutput.contains("lsdx: command not found"))
-      }
+   void testShellCmdFailure() {
+      def cmdStr
+      StringBuffer returnStr = new StringBuffer()
+      
+      cmdStr = "lsdx"
+      int retStat = Utilities.runCmd(cmdStr,returnStr)
+      String returnOutput = returnStr.toString()
+      returnOutput = returnOutput.trim()
+      assertTrue(retStat>0)
+      assertTrue(returnOutput.contains("lsdx: command not found"))
+   }
+
+   void testPropertyFileRead() {
+      File propFile = new File("."+"/src/test/resources/unitTest.properties")
+      def map = Utilities.mapProperties(propFile)
+      assertTrue(map.containsKey("slack_webhookURI"))
+   }
 }

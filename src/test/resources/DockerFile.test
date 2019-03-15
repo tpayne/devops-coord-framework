@@ -1,8 +1,5 @@
 # Dockerfile to create the customized image for App
 FROM centos
-# Install Devpacks
-RUN yum groupinstall 'Development Tools' -y && \
-    yum install java-1.8.0-openjdk-devel -y && \
-    yum update -y
-# Install supporting packs...
-RUN yum install zip unzip git httpd -y && yum update -y
+
+# Install a couple of supporting packs and do an update...
+RUN yum install zip unzip httpd -y && yum update -y

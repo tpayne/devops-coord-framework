@@ -1,0 +1,5 @@
+# Dockerfile to create the customized image for App
+FROM opensuse
+
+# Install a couple of supporting packs and do an update...
+RUN zypper --quiet --non-interactive install zip unzip git && zypper --non-interactive --quiet update 

@@ -29,6 +29,31 @@ class Utilities implements Serializable {
         return (OsDetector.isWindows()) 
     }
 
+    /** 
+     * Utility to read property file and convert to a map
+     * @param final File - propFile
+     * @return LinkedHashMap - Mapped properties
+     * @throws FileNotFoundException, IllegalArgumentException
+     */
+    static final Map mapProperties(final File propFile) throws FileNotFoundException {
+        if (propFile == null) {
+            throw new IllegalArgumentException("Error: Property file is not specified")
+        } else if (!propFile.exists() || !propFile.canRead()) {
+            throw new FileNotFoundException("Error: Invalid file specified")
+        }
+
+        // Read properties from file, put into a map and sort...
+        def props = new Properties()
+        def mapProp = [:]
+        new File(propFile.getAbsolutePath()).withInputStream { 
+            stream -> props.load(stream) 
+        }
+        props.each {
+            mapProp.put(it.key,it.value)
+        }
+        mapProp = mapProp.sort { a, b -> a.key <=> b.key }
+        return mapProp
+    }
 
     /**
      * Utility routine to read file into memory
@@ -124,6 +149,11 @@ class Utilities implements Serializable {
             returnStr.delete(0, returnStr.length())
         }
         returnStr.append(shell.text.toString())
+
+        // Enable this if need to debug commands. Not adding debug facility due
+        // to password concerns
+        //println "[DEBUG] "+returnStr.toString()
+        
         int retStatus = shell.exitValue()
         if (Utilities.isUnix()) {
             if (retStatus > 0) {

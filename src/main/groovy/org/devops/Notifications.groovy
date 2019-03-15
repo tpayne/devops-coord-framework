@@ -29,6 +29,29 @@ class Notifications implements Serializable {
     }
 
     /**
+     * Simple Email messaging routine. 
+     *
+     * @param  String - mailServer
+     * @param  String - fromEmailAddress
+     * @param  String - toEmailAddress
+     * @param  String - subject
+     * @param  String - emailText
+     * @return boolean
+     */
+    static boolean sendEmail(String mailServer,
+                        String fromEmailAddress,
+                        String toEmailAddress,
+                        String subjectTxt,
+                        String emailText) 
+        throws MessagingException, Exception {
+            return(sendEmail(mailServer,null,null,false,
+                    fromEmailAddress,
+                    toEmailAddress,
+                    subjectTxt,
+                    emailText))
+    }
+
+    /**
      * Simple Email messaging routine. This may or may not work depending on
      * how the email server is configured and what authentication model it uses.
      * If you need to modify it then it is likely it will be the SMTPAuth routine
@@ -74,51 +97,68 @@ class Notifications implements Serializable {
             properties.setProperty("mail.smtp.starttls.enable", "true")
         }
 
-        // Get an authenticator object & session manager...
-        Authenticator auth = new SMTPAuth(serverUserName, serverUserPwd)
-        Session session = Session.getInstance(properties, auth)
+        Session session = null
+        Authenticator auth = null
+
+        if (serverUserName != null && serverUserPwd != null) {
+            // Get an authenticator object & session manager...
+            auth = new SMTPAuth(serverUserName, serverUserPwd)
+            session = Session.getInstance(properties, auth)
+        } else {
+            session = Session.getInstance(properties, null)
+        }
 
         try {
-                // Create a default MimeMessage object.
-                new MimeMessage(session).with { message ->
-                    
-                    // Add From, Subject and Content
-                    from = new InternetAddress( fromEmailAddress )
-                    subject = subjectTxt
-                    setContent emailText, 'text/html'
+            // Create a default MimeMessage object.
+            new MimeMessage(session).with { message ->
+                
+                // Add From, Subject and Content
+                from = new InternetAddress( fromEmailAddress )
+                subject = subjectTxt
+                setContent emailText, 'text/html'
 
-                    // Add recipients
-                    addRecipient( Message.RecipientType.TO, new InternetAddress( toEmailAddress ) )
+                // Add recipients
+                addRecipient( Message.RecipientType.TO, new InternetAddress( toEmailAddress ) )
 
-                    // Send the message
-                    Transport.send( message )
-                    return true
-              }
+                // Send the message
+                Transport.send( message )
+            }
         }
         catch(MessagingException ex) {
             throw ex
         } catch(Exception ex) {
             throw ex
         }
-        return false
+        return true
     }
 
     /**
      * Simple Slack channel messaging routine
      * See https://api.slack.com/incoming-webhooks for how to setup 
      * channel incoming webhooks
+     * @param final String - slackURI
+     * @param final String - ltext
+     * @throws FileNotFoundException
      * @return boolean
      */
     static boolean messageSlackChannel(String slackURI,
-                                       String ltext) {
+                                       String ltext) 
+    throws FileNotFoundException {
         
         // Use a JSON payload
         def payload = JsonOutput.toJson([text : ltext ])
-        def cmdStr = "curl -X POST --data-urlencode \'payload=${payload}\' ${slackURI}"
-
+        def curlStr = " -X POST --data-urlencode \'payload=${payload}\' ${slackURI}"
         // Use a direct payload
-        //def cmdStr = "curl -X POST -H \'Content-type: application/json\' --data \'{\"text\":"+
+        //def curlStr = " -X POST -H \'Content-type: application/json\' --data \'{\"text\":"+
         //                "\""+ltext+"\"}\' " + slackURI
+
+        File curlExe = Utilities.getExecutable("curl")
+        if (curlExe == null) {
+            throw new FileNotFoundException("Error: Curl has not been located")
+        }
+
+        // Construct the required command...
+        String cmdStr = curlExe.getAbsolutePath()+" "+curlStr
         
         StringBuffer returnStr = new StringBuffer()
 

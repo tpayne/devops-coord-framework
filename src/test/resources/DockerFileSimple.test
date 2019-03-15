@@ -1,0 +1,5 @@
+# Dockerfile to create the customized image for App
+FROM busybox
+
+# Run something stupid...
+RUN echo && echo && df

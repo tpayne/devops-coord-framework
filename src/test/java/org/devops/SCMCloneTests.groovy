@@ -9,9 +9,17 @@ import junit.textui.TestRunner;
  */
 public class SCMCloneTests extends GroovyTestCase {
 
+   File propFile = new File("."+"/src/test/resources/unitTest.properties")
+   def map = Utilities.mapProperties(propFile)
+
+   // Utility function to get temporary directory...
+   File getTmpDir() {
+      return new File((map.get("tmpDir") != null) ? map.get("tmpDir") : System.getProperty("java.io.tmpdir"))
+   }
+
    void testScmGitCloneBasic() {
-      String scmURI = "https://github.com/tpayne/deployment-script-examples.git"
-      File tmpDir = new File("deployment-script-examples")
+      String scmURI = map.get("git_repoURI")
+      File tmpDir = new File(map.get("git_repoDir"))
       
       if (tmpDir.exists()) {
          tmpDir.setWritable(true)
@@ -34,8 +42,8 @@ public class SCMCloneTests extends GroovyTestCase {
    }
 
    void testScmGitCloneBasicWithUser() {
-      String scmURI = "https://github.com/tpayne/deployment-script-examples.git"
-      File tmpDir = new File("deployment-script-examples")
+      String scmURI = map.get("git_repoURI")
+      File tmpDir = new File(map.get("git_repoDir"))
       
       if (tmpDir.exists()) {
          tmpDir.setWritable(true)
@@ -45,8 +53,8 @@ public class SCMCloneTests extends GroovyTestCase {
       }
 
       // As this is a public URI, it will not matter what users you throw at it...
-      String user = "user1"
-      String pwd  = "user1"
+      String user = map.get("git_repoUser")
+      String pwd  = map.get("git_repoUserPwd")
 
       boolean retStat = SCM.scmClone(ConfigPropertiesConstants.SCMGIT,scmURI,user,pwd)
       assertTrue(retStat)
@@ -62,9 +70,9 @@ public class SCMCloneTests extends GroovyTestCase {
    }
 
    void testScmGitCloneWithTarget() {
-      String scmURI = "https://github.com/tpayne/deployment-script-examples.git"
-      File   tempDir = Utilities.getTmpDir()
-      File tmpDir = new File(tempDir.getCanonicalPath()+"/"+"deployment-script-examples"+"/")
+      String scmURI = map.get("git_repoURI")
+      File   tempDir = this.getTmpDir()
+      File tmpDir = new File(tempDir.getCanonicalPath()+"/"+map.get("git_repoDir")+"/")
 
       if (tmpDir.exists()) {
          tmpDir.setWritable(true)
@@ -97,9 +105,9 @@ public class SCMCloneTests extends GroovyTestCase {
    }
 
    void testScmGitCloneWithTargetAndUser() {
-      String scmURI = "https://github.com/tpayne/deployment-script-examples.git"
-      File   tempDir = Utilities.getTmpDir()
-      File tmpDir = new File(tempDir.getCanonicalPath()+"/"+"deployment-script-examples"+"/")
+      String scmURI = map.get("git_repoURI")
+      File   tempDir = this.getTmpDir()
+      File tmpDir = new File(tempDir.getCanonicalPath()+"/"+map.get("git_repoDir")+"/")
 
       if (tmpDir.exists()) {
          tmpDir.setWritable(true)
@@ -109,8 +117,8 @@ public class SCMCloneTests extends GroovyTestCase {
       }
 
       // As this is a public URI, it will not matter what users you throw at it...
-      String user = "user1"
-      String pwd  = "user1"
+      String user = map.get("git_repoUser")
+      String pwd  = map.get("git_repoUserPwd")
 
       // Test for file not found...
       try {
@@ -138,8 +146,8 @@ public class SCMCloneTests extends GroovyTestCase {
    }
 
    void testScmSVNCloneBasic() {
-      String scmURI = "https://github.com/tpayne/deployment-script-examples.git"
-      File tmpDir = new File("deployment-script-examples.git")
+      String scmURI = map.get("git_repoURI")
+      File tmpDir = new File(map.get("git_repoDir")+".git")
       
       if (tmpDir.exists()) {
          tmpDir.setWritable(true)
@@ -162,8 +170,8 @@ public class SCMCloneTests extends GroovyTestCase {
    }
 
    void testScmSVNCloneBasicWithUser() {
-      String scmURI = "https://github.com/tpayne/deployment-script-examples.git"
-      File tmpDir = new File("deployment-script-examples.git")
+      String scmURI = map.get("git_repoURI")
+      File tmpDir = new File(map.get("git_repoDir")+".git")
       
       if (tmpDir.exists()) {
          tmpDir.setWritable(true)
@@ -173,8 +181,8 @@ public class SCMCloneTests extends GroovyTestCase {
       }
 
       // As this is a public URI, it will not matter what users you throw at it...
-      String user = "user1"
-      String pwd  = "user1"
+      String user = map.get("git_repoUser")
+      String pwd  = map.get("git_repoUserPwd")
 
       boolean retStat = SCM.scmClone(ConfigPropertiesConstants.SCMSVN,scmURI,user,pwd)
       assertTrue(retStat)
@@ -190,9 +198,9 @@ public class SCMCloneTests extends GroovyTestCase {
    }
 
    void testScmSVNCloneWithTarget() {
-      String scmURI = "https://github.com/tpayne/deployment-script-examples.git"
-      File   tempDir = Utilities.getTmpDir()
-      File tmpDir = new File(tempDir.getCanonicalPath()+"/"+"deployment-script-examples.git"+"/")
+      String scmURI = map.get("git_repoURI")
+      File   tempDir = this.getTmpDir()
+      File tmpDir = new File(tempDir.getCanonicalPath()+"/"+map.get("git_repoDir")+".git/")
 
       if (tmpDir.exists()) {
          tmpDir.setWritable(true)
@@ -225,9 +233,9 @@ public class SCMCloneTests extends GroovyTestCase {
    }
 
    void testScmSVNCloneWithTargetAndUser() {
-      String scmURI = "https://github.com/tpayne/deployment-script-examples.git"
-      File   tempDir = Utilities.getTmpDir()
-      File tmpDir = new File(tempDir.getCanonicalPath()+"/"+"deployment-script-examples.git"+"/")
+      String scmURI = map.get("git_repoURI")
+      File   tempDir = this.getTmpDir()
+      File tmpDir = new File(tempDir.getCanonicalPath()+"/"+map.get("git_repoDir")+".git/")
 
       if (tmpDir.exists()) {
          tmpDir.setWritable(true)
@@ -237,8 +245,8 @@ public class SCMCloneTests extends GroovyTestCase {
       }
 
       // As this is a public URI, it will not matter what users you throw at it...
-      String user = "user1"
-      String pwd  = "user1"
+      String user = map.get("git_repoUser")
+      String pwd  = map.get("git_repoUserPwd")
 
       // Test for file not found...
       try {
