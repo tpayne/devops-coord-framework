@@ -26,14 +26,14 @@ framework. These are...
 Why have a framework?
 =====================
 
-The framework is provided as a why of allowing you to control how products are on-boarded into CI/CD.
+The framework is provided as a way of allowing you to control how products are on-boarded into CI/CD.
 
 You may have many products that need to be converted over to using CI/CD and without a framework in place
 those products may end up using lots of different standards or pipelines for implementing their CI/CD process.
 This framework allows you to have one standard for implementation, whilst at the same time allowing complete
 flexiblity about the processes that are run.
 
-Also, by extending the base framework you can implement specific customisations that you might want to apply
+Also, by extending the base framework, you can implement specific customisations that you might want to apply
 to every product - like security scans - that cannot be overriden by manipulating the build pipeline.
 
 You can also add services and library routines that will then be available to everyone - building on the functionality
