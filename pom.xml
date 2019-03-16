@@ -28,17 +28,17 @@
             <artifactId>javax.mail</artifactId>
             <version>1.6.2</version>
         </dependency>        
-	    <dependency>
-	       <groupId>junit</groupId>
-	       <artifactId>junit</artifactId>
-	       <version>3.8.1</version>
-	       <scope>test</scope>
-	    </dependency>
+        <dependency>
+           <groupId>junit</groupId>
+           <artifactId>junit</artifactId>
+           <version>3.8.1</version>
+           <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <!-- mvn gplus:generateStubs gplus:groovydoc -->
+            <!-- mvn gplus:generateStubs gplus:generateTestStubs gplus:groovydoc gplus:groovydocTests -->
             <plugin>
                 <groupId>org.codehaus.gmavenplus</groupId>
                 <artifactId>gmavenplus-plugin</artifactId>
