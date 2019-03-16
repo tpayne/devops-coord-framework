@@ -73,4 +73,25 @@ public class NotificationsTests extends GroovyTestCase {
          }
       }
    }
+
+   void testEmailFile() {
+      String mailServer = map.get("smtp_mailServer")
+      String fromEmailAddress = map.get("smtp_mailFrom")
+      String toEmailAddress = map.get("smtp_mailTo")
+      String subjectTxt = map.get("smtp_mailSubject")
+      String emailText = map.get("smtp_mailText")
+
+      if (mailServer != null && !mailServer.isEmpty() &&
+          fromEmailAddress != null && !fromEmailAddress.isEmpty() &&
+          toEmailAddress != null && !toEmailAddress.isEmpty()) {
+         try {
+            boolean retStat = Notifications.sendEmail(mailServer,
+                                                      fromEmailAddress,toEmailAddress,
+                                                      subjectTxt,propFile)
+            assertTrue(retStat)
+         } catch(Exception ex) {
+            assertTrue(false)
+         }
+      }
+   }   
 }

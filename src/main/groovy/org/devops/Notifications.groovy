@@ -31,23 +31,50 @@ class Notifications implements Serializable {
     /**
      * Simple Email messaging routine. 
      *
-     * @param  String - mailServer
-     * @param  String - fromEmailAddress
-     * @param  String - toEmailAddress
-     * @param  String - subject
-     * @param  String - emailText
+     * @param  final String - mailServer
+     * @param  final String - fromEmailAddress
+     * @param  final String - toEmailAddress
+     * @param  final String - subject
+     * @param  final String - emailText
      * @return boolean
+     * @throws MessagingException, Exception
      */
-    static boolean sendEmail(String mailServer,
-                        String fromEmailAddress,
-                        String toEmailAddress,
-                        String subjectTxt,
-                        String emailText) 
+    static boolean sendEmail(final String mailServer,
+                        final String fromEmailAddress,
+                        final String toEmailAddress,
+                        final String subjectTxt,
+                        final String emailText) 
         throws MessagingException, Exception {
             return(sendEmail(mailServer,null,null,false,
                     fromEmailAddress,
                     toEmailAddress,
                     subjectTxt,
+                    emailText,
+                    null))
+    }
+
+    /**
+     * Simple Email messaging routine. 
+     *
+     * @param  final String - mailServer
+     * @param  final String - fromEmailAddress
+     * @param  final String - toEmailAddress
+     * @param  final String - subject
+     * @param  final File - emailText
+     * @return boolean
+     * @throws MessagingException, Exception, FileNotFoundException
+     */
+    static boolean sendEmail(final String mailServer,
+                        final String fromEmailAddress,
+                        final String toEmailAddress,
+                        final String subjectTxt,
+                        final File   emailText) 
+        throws MessagingException, Exception, FileNotFoundException {
+            return(sendEmail(mailServer,null,null,false,
+                    fromEmailAddress,
+                    toEmailAddress,
+                    subjectTxt,
+                    null, 
                     emailText))
     }
 
@@ -57,28 +84,38 @@ class Notifications implements Serializable {
      * If you need to modify it then it is likely it will be the SMTPAuth routine
      * that needs changing to cope with different security patterns.
      *
-     * @param  String - mailServer
-     * @param  String - serverUserName,
-     * @param  String - serverUserPwd,
-     * @parms  boolean - enableTLS
-     * @param  String - fromEmailAddress
-     * @param  String - toEmailAddress
-     * @param  String - subject
-     * @param  String - emailText
+     * @param  final String - mailServer
+     * @param  final String - serverUserName,
+     * @param  final String - serverUserPwd,
+     * @parms  final boolean - enableTLS
+     * @param  final String - fromEmailAddress
+     * @param  final String - toEmailAddress
+     * @param  final String - subject
+     * @param  final String - emailText
+     * @param  final File   - emailFile
      * @return boolean
+     * @throws MessagingException, Exception, FileNotFoundException
      */
-    static boolean sendEmail(String mailServer,
-                        String serverUserName,
-                        String serverUserPwd,
-                        boolean enableTLS,
-                        String fromEmailAddress,
-                        String toEmailAddress,
-                        String subjectTxt,
-                        String emailText) 
-        throws MessagingException, Exception {
+    static boolean sendEmail(final String mailServer,
+                        final String serverUserName,
+                        final String serverUserPwd,
+                        final boolean enableTLS,
+                        final String fromEmailAddress,
+                        final String toEmailAddress,
+                        final String subjectTxt,
+                        final String emailText,
+                        final File   emailFile) 
+        throws MessagingException, Exception, FileNotFoundException {
 
         String portN = "25"
         String lmailServer = mailServer;
+ 
+        if (emailFile != null) {
+            if (!emailFile.exists() || !emailFile.canRead()) {
+                throw new FileNotFoundException("Error: Email text file does not exist")
+            }
+        }
+
         if (lmailServer.contains(":")) {
             portN = lmailServer.substring(lmailServer.lastIndexOf(':')+1).trim()
             lmailServer = lmailServer.substring(0,lmailServer.lastIndexOf(':')).trim()
@@ -115,13 +152,24 @@ class Notifications implements Serializable {
                 // Add From, Subject and Content
                 from = new InternetAddress( fromEmailAddress )
                 subject = subjectTxt
-                setContent emailText, 'text/html'
+
+                String emailTxt = null 
+                if (emailFile != null) {
+                    emailTxt = new String(Utilities.readAllBytes(emailFile))
+                } else {
+                    emailTxt = new String(emailText)
+                }             
+
+                setContent emailTxt, 'text/html'
 
                 // Add recipients
                 addRecipient( Message.RecipientType.TO, new InternetAddress( toEmailAddress ) )
 
                 // Send the message
                 Transport.send( message )
+
+                // Free memory
+                emailTxt = null
             }
         }
         catch(MessagingException ex) {

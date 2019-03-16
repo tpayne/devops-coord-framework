@@ -32,7 +32,7 @@ class Utilities implements Serializable {
     /** 
      * Utility to read property file and convert to a map
      * @param final File - propFile
-     * @return LinkedHashMap - Mapped properties
+     * @return Map - Mapped properties
      * @throws FileNotFoundException, IllegalArgumentException
      */
     static final Map mapProperties(final File propFile) throws FileNotFoundException {
@@ -53,6 +53,24 @@ class Utilities implements Serializable {
         }
         mapProp = mapProp.sort { a, b -> a.key <=> b.key }
         return mapProp
+    }
+
+    /** 
+     * Utility to read default property file and convert to a map
+     * @return Map - Mapped properties
+     */
+    static final Map getDefaultProperties() {
+        String propName = System.getenv("DEFAULT_FRAMEWORK_PROPS")
+        if (propName != null && !propName.isEmpty()) {
+            File propFile = new File(propName)
+            def mapProp = null
+            if (propFile.exists && propFile.canRead()) {
+                mapProp = mapProperties(propFile)
+            }
+            propFile = null
+            return mapProp
+        }
+        return null
     }
 
     /**
