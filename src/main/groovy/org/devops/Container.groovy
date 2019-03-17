@@ -1,8 +1,8 @@
-package org.devops;
-
 /**
  * Container routines for use with the framework
  */
+package org.devops;
+
 class Container implements Serializable {
 
     /**

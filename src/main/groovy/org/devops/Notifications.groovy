@@ -1,4 +1,7 @@
-package org.devops;
+/**
+ * Notification routines for use with the framework
+ */
+ package org.devops;
 
 import groovy.json.JsonOutput
 import java.io.File
@@ -9,13 +12,12 @@ import javax.activation.*
 import javax.mail.internet.MimeMessage
 import javax.mail.PasswordAuthentication
 
-/**
- * Notification routines for use with the framework
- */
 class Notifications implements Serializable {
 
-    // Local authenticator class...
-    static private class SMTPAuth extends Authenticator {
+    /**
+     * Local authenicator class 
+     */
+     static private class SMTPAuth extends Authenticator {
         private PasswordAuthentication authentication
 
         public SMTPAuth(String userId, String pwd) {

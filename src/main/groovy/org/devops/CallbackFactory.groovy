@@ -1,9 +1,9 @@
-package org.devops;
-
 /**
  * Callback factory for use with the framework
  */
- class CallbackFactory implements Serializable {
+ package org.devops;
+
+class CallbackFactory implements Serializable {
 
     /**
      * Gets callback stack to use
@@ -105,7 +105,13 @@ package org.devops;
         }        
     }
 
-    // Return a callback for a given key...
+    /**
+     * Return callback for given key
+     *
+     * @param String - Callback key
+     * @param Map - Callback list
+     * @return Map - The callback found
+     */
     static private Map getCallbackFor(String key, Map stepsToRun) {
         return (Map)stepsToRun.getKey(key)
     }      

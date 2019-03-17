@@ -1,8 +1,8 @@
-package org.devops;
-
 /**
  * SCM routines for use with the framework
  */
+ package org.devops;
+
 class SCM implements Serializable {
 
     /**

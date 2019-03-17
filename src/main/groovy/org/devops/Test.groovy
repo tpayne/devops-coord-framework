@@ -1,9 +1,9 @@
-package org.devops;
-
 /**
  * Test coordinator
  */
- class Test implements Serializable {
+ package org.devops;
+
+class Test implements Serializable {
 
     def steps = null
     def config = null
@@ -11,12 +11,18 @@ package org.devops;
 
     private Map stepMap = null
 
-    // Run the pipeline
+    /**
+     * Method to run the pipeline
+     */
     def runPipeline() {
         cbFactory.executeStack(this.steps,this.stepMap)
     }
 
-    // Replace callbacks in the function stack with custom callbacks...
+    /**
+     * Method to replace a package in the map with a custom callout
+     * @param String - key
+     * @param Map    - args
+     */
     private def _replacePackage(String key, Map args) {
         if (this.stepMap == null) {
             this.stepMap = cbFactory.getCallbacks(this,this.config)
@@ -24,6 +30,11 @@ package org.devops;
         cbFactory.replacePackage(stepMap,key,args)       
     }
 
+    /**
+     * Constructor method
+     * @param steps
+     * @param Map - config
+     */
     Test(steps, Map config) {
         if (steps) {
             this.steps = steps
@@ -33,35 +44,66 @@ package org.devops;
         }    
     }
 
-    // Callback functions...
+    /**
+     * Callback method
+     * @param Map - args
+     */
     def prepareForTest(Map args = [:]) {
         _replacePackage(CallbackConstants.prepareForTest, args)
     }
 
+    /**
+     * Callback method
+     * @param Map - args
+     */
     def getAssets(Map args = [:])  {
         _replacePackage(CallbackConstants.getAssets, args)
     }
 
+    /**
+     * Callback method
+     * @param Map - args
+     */
     def preTest(Map args = [:])  {
         _replacePackage(CallbackConstants.preTest, args)
     }
 
+    /**
+     * Callback method
+     * @param Map - args
+     */
     def runTest(Map args = [:]) {
         _replacePackage(CallbackConstants.runTest, args)
     }
 
+    /**
+     * Callback method
+     * @param Map - args
+     */
     def postTest(Map args = [:]) {
         _replacePackage(CallbackConstants.postTest, args)
     }
 
+    /**
+     * Callback method
+     * @param Map - args
+     */
     def evaluateTests(Map args = [:]) {
         _replacePackage(CallbackConstants.evaluateTests, args)
     }
 
+    /**
+     * Callback method
+     * @param Map - args
+     */
     def logResults(Map args = [:]) {
         _replacePackage(CallbackConstants.logResults, args)
     }
 
+    /**
+     * Callback method
+     * @param Map - args
+     */
     def promote(Map args = [:]) {
         _replacePackage(CallbackConstants.promote, args)
     }

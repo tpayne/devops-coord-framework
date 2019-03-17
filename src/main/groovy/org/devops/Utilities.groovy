@@ -1,8 +1,8 @@
-package org.devops;
-
 /**
- * Utility routines for use with the framework
+ * General utility routines for use with the framework
  */
+ package org.devops;
+
 class Utilities implements Serializable {
 
     private static class OsDetector {
@@ -19,12 +19,18 @@ class Utilities implements Serializable {
         }
     }
 
-    // Method for OS detection...
+    /** 
+     * Utility to detect if unix
+     * @return boolean
+     */
     static boolean isUnix() {
         return (OsDetector.isUnix()) 
     }
 
-    // Method for OS detection...
+     /** 
+     * Utility to detect if windows
+     * @return boolean
+     */
     static boolean isWindows() {
         return (OsDetector.isWindows()) 
     }
@@ -33,7 +39,7 @@ class Utilities implements Serializable {
      * Utility to read property file and convert to a map
      * @param final File - propFile
      * @return Map - Mapped properties
-     * @throws FileNotFoundException, IllegalArgumentException
+     * @throws FileNotFoundException
      */
     static final Map mapProperties(final File propFile) throws FileNotFoundException {
         if (propFile == null) {
@@ -159,7 +165,12 @@ class Utilities implements Serializable {
         //
         //println "[DEBUG] "+cmdStr
 
-        ProcessBuilder ph = new ProcessBuilder("sh","-c",cmdStr)
+        ProcessBuilder ph = null
+        if (isUnix()) {
+            ph = new ProcessBuilder("sh","-c",cmdStr)
+        } else {
+            ph = new ProcessBuilder("cmd","/c",cmdStr)
+        }
         ph.redirectErrorStream(true);
         Process shell = ph.start()
         shell.waitFor()
@@ -173,25 +184,19 @@ class Utilities implements Serializable {
         //println "[DEBUG] "+returnStr.toString()
         
         int retStatus = shell.exitValue()
-        if (Utilities.isUnix()) {
-            if (retStatus > 0) {
-                return 1
-            } else if (retStatus < 0) {
-                return -1
-            }
-            return 0
-        } else {
-            if (retStatus > 0) {
-                return 0
-            } else if (retStatus < 0) {
-                return -1
-            }
-            return 1            
+        if (retStatus > 0) {
+            return 1
+        } else if (retStatus < 0) {
+            return -1
         }
-        return 1
+        return 0
     }
 
-    // Utility function to get temporary directory...
+    /**
+     * Utility routine to get a temporary directory
+     * 
+     * @return File - Temp directory
+     */   
     static File getTmpDir() {
         return new File(System.getProperty("java.io.tmpdir"))
     }
