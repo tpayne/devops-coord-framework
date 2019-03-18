@@ -41,8 +41,13 @@ already available.
 
 This callback format has already been used successfully in a number of companies to overcome various different issues.
 
+Framework Classes
+=================
+
+The following are the main framework classes and the methods that they have.
+
 Build Class
-===========
+-----------
 
 The Build class is provided to control your build process and has the following methods...
 
@@ -64,7 +69,7 @@ The Build class is provided to control your build process and has the following 
 All callbacks are run in the above order, no matter how your register them.
 
 Deploy Class
-============
+------------
 
 The Deploy class is provided to control your deploy process and has the following methods...
 
@@ -99,7 +104,7 @@ The Test class is provided to control your test process and has the following me
 All callbacks are run in the above order, no matter how your register them.
 
 Integration Class
-=================
+-----------------
 
 The Integration class is provided to control your integration process and has the following methods...
 
@@ -125,7 +130,7 @@ The Integration class is provided to control your integration process and has th
 All callbacks are run in the above order, no matter how your register them.
 
 ReleaseCandidate Class
-======================
+----------------------
 
 The ReleaseCandidate class is provided to control your release process and has the following methods...
 
@@ -162,6 +167,55 @@ To install this Jenkins share library, do the following...
 	4) cd target/
 	5) Unzip devops-framework-0.0.1-SNAPSHOT-artifact.zip into a working directory
 	6) Use the instructions https://jenkins.io/doc/book/pipeline/shared-libraries/#global-shared-libraries to install the shared library into your Jenkins system
+
+Service Classes
+===============
+
+The following are the main service classes and the methods that they have.
+
+Utilities
+---------
+
+This class provides various useful utilities that are used and has the following methods: -
+
+	- isUnix() - Used to detect UNIX based OS
+	- isWindows() - Used to detect Windows based OS
+	- mapProperties() - Used to map a properties file intp a Map
+	- getDefaultProperties() - Used to read any default properties that might have been setup for the framework to use 
+	- readAllBytes() - Used to read a file into memory as an array of bytes
+	- getExecutable() - Used to locate an executable file in the path and return a File object to it
+	- runCmd() - Used to run a shell command and trap any output if wanted
+	- getTmpDir() - Used to return a File object to the temporary directory setup on the machine
+	- deleteDirs() - Used to emulate rm -fr 
+
+SCM
+---
+
+This class provides all the SCM related support and has the following methods: -
+
+	- scmClone() - Used for cloning code from supported SCM repos like Git or SVN
+
+Notifications
+-------------
+
+This class provides notification related functionality and has the following methods: -
+
+	- sendMail() - Used for sending email notifications
+	- messageSlackChannel() - Used for sending notifications to Slack
+	
+Container
+---------
+
+This class provides container related functionality and has the following methods: -
+
+	- createContainerRegistry() - Used to create a container register for supported platforms like Docker
+	- pushContainer() - Used to push an image to a container register
+	- tagContainer() - Used to tag a container for future use
+	- deleteContainerRegistry() - Used to delete a container register
+	- pullContainerImage() - Used to pull a container image from somewhere
+	- deleteContainerImage() - Used to delete a container image
+	- runContainer() - Used to run a container
+	- buildContainer() - Used to build or bake a container from a given build file
 
 How to Use
 ==========
