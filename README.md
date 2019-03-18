@@ -87,7 +87,7 @@ The Deploy class is provided to control your deploy process and has the followin
 All callbacks are run in the above order, no matter how your register them.
 
 Test Class
-==========
+----------
 
 The Test class is provided to control your test process and has the following methods...
 
