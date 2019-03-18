@@ -222,6 +222,15 @@ Each callback takes the following...
 	- body:{} - used to specify the Groovy code to run the process
 	- finalHandler:{} - used to specify any Groovy code which will be invoked after the process has run
 	- exceptionHandler:{} - used to specify any Groovy code which will be invoked if any exception occurs
+	
+Framework Documentation
+=======================
+The framework code comes with some limited JavaDoc present which can be used to generate API documentation
+by using the command
+
+	% mvn gplus:generateStubs gplus:groovydoc
+
+This will generate JavaDoc style comments in the target/ directory
 
 Liability Warning
 =================
