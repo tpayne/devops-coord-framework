@@ -109,11 +109,11 @@ class Utilities implements Serializable {
 
     /**
      * Find a executable in the path
-     * @param String - exeName
+     * @param final String - exeName
      * @return File - Location
      * @throws FileNotFoundException
      */
-    static File getExecutable(String exeName) 
+    static File getExecutable(final String exeName) 
         throws FileNotFoundException {
         
         // Get the path environment.

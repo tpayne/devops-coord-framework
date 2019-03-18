@@ -20,10 +20,19 @@ class Notifications implements Serializable {
      static private class SMTPAuth extends Authenticator {
         private PasswordAuthentication authentication
 
-        public SMTPAuth(String userId, String pwd) {
+        /** 
+        * Constructor method for authenticator
+        * @param final String - userId
+        * @param final String - pwd
+        */
+        public SMTPAuth(final String userId, final String pwd) {
              authentication = new PasswordAuthentication(userId, pwd)
         }
 
+        /** 
+        * Accessor method for authenticator
+        * @return  PasswordAuthentication - authentication
+        */
         @Override
         protected PasswordAuthentication getPasswordAuthentication() {
              return authentication;
@@ -191,8 +200,8 @@ class Notifications implements Serializable {
      * @throws FileNotFoundException
      * @return boolean
      */
-    static boolean messageSlackChannel(String slackURI,
-                                       String ltext) 
+    static boolean messageSlackChannel(final String slackURI,
+                                       final String ltext) 
     throws FileNotFoundException {
         
         // Use a JSON payload

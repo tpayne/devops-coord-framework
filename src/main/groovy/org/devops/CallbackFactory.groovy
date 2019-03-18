@@ -8,11 +8,11 @@ class CallbackFactory implements Serializable {
     /**
      * Gets callback stack to use
      *
-     * @param def - Callback class
-     * @param Map - Configs passed in
+     * @param final def - Callback class
+     * @param final Map - Configs passed in
      * @return Map - The callback stack
      */
-    static Map getCallbacks(def cbClass, Map config) {
+    static Map getCallbacks(final def cbClass, final Map config) {
         Map stackMap = null
 
         if (cbClass instanceof Build) {
@@ -49,10 +49,10 @@ class CallbackFactory implements Serializable {
     /**
      * Execute the callback stack
      *
-     * @param def - Steps passed down from Jenkins
-     * @param Map - Callback stack to unwind and run
+     * @param final def - Steps passed down from Jenkins
+     * @param final Map - Callback stack to unwind and run
      */        
-    static def executeStack(def steps, Map stepsToRun) {
+    static def executeStack(final def steps, final Map stepsToRun) {
         stepsToRun.each{
             if (it.value != null) {
                 runStep(it.value,it.key,steps,stepsToRun)
@@ -63,12 +63,12 @@ class CallbackFactory implements Serializable {
     /**
      * Run a step from callback stack
      *
-     * @param Map - Step to run
-     * @param String - Callback name
-     * @param def - Jenkins step 
-     * @param Map - Callback stack of functions if needed
+     * @param final Map - Step to run
+     * @param final String - Callback name
+     * @param final def - Jenkins step 
+     * @param final Map - Callback stack of functions if needed
      */     
-    static private runStep(Map toRun, String key, def steps, Map stepsToRun) {
+    static private runStep(final Map toRun, final String key, final def steps, final Map stepsToRun) {
         if (toRun != null) {
             if (steps) {
                 steps.stage(key) {
@@ -108,11 +108,11 @@ class CallbackFactory implements Serializable {
     /**
      * Return callback for given key
      *
-     * @param String - Callback key
-     * @param Map - Callback list
+     * @param final String - Callback key
+     * @param final Map - Callback list
      * @return Map - The callback found
      */
-    static private Map getCallbackFor(String key, Map stepsToRun) {
+    static private Map getCallbackFor(final String key, final Map stepsToRun) {
         return (Map)stepsToRun.getKey(key)
     }      
  }
