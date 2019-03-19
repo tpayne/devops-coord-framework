@@ -178,12 +178,12 @@ How to Install
 
 To install this Jenkins share library, do the following...
 
-	1) git clone [https://github.com/tpayne/devops-framework.git](https://github.com/tpayne/devops-framework.git)
+	1) git clone https://github.com/tpayne/devops-framework.git
 	2) cd devops-framework
 	3) mvn package
 	4) cd target/
 	5) Unzip devops-framework-0.0.1-SNAPSHOT-artifact.zip into a working directory
-	6) Use the instructions in the [Jenkins Wiki](https://jenkins.io/doc/book/pipeline/shared-libraries/#global-shared-libraries) to install the shared library into your Jenkins system
+	6) Use the instructions in the Jenkins Wiki (https://jenkins.io/doc/book/pipeline/shared-libraries/#global-shared-libraries) to install the shared library into your Jenkins system
 
 Service Classes
 ===============
