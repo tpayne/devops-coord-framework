@@ -211,7 +211,13 @@ class Notifications implements Serializable {
         //def curlStr = " -X POST -H \'Content-type: application/json\' --data \'{\"text\":"+
         //                "\""+ltext+"\"}\' " + slackURI
 
-        File curlExe = Utilities.getExecutable("curl")
+        File curlExe = null
+        try {
+            curlExe = Utilities.getExecutable("curl")
+        } catch(FileNotFoundException e) {
+            throw new FileNotFoundException("Error: Curl has not been located")            
+        }
+        
         if (curlExe == null) {
             throw new FileNotFoundException("Error: Curl has not been located")
         }

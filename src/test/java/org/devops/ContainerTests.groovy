@@ -94,7 +94,7 @@ public class ContainerTests extends GroovyTestCase {
          assert("Cannot read the master docker file "+dockerFile.getAbsolutePath())
       }
 
-      File ldockerFile = new File(buildDirectory.getAbsolutePath()+"/"+map.get("docker_fileName"))
+      File ldockerFile = new File(buildDirectory.getAbsolutePath()+File.separator+map.get("docker_fileName"))
 
       ldockerFile.delete()
       ldockerFile << dockerFile.bytes
@@ -110,7 +110,7 @@ public class ContainerTests extends GroovyTestCase {
       Random rand = new Random()
       Long uid = rand.nextLong()
       File   tempDir = this.getTmpDir()
-      File tmpDir = new File(tempDir.getCanonicalPath()+"/"+"containerTests"+"/")
+      File tmpDir = new File(tempDir.getCanonicalPath()+File.separator+"containerTests"+"/")
 
       if (tmpDir.exists()) {
          tmpDir.setWritable(true)
@@ -129,7 +129,7 @@ public class ContainerTests extends GroovyTestCase {
          assert("Cannot read the master docker file "+dockerFile.getAbsolutePath())
       }
 
-      File ldockerFile = new File(tmpDir.getAbsolutePath()+"/"+map.get("docker_fileName"))
+      File ldockerFile = new File(tmpDir.getAbsolutePath()+File.separator+map.get("docker_fileName"))
 
       ldockerFile.delete()
       ldockerFile << dockerFile.bytes
@@ -152,7 +152,7 @@ public class ContainerTests extends GroovyTestCase {
       Random rand = new Random()
       Long uid = rand.nextLong()
       File   tempDir = this.getTmpDir()
-      File tmpDir = new File(tempDir.getCanonicalPath()+"/"+"containerTests"+"/")
+      File tmpDir = new File(tempDir.getCanonicalPath()+File.separator+"containerTests"+"/")
 
       if (tmpDir.exists()) {
          tmpDir.setWritable(true)
@@ -172,7 +172,7 @@ public class ContainerTests extends GroovyTestCase {
          assert("Cannot read the master docker file "+dockerFile.getAbsolutePath())
       }
 
-      File ldockerFile = new File(tmpDir.getAbsolutePath()+"/"+map.get("docker_fileName"))
+      File ldockerFile = new File(tmpDir.getAbsolutePath()+File.separator+map.get("docker_fileName"))
 
       ldockerFile.delete()
       ldockerFile << dockerFile.bytes
@@ -195,7 +195,7 @@ public class ContainerTests extends GroovyTestCase {
       Random rand = new Random()
       Long uid = rand.nextLong()
       File   tempDir = this.getTmpDir()
-      File tmpDir = new File(tempDir.getCanonicalPath()+"/"+"containerTests"+"/")
+      File tmpDir = new File(tempDir.getCanonicalPath()+File.separator+"containerTests"+"/")
 
       if (tmpDir.exists()) {
          tmpDir.setWritable(true)
@@ -215,7 +215,7 @@ public class ContainerTests extends GroovyTestCase {
          assert("Cannot read the master docker file "+dockerFile.getAbsolutePath())
       }
 
-      File ldockerFile = new File(tmpDir.getAbsolutePath()+"/"+map.get("docker_fileName"))
+      File ldockerFile = new File(tmpDir.getAbsolutePath()+File.separator+map.get("docker_fileName"))
 
       ldockerFile.delete()
       ldockerFile << dockerFile.bytes
@@ -242,7 +242,7 @@ public class ContainerTests extends GroovyTestCase {
       Random rand = new Random()
       Long uid = rand.nextLong()
       File   tempDir = this.getTmpDir()
-      File tmpDir = new File(tempDir.getCanonicalPath()+"/"+"containerTests"+"/")
+      File tmpDir = new File(tempDir.getCanonicalPath()+File.separator+"containerTests"+"/")
 
       if (tmpDir.exists()) {
          tmpDir.setWritable(true)
@@ -262,7 +262,7 @@ public class ContainerTests extends GroovyTestCase {
          assert("Cannot read the master docker file "+dockerFile.getAbsolutePath())
       }
 
-      File ldockerFile = new File(tmpDir.getAbsolutePath()+"/"+map.get("docker_fileName"))
+      File ldockerFile = new File(tmpDir.getAbsolutePath()+File.separator+map.get("docker_fileName"))
 
       ldockerFile.delete()
       ldockerFile << dockerFile.bytes
@@ -304,7 +304,7 @@ public class ContainerTests extends GroovyTestCase {
       assertTrue(retStat)
       retStat = Container.pullContainerImage(ConfigPropertiesConstants.DOCKER,imageName)
       assertTrue(retStat)
-      String regURI = map.get("docker_registryURI")+portNo+"/"+regName
+      String regURI = map.get("docker_registryURI")+portNo+File.separator+regName
       retStat = Container.tagContainer(ConfigPropertiesConstants.DOCKER,imageName,regURI)
       assertTrue(retStat)
       retStat = Container.pushContainer(ConfigPropertiesConstants.DOCKER,regURI)

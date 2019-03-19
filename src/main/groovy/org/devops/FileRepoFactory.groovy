@@ -8,13 +8,45 @@ class FileRepoFactory extends RepoFactory {
     /**
      * Utility to pull asset(s) from a repo
      * 
+     * @param final URI - srcAsset
+     * @param final File - targetAsset
+     * @param final String - userName
+     * @param final String - userPwd
+     * @param StringBuffer - outputStr
+     * @return boolean 
+     * @throws IllegalArgumentException, FileNotFoundException, Exception
+     */
+    static final boolean pullAssetFromRepo(final URI srcAsset,
+                                        final File targetAsset,
+                                        final String userName=null,
+                                        final String userPwd=null,
+                                        StringBuffer outputStr=null)
+        throws IllegalArgumentException, FileNotFoundException, Exception {
+
+        if (srcAsset == null || targetAsset == null) {
+            throw new IllegalArgumentException("Error: Invalid parameters specified")
+        }
+        File srcFile = new File(srcAsset.getPath())
+        return pullAssetFromRepo(srcFile,targetAsset,
+                                userName,userPwd,outputStr)
+    }
+
+    /**
+     * Utility to pull asset(s) from a repo
+     * 
      * @param final File - srcAsset
      * @param final File - targetAsset
+     * @param final String - userName
+     * @param final String - userPwd
+     * @param StringBuffer - outputStr
      * @return boolean 
      * @throws IllegalArgumentException, FileNotFoundException, Exception
      */
     static final boolean pullAssetFromRepo(final File srcAsset,
-                                        final File targetAsset)
+                                        final File targetAsset,
+                                        final String userName=null,
+                                        final String userPwd=null,
+                                        StringBuffer outputStr=null)
         throws IllegalArgumentException, FileNotFoundException, Exception {
         
         if (srcAsset == null || targetAsset == null) {
@@ -48,12 +80,45 @@ class FileRepoFactory extends RepoFactory {
      * Utility to push asset(s) to a repo
      * 
      * @param final File   - srcAsset
-     * @param final File - targetRepo
+     * @param final URI - targetRepo
+     * @param final String - userName
+     * @param final String - userPwd
+     * @param StringBuffer - outputStr
      * @return boolean 
-     * @throws IllegalArgumentException, Exception
+     * @throws IllegalArgumentException, FileNotFoundException, Exception
      */
     static final boolean pushAssetToRepo(final File srcAsset,
-                                        final File targetRepo)
+                                        final URI targetRepo,
+                                        final String userName=null,
+                                        final String userPwd=null,
+                                        StringBuffer outputStr=null)
+        throws IllegalArgumentException, FileNotFoundException, Exception {
+
+        if (srcAsset == null || targetRepo == null) {
+            throw new IllegalArgumentException("Error: Invalid parameters specified")
+        }
+
+        File targetFile = new File(targetRepo.getPath())
+        return pushAssetToRepo(srcAsset,targetFile,
+                                userName,userPwd,outputStr)
+    }
+
+    /**
+     * Utility to push asset(s) to a repo
+     * 
+     * @param final File   - srcAsset
+     * @param final File - targetRepo
+     * @param final String - userName
+     * @param final String - userPwd
+     * @param StringBuffer - outputStr
+     * @return boolean 
+     * @throws IllegalArgumentException, FileNotFoundException, Exception
+     */
+    static final boolean pushAssetToRepo(final File srcAsset,
+                                        final File targetRepo,
+                                        final String userName=null,
+                                        final String userPwd=null,
+                                        StringBuffer outputStr=null)
         throws IllegalArgumentException, FileNotFoundException, Exception {
         
         if (srcAsset == null || targetRepo == null) {
