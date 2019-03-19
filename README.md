@@ -25,10 +25,10 @@ framework. These are...
 
 | Class | Description | 
 | ----- | ----------- |
-| `Notifications` | For email and slack IRC messaging | 
+| `Notifications` | For email and [Slack](https://slack.com) IRC messaging | 
 | `SCM` | For GIT and SVN SCM function(s) - currently only supporting cloning |
-| `Container` | For various container management commands - currently only supporting Docker |
-| `Repository` | For pushing and pulling files from repos - currently only file & Artifactory is supported |
+| `Container` | For various container management commands - currently only supporting [Docker](https://www.docker.com) |
+| `Repository` | For pushing and pulling files from repos - currently only file & [Artifactory](https://jfrog.com/artifactory/) is supported |
 
 Why have a framework?
 =====================
