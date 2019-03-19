@@ -308,9 +308,11 @@ order.
 
 Each callback takes the following...
 
-	- body:{} - used to specify the Groovy code to run the process
-	- finalHandler:{} - used to specify any Groovy code which will be invoked after the process has run
-	- exceptionHandler:{} - used to specify any Groovy code which will be invoked if any exception occurs
+| Method | Description | 
+| ------ | ----------- |
+| `body:{}` | Used to specify the Groovy code to run the process |
+| `finalHandler:{}` | Used to specify any Groovy code which will be invoked after the process has run |
+| `exceptionHandler:{}` | Used to specify any Groovy code which will be invoked if any exception occurs |
 	
 Framework Documentation
 =======================
