@@ -9,6 +9,14 @@ import junit.textui.TestRunner;
  */
 public class UtilityTests extends GroovyTestCase {
 
+   File propFile = new File("."+"/src/test/resources/unitTest.properties")
+   def map = Utilities.mapProperties(propFile)
+
+   // Utility function to get temporary directory...
+   File getTmpDir() {
+      return new File((map.get("tmpDir") != null) ? map.get("tmpDir") : System.getProperty("java.io.tmpdir"))
+   }
+
    void testReadFile() {
 
    }
@@ -42,4 +50,77 @@ public class UtilityTests extends GroovyTestCase {
       def map = Utilities.mapProperties(propFile)
       assertTrue(map.containsKey("slack_webhookURI"))
    }
+
+   void testCopyFile() {
+      File propFile = new File("."+"/src/test/resources/unitTest.properties")
+      File targetFile = new File(getTmpDir().getAbsolutePath()+File.separator+propFile.getName())
+
+      Utilities.copyFile(propFile,targetFile)
+      boolean retStat = targetFile.exists()
+      targetFile.delete()
+      assertTrue(retStat)
+   }  
+
+   void testCopyFileDir() {
+      File propFile = new File("."+"/src/test/resources/unitTest.properties")
+      File targetFile = new File(getTmpDir().getAbsolutePath())
+
+      Utilities.copyFile(propFile,targetFile)
+      String propFileName = propFile.getName()
+      propFile = null
+      propFile = new File(targetFile.getAbsolutePath()+File.separator+propFileName)
+      boolean retStat = propFile.exists()
+      propFile.delete()
+      assertTrue(retStat)
+   }  
+
+   void testCopyDirDir() {
+      File propFile = new File(getTmpDir().getAbsolutePath())
+      File targetFile = new File(getTmpDir().getAbsolutePath())
+
+      boolean retStat = false
+
+      try {
+         Utilities.copyFile(propFile,targetFile)   
+      } catch(IOException e) {
+         retStat=true
+      } catch(Exception e) {
+      }    
+      assertTrue(retStat)
+   }  
+
+   void testCopyDir() {
+      Random rand = new Random()
+      Long uid = rand.nextLong()
+
+      File srcDir = new File("."+"/src/test/")
+      File targetDir = new File(getTmpDir().getAbsolutePath()+File.separator+"utilTest-"+uid)
+
+      targetDir.mkdirs()
+      Utilities.copyDirectories(srcDir,targetDir)  
+      int i = 0
+      // Count dirs in target...
+      for(File c : targetDir.listFiles()) {
+         if (c.isDirectory()) {
+            i++
+         }   
+      }
+      Utilities.deleteDirs(targetDir)
+      assertTrue(i==3)
+   } 
+
+   void testCopyDirFile() {
+      File propFile = new File("."+"/src/test/resources/unitTest.properties")
+      File targetFile = new File(getTmpDir().getAbsolutePath())
+
+      boolean retStat = false
+
+      try {
+         Utilities.copyDirectories(propFile,targetFile)   
+      } catch(IOException e) {
+         retStat=true
+      } catch(Exception e) {
+      }    
+      assertTrue(retStat)
+   }         
 }

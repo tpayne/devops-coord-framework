@@ -1,7 +1,17 @@
 /**
  * General utility routines for use with the framework
  */
- package org.devops;
+package org.devops;
+
+import java.nio.file.Path
+import java.nio.file.Paths
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
+import java.nio.file.FileVisitResult
+import java.nio.file.attribute.BasicFileAttributes
+import java.nio.file.attribute.FileTime
+import java.nio.file.CopyOption
+import java.nio.file.SimpleFileVisitor
 
 class Utilities implements Serializable {
 
@@ -16,6 +26,42 @@ class Utilities implements Serializable {
             return (OS.indexOf("mac") >= 0 || OS.indexOf("nix") >= 0 || 
                     OS.indexOf("nux") >= 0 || OS.indexOf("aix") >= 0 ||
                     OS.indexOf("sunos") >= 0)
+        }
+    }
+
+    public static class CopyDirs extends SimpleFileVisitor<Path> {
+        private final Path fromDir;
+        private final Path toDir;
+        private final CopyOption copyOption;
+
+        private CopyDirs(Path fromDir, Path toDir, CopyOption copyOption) {
+            this.fromDir = fromDir;
+            this.toDir = toDir;
+            this.copyOption = copyOption;
+        }
+
+        @Override
+        public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) 
+            throws IOException {
+            Path targetPath = toDir.resolve(fromDir.relativize(dir));
+            if( !Files.exists(targetPath) ) {
+                Files.createDirectory(targetPath);
+            }
+            return FileVisitResult.CONTINUE;
+        }
+
+        @Override
+        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+            Files.copy(file, toDir.resolve(fromDir.relativize(file)), copyOption);
+            return FileVisitResult.CONTINUE;
+        }
+
+        @Override
+        public FileVisitResult postVisitDirectory(final Path dir, final IOException exc) throws IOException {
+            Path newDir = toDir.resolve(fromDir.relativize(dir));
+            FileTime time = Files.getLastModifiedTime(dir);
+            Files.setLastModifiedTime(newDir, time);
+            return FileVisitResult.CONTINUE;
         }
     }
 
@@ -205,16 +251,60 @@ class Utilities implements Serializable {
      * Utility routine to emulate rm -fr
      * 
      * @param final File - Directory to delete
-     * @throws IOException
+     * @throws FileNotFoundException
      */   
-     static void deleteDirs(final File f) throws IOException {
+     static void deleteDirs(final File f) throws FileNotFoundException {
         if (f.isDirectory()) {
             for (File c : f.listFiles()) {
                 c.setWritable(true)
                 deleteDirs(c)
             }
         }
-        if (!f.delete())
+        if (!f.delete()) {
             throw new FileNotFoundException("Failed to delete file: " + f)
+        }
     }
+
+    /** 
+     * Utility to copy files around. Does not work with directories
+     * @param final File - srcFile
+     * @return final File - targetFile
+     * @throws IOException
+     */    
+     static void copyFile(final File srcFile, final File targetFile) 
+        throws IOException {
+            Path srcPath = Paths.get(srcFile.getAbsolutePath())
+            Path targetPath = Paths.get(targetFile.getAbsolutePath())
+
+            if (srcFile.isDirectory()) {
+                throw new IOException("Error: This function does not support directory copies")
+            }
+            if (targetFile.isDirectory()) {
+                String target = targetFile.getAbsolutePath()+File.separator+srcFile.getName()
+                targetPath = Paths.get(target)
+            }
+            Files.copy(srcPath, targetPath,
+                    StandardCopyOption.COPY_ATTRIBUTES,
+                    StandardCopyOption.REPLACE_EXISTING)
+    }
+
+    /** 
+     * Utility to copy directories around
+     * @param final File - srcDirectory
+     * @return final File - targetDirectory
+     * @throws IOException
+     */    
+     static void copyDirectories(final File srcDirectory, final File targetDirectory) 
+        throws IOException {
+
+            if (!srcDirectory.isDirectory() || !targetDirectory.isDirectory()) {
+                throw new IOException("Error: This function only supports directory copies")
+            }
+            Path srcPath = Paths.get(srcDirectory.getAbsolutePath())
+            Path targetPath = Paths.get(targetDirectory.getAbsolutePath())
+
+            Files.walkFileTree(srcPath, 
+                            new CopyDirs(srcPath, targetPath, 
+                                         StandardCopyOption.REPLACE_EXISTING))
+    } 
 }

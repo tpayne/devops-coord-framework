@@ -15,5 +15,9 @@ class ConfigPropertiesConstants {
 
 	// Container constants...
 	static final String DOCKER = "DOCKER"
+
+	// Repository constants...
+	static final String FILE = "FILEREPO"
+	static final String ARTIFACTORY = "ARTIFACTORYREPO"
 }
 
