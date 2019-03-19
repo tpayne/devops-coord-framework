@@ -22,6 +22,7 @@ framework. These are...
 	* Notifications - For email and slack IRC messaging
 	* SCM - For GIT and SVN SCM function(s) - currently only supporting cloning
 	* Container - For various container management commands - currently only supporting Docker
+	* Repository - For pushing and pulling files from repos - currently only file & Artifactory is supported
 
 Why have a framework?
 =====================
@@ -217,6 +218,14 @@ This class provides container related functionality and has the following method
 	- runContainer() - Used to run a container
 	- buildContainer() - Used to build or bake a container from a given build file
 
+Repository
+----------
+
+This class provides repository related functionality and has the following methods: -
+
+	- pullAssetFromRepo() - Used to pull an asset from a repo 
+	- pushAssetToRepo() - Used to push an asset to a repo 
+	
 How to Use
 ==========
 
