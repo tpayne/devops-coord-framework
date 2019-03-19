@@ -7,7 +7,7 @@ Framework Status: Alpha (still in development)
 
 This repository holds an example supporting devops-framework for use with Jenkins shared libraries.
 
-The framework provides a set of callouts which can be used to control your devops process depending
+The framework provides a set of callouts which can be used to control your [DevOps](https://en.wikipedia.org/wiki/DevOps) process depending
 on the callouts that you use.
 
 There are 5 main interface classes provided. These are...
