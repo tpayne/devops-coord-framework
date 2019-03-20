@@ -3,6 +3,8 @@
  */
 package org.devops;
 
+import groovy.json.*
+
 class ArtifactoryRepoFactory extends RepoFactory {
 
     /**
@@ -27,6 +29,9 @@ class ArtifactoryRepoFactory extends RepoFactory {
             throw new IllegalArgumentException("Error: Invalid parameters specified")
         }
 
+        if (srcRepo.toURL().toString().endsWith("/")) {
+            throw new IllegalArgumentException("Error: The URI has to refer to a file. Directories are not supported")
+        }
         File exeRun = null
 
         // TODO add jfrog support sometime when it works better
@@ -37,22 +42,45 @@ class ArtifactoryRepoFactory extends RepoFactory {
         }
 
         def cmdStr = null
-        cmdStr = "-u${userName}:${userPwd} -o \""+targetAsset.getAbsolutePath()+"\" \""+srcRepo.toURL().toString()+"\""
+        cmdStr = "-u${userName}:${userPwd} -o \""+targetAsset.getAbsolutePath()+"\" -O \""+srcRepo.toURL().toString()+"\""
 
         // Construct the required command...
         def runCmd = exeRun.getAbsolutePath()+" "+cmdStr
-        
+        exeRun = null
         StringBuffer returnStr = new StringBuffer()
-
         int retStat = Utilities.runCmd(runCmd,returnStr)
         String returnOutput = returnStr.toString()
         returnOutput = returnOutput.trim()
         returnStr = null
+
+        if (outputStr!=null) {
+            outputStr.append(returnOutput)
+        }
+        returnStr = null    
         
-        if (retStat>0) {
+        if (retStat>0 || !targetAsset.exists()) {
             return false
         } else if (retStat==0) {
-            return true
+            // Now we need to test the file to see if it is error message...
+            try {
+                def slurper = new JsonSlurper()
+                def result = slurper.parse(targetAsset)
+                if (result != null) {
+                    if (outputStr != null) {
+                        outputStr.delete(0, outputStr.length())
+                        outputStr.append(result.toString())
+                    }
+                    if (result.toString().contains("{errors=[{")) {
+                        targetAsset.delete()
+                        if (result.errors.status.toString().contains("[404]")) {
+                            throw new FileNotFoundException("Error: File specified was not found on server") 
+                        }
+                        return false
+                    }
+                }
+            } catch (JsonException e) {
+                return true
+            }
         } 
         return false
     }
@@ -97,13 +125,24 @@ class ArtifactoryRepoFactory extends RepoFactory {
 
         // Construct the required command...
         def runCmd = exeRun.getAbsolutePath()+" "+cmdStr
-        
+        exeRun = null
         StringBuffer returnStr = new StringBuffer()
 
         int retStat = Utilities.runCmd(runCmd,returnStr)
         String returnOutput = returnStr.toString()
         returnOutput = returnOutput.trim()
         returnStr = null
+        if (retStat==0) {
+            // Check the CURL command worked...
+            if (returnOutput.contains("\"createdBy\"") && returnOutput.contains("\"downloadUri\"")) {
+            } else {
+                retStat=1
+            }
+        }
+        if (outputStr!=null) {
+            outputStr.append(returnOutput)
+        }
+        returnStr = null    
         
         if (retStat>0) {
             return false
