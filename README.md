@@ -332,3 +332,7 @@ or otherwise about the accuracy or functionality of the examples.
 
 You use them at your own risk. If anything results to your machine or environment or anything else as a 
 result of ignoring this warning, then the fault is yours only and has nothing to do with me.
+
+Licensing
+=========
+This software is licensed using the terms and provisions of the [MIT license](https://en.wikipedia.org/wiki/MIT_License).
