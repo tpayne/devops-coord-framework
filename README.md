@@ -12,24 +12,24 @@ on the callouts that you use.
 
 There are 5 main interface classes provided. These are...
 
-| Class | Description | 
-| ----- | ----------- |
-| `Build` | Which is used to control your build process |
-| `Deploy` | Which is used to control your deployment process |
-| `Test` | Which is used to control your test process |
-| `Integration` | Which is used to control your integration process |
-| `ReleaseCandidate` | Which is used to control your Release candidate process |
+>| Class | Description | 
+>| ----- | ----------- |
+>| `Build` | Which is used to control your build process |
+>| `Deploy` | Which is used to control your deployment process |
+>| `Test` | Which is used to control your test process |
+>| `Integration` | Which is used to control your integration process |
+>| `ReleaseCandidate` | Which is used to control your Release candidate process |
 	
 There are also a number of service classes which wrap tools and make them available for use within
 framework. These are...
 
-| Class | Description | 
-| ----- | ----------- |
-| `Notifications` | For email and [Slack](https://slack.com) IRC messaging | 
-| `SCM` | For GIT and SVN SCM function(s) - currently only supporting cloning |
-| `Container` | For various container management commands - currently only supporting [Docker](https://www.docker.com) |
-| `Repository` | For pushing and pulling files from repos - currently only file & [Artifactory](https://jfrog.com/artifactory/) is supported |
-| `ComponentManifest` | For maintaining your manifest of integrated components |
+>| Class | Description | 
+>| ----- | ----------- |
+>| `Notifications` | For email and [Slack](https://slack.com) IRC messaging | 
+>| `SCM` | For GIT and SVN SCM function(s) - currently only supporting cloning |
+>| `Container` | For various container management commands - currently only supporting [Docker](https://www.docker.com) |
+>| `Repository` | For pushing and pulling files from repos - currently only file & [Artifactory](https://jfrog.com/artifactory/) is supported |
+>| `ComponentManifest` | For maintaining your manifest of integrated components |
 
 Why have a framework?
 =====================
@@ -56,22 +56,22 @@ Build Class
 -----------
 The Build class is provided to control your build process and has the following methods...
 
-| Method | Description | 
-| ------ | ----------- |
-| `prepareWorkArea()`| A callout provided to help prepare your workarea for a build |
-| `getCode()`| A callout provided to help you pull your code |
-| `preBuild()`| A callout provided to help prepare for a build |
-| `runBuild()`| A callout provided to help run a build process |
-| `postBuild()`| A callout provided to help run a post build process |
-| `runUnitTests()`| A callout provided to help run any unit tests |
-| `evaluateUnitTests()`| A callout provided to help evaluate any unit tests results |
-| `runStaticCodeTests()`| A callout provided to help run any static code analysis process |
-| `evaluateStaticCodeTests()`| A callout provided to help evaluate any analysis results |
-| `bakeImage()`| A callout provided to help bake an image |
-| `uploadAssets()`| A callout provided to help upload any assets created during the build |
-| `logResults()`| A callout provided to help log any results | 
-| `promote()`| A callout provided to help promote a build to the next phase | 
-| `runPipeline()`| Run the pipeline |
+>| Method | Description | 
+>| ------ | ----------- |
+>| `prepareWorkArea()`| A callout provided to help prepare your workarea for a build |
+>| `getCode()`| A callout provided to help you pull your code |
+>| `preBuild()`| A callout provided to help prepare for a build |
+>| `runBuild()`| A callout provided to help run a build process |
+>| `postBuild()`| A callout provided to help run a post build process |
+>| `runUnitTests()`| A callout provided to help run any unit tests |
+>| `evaluateUnitTests()`| A callout provided to help evaluate any unit tests results |
+>| `runStaticCodeTests()`| A callout provided to help run any static code analysis process |
+>| `evaluateStaticCodeTests()`| A callout provided to help evaluate any analysis results |
+>| `bakeImage()`| A callout provided to help bake an image |
+>| `uploadAssets()`| A callout provided to help upload any assets created during the build |
+>| `logResults()`| A callout provided to help log any results | 
+>| `promote()`| A callout provided to help promote a build to the next phase | 
+>| `runPipeline()`| Run the pipeline |
 
 All callbacks are run in the above order, no matter how your register them.
 
@@ -79,18 +79,18 @@ Deploy Class
 ------------
 The Deploy class is provided to control your deploy process and has the following methods...
 
-| Method | Description | 
-| ------ | ----------- |
-| `prepareForDeploy()` | A callout provided to help prepare your environment for a deploy |
-| `getAssets()` | A callout provided to help you pull your deploy assets |
-| `preDeploy()` | A callout provided to help prepare for a deploy |
-| `runDeploy()` | A callout provided to help run a deploy process |
-| `postDeploy()` | A callout provided to help run a post deploy process |
-| `runSmokeTests()` | A callout provided to help run any smoke tests |
-| `evaluateSmokeTests()` | A callout provided to help evaluate any smoke tests results |
-| `logResults()` | A callout provided to help log any results |
-| `promote()` | A callout provided to help promote a deploy to the next phase | 
-| `runPipeline()` | Run the pipeline |
+>| Method | Description | 
+>| ------ | ----------- |
+>| `prepareForDeploy()` | A callout provided to help prepare your environment for a deploy |
+>| `getAssets()` | A callout provided to help you pull your deploy assets |
+>| `preDeploy()` | A callout provided to help prepare for a deploy |
+>| `runDeploy()` | A callout provided to help run a deploy process |
+>| `postDeploy()` | A callout provided to help run a post deploy process |
+>| `runSmokeTests()` | A callout provided to help run any smoke tests |
+>| `evaluateSmokeTests()` | A callout provided to help evaluate any smoke tests results |
+>| `logResults()` | A callout provided to help log any results |
+>| `promote()` | A callout provided to help promote a deploy to the next phase | 
+>| `runPipeline()` | Run the pipeline |
 
 All callbacks are run in the above order, no matter how your register them.
 
@@ -98,17 +98,17 @@ Test Class
 ----------
 The Test class is provided to control your test process and has the following methods...
 
-| Method | Description | 
-| ------ | ----------- |
-| `prepareForTest()` | A callout provided to help prepare your environment for testing |
-| `getAssets()` | A callout provided to help you pull your test assets |
-| `preTest()` | A callout provided to help prepare for a test |
-| `runTest()` | A callout provided to help run a test process |
-| `postTest()` | A callout provided to help run a post test process |
-| `evaluateTests()` | A callout provided to help evaluate any tests results |
-| `logResults()` | A callout provided to help log any results | 
-| `promote()` | A callout provided to help promote a test to the next phase | 
-| `runPipeline()` | Run the pipeline |
+>| Method | Description | 
+>| ------ | ----------- |
+>| `prepareForTest()` | A callout provided to help prepare your environment for testing |
+>| `getAssets()` | A callout provided to help you pull your test assets |
+>| `preTest()` | A callout provided to help prepare for a test |
+>| `runTest()` | A callout provided to help run a test process |
+>| `postTest()` | A callout provided to help run a post test process |
+>| `evaluateTests()` | A callout provided to help evaluate any tests results |
+>| `logResults()` | A callout provided to help log any results | 
+>| `promote()` | A callout provided to help promote a test to the next phase | 
+>| `runPipeline()` | Run the pipeline |
 
 All callbacks are run in the above order, no matter how your register them.
 
@@ -116,26 +116,26 @@ Integration Class
 -----------------
 The Integration class is provided to control your integration process and has the following methods...
 
-| Method | Description | 
-| ------ | ----------- |
-| `getComponentList()` | A callout provided to help get the component list for processing |
-| `prepareForDeploy()` | A callout provided to help prepare an environment for use |
-| `getDeployAssets()` | A callout provided to help pull your deployment assets |
-| `preDeploy()` | A callout provided to help prepare for the deploy |
-| `runDeploy()` | A callout provided to help run the deploy |
-| `postDeploy()` | A callout provided to help perform any post deployment actions |
-| `runSmokeTests()` | A callout provided to help run smoke tests |
-| `evaluateSmokeTests()` | A callout provided to help evaluate the smoke test results |
-| `logDeployResults()` | A callout provided to help log the deployment results |
-| `prepareForTest()` | A callout provided to help prepare for testing |
-| `getTestAssets()` | A callout provided to help pull test assets |
-| `preTest()` | A callout provided to help prepare for the testing |
-| `runTests()` | A callout provided to help run the testing |
-| `postTest()` | A callout provided to help perform any post testing activities |
-| `evaluateTestResults()` | A callout provided to help evaluate test results |
-| `logTestResults()` | A callout provided to help log test results |
-| `promote()` | A callout provided to help promote a test to the next phase | 
-| `runPipeline()` | Run the pipeline |
+>| Method | Description | 
+>| ------ | ----------- |
+>| `getComponentList()` | A callout provided to help get the component list for processing |
+>| `prepareForDeploy()` | A callout provided to help prepare an environment for use |
+>| `getDeployAssets()` | A callout provided to help pull your deployment assets |
+>| `preDeploy()` | A callout provided to help prepare for the deploy |
+>| `runDeploy()` | A callout provided to help run the deploy |
+>| `postDeploy()` | A callout provided to help perform any post deployment actions |
+>| `runSmokeTests()` | A callout provided to help run smoke tests |
+>| `evaluateSmokeTests()` | A callout provided to help evaluate the smoke test results |
+>| `logDeployResults()` | A callout provided to help log the deployment results |
+>| `prepareForTest()` | A callout provided to help prepare for testing |
+>| `getTestAssets()` | A callout provided to help pull test assets |
+>| `preTest()` | A callout provided to help prepare for the testing |
+>| `runTests()` | A callout provided to help run the testing |
+>| `postTest()` | A callout provided to help perform any post testing activities |
+>| `evaluateTestResults()` | A callout provided to help evaluate test results |
+>| `logTestResults()` | A callout provided to help log test results |
+>| `promote()` | A callout provided to help promote a test to the next phase | 
+>| `runPipeline()` | Run the pipeline |
 
 All callbacks are run in the above order, no matter how your register them.
 
@@ -143,27 +143,27 @@ ReleaseCandidate Class
 ----------------------
 The ReleaseCandidate class is provided to control your release process and has the following methods...
 
-| Method | Description | 
-| ------ | ----------- |
-| `getComponentList()` | A callout provided to help get the component list for processing |
-| `prepareForDeploy()` | A callout provided to help prepare an environment for use |
-| `getDeployAssets()` | A callout provided to help pull your deployment assets |
-| `preDeploy()` | A callout provided to help prepare for the deploy |
-| `runDeploy()` | A callout provided to help run the deploy |
-| `postDeploy()` | A callout provided to help perform any post deployment actions |
-| `runSmokeTests()` | A callout provided to help run smoke tests |
-| `evaluateSmokeTests()` | A callout provided to help evaluate the smoke test results |
-| `logDeployResults()` | A callout provided to help log the deployment results |
-| `prepareForTest()` | A callout provided to help prepare for testing |
-| `getTestAssets()` | A callout provided to help pull test assets |
-| `preTest()` | A callout provided to help prepare for the testing |
-| `runTests()` | A callout provided to help run the testing |
-| `postTest()` | A callout provided to help perform any post testing activities |
-| `evaluateTestResults()` | A callout provided to help evaluate test results |
-| `logTestResults()` | A callout provided to help log test results |
-| `rollback()` | A callout provided to help perform a rollback if required |
-| `finish()` | A callout provided to help perform any final actions if needed |
-| `runPipeline()` | Run the pipeline |
+>| Method | Description | 
+>| ------ | ----------- |
+>| `getComponentList()` | A callout provided to help get the component list for processing |
+>| `prepareForDeploy()` | A callout provided to help prepare an environment for use |
+>| `getDeployAssets()` | A callout provided to help pull your deployment assets |
+>| `preDeploy()` | A callout provided to help prepare for the deploy |
+>| `runDeploy()` | A callout provided to help run the deploy |
+>| `postDeploy()` | A callout provided to help perform any post deployment actions |
+>| `runSmokeTests()` | A callout provided to help run smoke tests |
+>| `evaluateSmokeTests()` | A callout provided to help evaluate the smoke test results |
+>| `logDeployResults()` | A callout provided to help log the deployment results |
+>| `prepareForTest()` | A callout provided to help prepare for testing |
+>| `getTestAssets()` | A callout provided to help pull test assets |
+>| `preTest()` | A callout provided to help prepare for the testing |
+>| `runTests()` | A callout provided to help run the testing |
+>| `postTest()` | A callout provided to help perform any post testing activities |
+>| `evaluateTestResults()` | A callout provided to help evaluate test results |
+>| `logTestResults()` | A callout provided to help log test results |
+>| `rollback()` | A callout provided to help perform a rollback if required |
+>| `finish()` | A callout provided to help perform any final actions if needed |
+>| `runPipeline()` | Run the pipeline |
 
 All callbacks are run in the above order, no matter how your register them.
 
@@ -186,85 +186,85 @@ Utilities
 ---------
 This class provides various useful utilities that are used and has the following methods: -
 
-| Method | Description | 
-| ------ | ----------- |
-| `isUnix()` | Used to detect UNIX based OS |
-| `isWindows()` | Used to detect Windows based OS |
-| `mapProperties()` | Used to map a properties file intp a Map |
-| `getDefaultProperties()` | Used to read any default properties that might have been setup for the framework to use |
-| `readAllBytes()` | Used to read a file into memory as an array of bytes |
-| `getExecutable()` | Used to locate an executable file in the path and return a File object to it |
-| `runCmd()` | Used to run a shell command and trap any output if wanted |
-| `getTmpDir()` | Used to return a File object to the temporary directory setup on the machine |
-| `deleteDirs()` | Used to emulate rm -fr  |
-| `copyFile()` | Used to copy files  |
-| `copyDirectories()` | Used to copy directories  |
+>| Method | Description | 
+>| ------ | ----------- |
+>| `isUnix()` | Used to detect UNIX based OS |
+>| `isWindows()` | Used to detect Windows based OS |
+>| `mapProperties()` | Used to map a properties file intp a Map |
+>| `getDefaultProperties()` | Used to read any default properties that might have been setup for the framework to use |
+>| `readAllBytes()` | Used to read a file into memory as an array of bytes |
+>| `getExecutable()` | Used to locate an executable file in the path and return a File object to it |
+>| `runCmd()` | Used to run a shell command and trap any output if wanted |
+>| `getTmpDir()` | Used to return a File object to the temporary directory setup on the machine |
+>| `deleteDirs()` | Used to emulate rm -fr  |
+>| `copyFile()` | Used to copy files  |
+>| `copyDirectories()` | Used to copy directories  |
 
 SCM
 ---
 This class provides all the SCM related support and has the following methods: -
 
-| Method | Description | 
-| ------ | ----------- |
-| `scmClone()` | Used for cloning code from supported SCM repos like Git or SVN |
+>| Method | Description | 
+>| ------ | ----------- |
+>| `scmClone()` | Used for cloning code from supported SCM repos like Git or SVN |
 
 Notifications
 -------------
 This class provides notification related functionality and has the following methods: -
 
-| Method | Description | 
-| ------ | ----------- |
-| `sendMail()` | Used for sending email notifications |
-| `messageSlackChannel()` | Used for sending notifications to Slack |
+>| Method | Description | 
+>| ------ | ----------- |
+>| `sendMail()` | Used for sending email notifications |
+>| `messageSlackChannel()` | Used for sending notifications to Slack |
 	
 Container
 ---------
 This class provides container related functionality and has the following methods: -
 
-| Method | Description | 
-| ------ | ----------- |
-| `createContainerRegistry()` | Used to create a container register for supported platforms like Docker |
-| `pushContainer()` | Used to push an image to a container register |
-| `tagContainer()` | Used to tag a container for future use |
-| `deleteContainerRegistry()` | Used to delete a container register |
-| `pullContainerImage()` | Used to pull a container image from somewhere |
-| `deleteContainerImage()` | Used to delete a container image |
-| `runContainer()` | Used to run a container |
-| `buildContainer()` | Used to build or bake a container from a given build file |
+>| Method | Description | 
+>| ------ | ----------- |
+>| `createContainerRegistry()` | Used to create a container register for supported platforms like Docker |
+>| `pushContainer()` | Used to push an image to a container register |
+>| `tagContainer()` | Used to tag a container for future use |
+>| `deleteContainerRegistry()` | Used to delete a container register |
+>| `pullContainerImage()` | Used to pull a container image from somewhere |
+>| `deleteContainerImage()` | Used to delete a container image |
+>| `runContainer()` | Used to run a container |
+>| `buildContainer()` | Used to build or bake a container from a given build file |
 
 Repository
 ----------
 This class provides repository related functionality and has the following methods: -
 
-| Method | Description | 
-| ------ | ----------- |
-| `pullAssetFromRepo()` | Used to pull an asset from a repo |
-| `pushAssetToRepo()` | Used to push an asset to a repo |
+>| Method | Description | 
+>| ------ | ----------- |
+>| `pullAssetFromRepo()` | Used to pull an asset from a repo |
+>| `pushAssetToRepo()` | Used to push an asset to a repo |
 	
 
 ComponentManifest
 -----------------
 This class provides repository related functionality for maintaining your component manifest list (used in releases) and has the following methods: -
 
-| Method | Description | 
-| ------ | ----------- |
-| `isValid()` | Used to check the manifest is valid |
-| `getRepo()` | Used to get the repo file details |
-| `setRepo()` | Used to set the repo file details |
-| `getCommitComment()` | Used to get the last commit comment |
-| `getCommitter()` | Used to get the last committer |
-| `getCommitDate()` | Used to get the last commit date |
-| `getManifestVersion()` | Used to get the manifest version |
-| `setManifestVersion()` | Used to set the manifest version |
-| `getManifestStatus()` | Used to get the manifest status |
-| `setManifestStatus()` | Used to set the manifest status |
-| `getComponentList()` | Used to get the list of components registered in the manifest |
-| `getComponent()` | Used to get the details for an individual component |
-| `addComponent()` | Used to add a component to the manifest |
-| `updateComponent()` | Used to update the details for an individual component registered in the manifest |
-| `removeComponent()` | Used to remove a component from the manifest |
-| `convertManifestToJSON()` | Used to convert the component manifest to a JSON string |
-| `commit()` | Used to commit the manifest details to the repo file |
+>| Method | Description | 
+>| ------ | ----------- |
+>| `isValid()` | Used to check the manifest is valid |
+>| `getRepo()` | Used to get the repo file details |
+>| `setRepo()` | Used to set the repo file details |
+>| `getCommitComment()` | Used to get the last commit comment |
+>| `getCommitter()` | Used to get the last committer |
+>| `getCommitDate()` | Used to get the last commit date |
+>| `getManifestVersion()` | Used to get the manifest version |
+>| `setManifestVersion()` | Used to set the manifest version |
+>| `getManifestStatus()` | Used to get the manifest status |
+>| `setManifestStatus()` | Used to set the manifest status |
+>| `getComponentList()` | Used to get the list of components registered in the manifest |
+>| `getComponent()` | Used to get the details for an individual component |
+>| `addComponent()` | Used to add a component to the manifest |
+>| `updateComponent()` | Used to update the details for an individual component registered in the manifest |
+>| `removeComponent()` | Used to remove a component from the manifest |
+>| `convertManifestToJSON()` | Used to convert the component manifest to a JSON string |
+>| `commit()` | Used to commit the manifest details to the repo file |
 	
 How to Use
 ==========
@@ -321,11 +321,11 @@ order.
 
 Each callback takes the following...
 
-| Method | Description | 
-| ------ | ----------- |
-| `body:{}` | Used to specify the Groovy code to run the process |
-| `finalHandler:{}` | Used to specify any Groovy code which will be invoked after the process has run |
-| `exceptionHandler:{}` | Used to specify any Groovy code which will be invoked if any exception occurs |
+>| Method | Description | 
+>| ------ | ----------- |
+>| `body:{}` | Used to specify the Groovy code to run the process |
+>| `finalHandler:{}` | Used to specify any Groovy code which will be invoked after the process has run |
+>| `exceptionHandler:{}` | Used to specify any Groovy code which will be invoked if any exception occurs |
 	
 Framework Documentation
 =======================
