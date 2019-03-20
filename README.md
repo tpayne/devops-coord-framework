@@ -29,6 +29,7 @@ framework. These are...
 | `SCM` | For GIT and SVN SCM function(s) - currently only supporting cloning |
 | `Container` | For various container management commands - currently only supporting [Docker](https://www.docker.com) |
 | `Repository` | For pushing and pulling files from repos - currently only file & [Artifactory](https://jfrog.com/artifactory/) is supported |
+| `ComponentManifest` | For maintaining your manifest of integrated components |
 
 Why have a framework?
 =====================
@@ -239,6 +240,31 @@ This class provides repository related functionality and has the following metho
 | ------ | ----------- |
 | `pullAssetFromRepo()` | Used to pull an asset from a repo |
 | `pushAssetToRepo()` | Used to push an asset to a repo |
+	
+
+ComponentManifest
+-----------------
+This class provides repository related functionality for maintaining your component manifest list (used in releases) and has the following methods: -
+
+| Method | Description | 
+| ------ | ----------- |
+| `isValid()` | Used to check the manifest is valid |
+| `getRepo()` | Used to get the repo file details |
+| `setRepo()` | Used to set the repo file details |
+| `getCommitComment()` | Used to get the last commit comment |
+| `getCommitter()` | Used to get the last committer |
+| `getCommitDate()` | Used to get the last commit date |
+| `getManifestVersion()` | Used to get the manifest version |
+| `setManifestVersion()` | Used to set the manifest version |
+| `getManifestStatus()` | Used to get the manifest status |
+| `setManifestStatus()` | Used to set the manifest status |
+| `getComponentList()` | Used to get the list of components registered in the manifest |
+| `getComponent()` | Used to get the details for an individual component |
+| `addComponent()` | Used to add a component to the manifest |
+| `updateComponent()` | Used to update the details for an individual component registered in the manifest |
+| `removeComponent()` | Used to remove a component from the manifest |
+| `convertManifestToJSON()` | Used to convert the component manifest to a JSON string |
+| `commit()` | Used to commit the manifest details to the repo file |
 	
 How to Use
 ==========
