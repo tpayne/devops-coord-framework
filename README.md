@@ -336,6 +336,14 @@ by using the command
 
 This will generate JavaDoc style comments in the target/ directory
 
+Class Usage Examples
+====================
+Virtually all the class functions documented above have example unit/functional tests which are run in the Maven test phase.
+
+You can use these as examples to show you how to use the classes.
+
+(Note - The tests have very little documentation imbedded in them currently. This will be added slowly).
+
 Liability Warning
 =================
 The contents of this repository (documents and examples) are provided “as-is” with no warrantee implied 
