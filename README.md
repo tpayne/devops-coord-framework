@@ -359,4 +359,4 @@ This software is licensed using the terms and provisions of the [MIT license](ht
 Known Issues
 ============
 The following are known issues: -
-- The framework has not been fully ported or tested on Windows. Do not be surprised if some work needs to be done to make it work on that OS. Where possible classes have been written to support both UNIX and Windows, but they have not been tested on Windows, so some issues may occur
+- The framework has not been fully ported or tested on Windows. Do not be surprised if some work needs to be done to make it work on that OS. Where possible classes have been written to support both UNIX and Windows, but they have not been tested on Windows, so some issues may occur. The framework was developed and tested on Unix.
