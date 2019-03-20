@@ -32,7 +32,6 @@ framework. These are...
 
 Why have a framework?
 =====================
-
 The framework is provided as a way of allowing you to control how products are on-boarded into CI/CD.
 
 You may have many products that need to be converted over to using CI/CD and without a framework in place
@@ -50,12 +49,10 @@ This callback format has already been used successfully in a number of companies
 
 Framework Classes
 =================
-
 The following are the main framework classes and the methods that they have.
 
 Build Class
 -----------
-
 The Build class is provided to control your build process and has the following methods...
 
 | Method | Description | 
@@ -79,7 +76,6 @@ All callbacks are run in the above order, no matter how your register them.
 
 Deploy Class
 ------------
-
 The Deploy class is provided to control your deploy process and has the following methods...
 
 | Method | Description | 
@@ -99,7 +95,6 @@ All callbacks are run in the above order, no matter how your register them.
 
 Test Class
 ----------
-
 The Test class is provided to control your test process and has the following methods...
 
 | Method | Description | 
@@ -118,7 +113,6 @@ All callbacks are run in the above order, no matter how your register them.
 
 Integration Class
 -----------------
-
 The Integration class is provided to control your integration process and has the following methods...
 
 | Method | Description | 
@@ -146,7 +140,6 @@ All callbacks are run in the above order, no matter how your register them.
 
 ReleaseCandidate Class
 ----------------------
-
 The ReleaseCandidate class is provided to control your release process and has the following methods...
 
 | Method | Description | 
@@ -175,7 +168,6 @@ All callbacks are run in the above order, no matter how your register them.
 
 How to Install
 ==============
-
 To install this Jenkins share library, do the following...
 
 	1) git clone https://github.com/tpayne/devops-framework.git
@@ -187,12 +179,10 @@ To install this Jenkins share library, do the following...
 
 Service Classes
 ===============
-
 The following are the main service classes and the methods that they have.
 
 Utilities
 ---------
-
 This class provides various useful utilities that are used and has the following methods: -
 
 | Method | Description | 
@@ -211,7 +201,6 @@ This class provides various useful utilities that are used and has the following
 
 SCM
 ---
-
 This class provides all the SCM related support and has the following methods: -
 
 | Method | Description | 
@@ -220,7 +209,6 @@ This class provides all the SCM related support and has the following methods: -
 
 Notifications
 -------------
-
 This class provides notification related functionality and has the following methods: -
 
 | Method | Description | 
@@ -230,7 +218,6 @@ This class provides notification related functionality and has the following met
 	
 Container
 ---------
-
 This class provides container related functionality and has the following methods: -
 
 | Method | Description | 
@@ -246,7 +233,6 @@ This class provides container related functionality and has the following method
 
 Repository
 ----------
-
 This class provides repository related functionality and has the following methods: -
 
 | Method | Description | 
@@ -256,7 +242,6 @@ This class provides repository related functionality and has the following metho
 	
 How to Use
 ==========
-
 The shared library works by providing controller classes that you can use
 in a pipeline job. As such, you need to create a pipeline job and register the
 callbacks that you want to use.
