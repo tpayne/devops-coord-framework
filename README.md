@@ -316,7 +316,7 @@ For example, a sample pipeline might look like
 		bld.runPipeline()
 	}
 
-This will run the getCode(), preBuild(), runBuild() and bakeImage() callbacks in this
+This will run the `getCode()`, `preBuild()`, `runBuild()` and `bakeImage()` callbacks in this
 order.
 
 Each callback takes the following...
