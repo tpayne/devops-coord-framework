@@ -8,7 +8,9 @@ import java.util.Locale
 class ConfigPropertiesConstants {
 	// Generic properties...
     static final Locale ROOT_LOCALE = Locale.US
-
+    static final String XML = "XML"
+    static final String JSON = "JSON"
+    
 	// SCM constants...
 	static final String SCMGIT = "SCMGIT"
 	static final String SCMSVN = "SCMSVN"

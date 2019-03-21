@@ -12,9 +12,14 @@ import java.nio.file.attribute.BasicFileAttributes
 import java.nio.file.attribute.FileTime
 import java.nio.file.CopyOption
 import java.nio.file.SimpleFileVisitor
+import groovy.json.*
+import groovy.xml.*
 
 class Utilities implements Serializable {
 
+    /**
+     * This class detects if an operating system is Windows or UNIX
+     */ 
     private static class OsDetector {
         private static String OS = System.getProperty("os.name").toLowerCase(ConfigPropertiesConstants.ROOT_LOCALE);
 
@@ -29,6 +34,10 @@ class Utilities implements Serializable {
         }
     }
 
+    /**
+     * This class provides an implementation for the treeWalker used
+     * in copying a directory from one location to another
+     */
     public static class CopyDirs extends SimpleFileVisitor<Path> {
         private final Path fromDir;
         private final Path toDir;
@@ -307,4 +316,39 @@ class Utilities implements Serializable {
                             new CopyDirs(srcPath, targetPath, 
                                          StandardCopyOption.REPLACE_EXISTING))
     } 
+
+    /** 
+     * Utility to detect if input string is XML or JSON
+     * @param final File - fileToCheck
+     * @return String - XML or JSON
+     */     
+    static String getMarkUpType(final File fileToCheck) {
+        String msgToCheck = new String(readAllBytes(fileToCheck))
+        String msgType = getMarkUpType(msgToCheck)
+        msgToCheck = null
+        return(msgType)
+    }
+
+     /** 
+     * Utility to detect if input string is XML or JSON
+     * @param final String - msgToCheck
+     * @return String - XML or JSON
+     */   
+    static String getMarkUpType(final String msgToCheck) {
+        try {
+            def slurper = new JsonSlurper()
+            def output = slurper.parseText(msgToCheck)
+            return ConfigPropertiesConstants.JSON;
+        } catch (Exception e) {
+        }
+
+        try {
+            def slurper = new XmlSlurper()
+            def output = slurper.parseText(msgToCheck)            
+            return ConfigPropertiesConstants.XML;
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
 }
