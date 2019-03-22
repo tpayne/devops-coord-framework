@@ -1,0 +1,93 @@
+@Library('devops-framework')
+
+import org.devops.*
+
+def config = [
+    property1: 'value1',
+    property2: 'value2',
+    property3: 'value3'
+]
+
+def label = "${JOB_NAME}".toLowerCase().replaceAll("[^A-Za-z0-9]", "-").replaceAll("(-)+", "-")
+def bld = new org.devops.Build(this, config)
+
+node {
+    // Set globals...
+    File fetchDir = new File("/Volumes/WorkDisk/BuildJobs/")
+    File targetRepo = new File("/Volumes/WorkDisk/Repos/")
+    String scmURI = "https://github.com/jenkinsci/github-plugin.git"
+    
+    // Where am I building...
+    println "Using temporary directory "+fetchDir.getAbsolutePath()
+    
+    // Register a prepareWorkArea callback...
+    bld.prepareWorkArea(body:{
+        println ">Prepare Work Area - clean my files up...<"
+        if (fetchDir.exists()) {
+            Utilities.deleteDirs(fetchDir)
+        }
+        fetchDir.mkdirs()
+    })
+
+    // Register a promote callback to clean up my files and "promote"...
+    bld.promote(body:{
+        println ">Promote - clean my files up...<"
+        if (fetchDir.exists()) {
+            Utilities.deleteDirs(fetchDir)
+        }
+    })
+    
+    // Register a get code callback...
+    bld.getCode(body:{
+        println ">Get code - cloning from GIT...<"
+        StringBuffer outputStr = new StringBuffer()
+        boolean retStat = SCM.scmClone(ConfigPropertiesConstants.SCMGIT,
+                                        scmURI,fetchDir,outputStr)
+        if (retStat) {
+            println "Code clone worked"
+        } else {
+            println "Code clone failed"
+            println outputStr.toString()
+        }  
+        outputStr = null
+    })        
+
+    // Register a run build callback...
+    bld.runBuild(body:{
+        // This is a Maven which will compile and run all the unit tests as
+        // part of the process, so we do not need all the other build callbacks...
+        println ">Run build...<"
+        sh(script: "cd ${fetchDir.getAbsolutePath()}; mvn package")
+    })        
+
+    // Register an upload assets callback...
+    bld.uploadAssets(body:{
+        // Push the built asset to my file based repo...
+        println ">Run repo push...<"
+        File builtAsset = new File(fetchDir.getAbsolutePath()+"/target/github.hpi")
+        if (!builtAsset.exists()) {
+            throw new FileNotFoundException("Error: The file did not build correctly")
+        } else {
+            println "Built file: "+builtAsset.getAbsolutePath()
+            println "Built file size: "+builtAsset.length()
+            println "Built file MD5: "+Utilities.calcFileHash(builtAsset)
+        }
+        
+        // Checking the file into the target repo as file + UTC time...
+        File checkInFile = new File(targetRepo.getAbsolutePath()+File.separator+builtAsset.getName()+"."+System.currentTimeMillis())
+        println "Committing file to repo as : "+checkInFile.getAbsolutePath()
+        boolean retStat = Repository.pushAssetToRepo(ConfigPropertiesConstants.FILE,
+                                                    builtAsset,
+                                                    checkInFile)
+
+        if (retStat) {
+            println "Commit worked"
+        } else {
+            println "Commit failed"
+        }  
+    })        
+    
+    // Run my pipeline...
+    bld.runPipeline()
+}
+

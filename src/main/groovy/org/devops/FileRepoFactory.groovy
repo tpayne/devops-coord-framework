@@ -127,8 +127,18 @@ class FileRepoFactory extends RepoFactory {
 
         if (!srcAsset.exists() || !srcAsset.canRead()) {
             throw new FileNotFoundException("Error: Source file cannot be read")
-        } else if (!targetRepo.exists()) {
-            throw new FileNotFoundException("Error: Target repo does not exist")            
+        } else if (targetRepo.isDirectory()) {
+            if (!targetRepo.exists()) {
+                throw new FileNotFoundException("Error: Target repo does not exist")
+            } else if (targetRepo.exists() && !targetRepo.canWrite()) {
+                throw new FileNotFoundException("Error: Target exists and is not writeable")
+            }         
+        } else if (!targetRepo.isDirectory()) {
+            if (!targetRepo.getParentFile().exists() || !targetRepo.getParentFile().canWrite()) {
+                throw new FileNotFoundException("Error: Target repo does not exist or is not writeable") 
+            } else if (targetRepo.exists() && !targetRepo.canWrite()) {
+                throw new FileNotFoundException("Error: Target exists and is not writeable")
+            }
         }
 
         if (targetRepo.exists() && !targetRepo.canWrite()) {
@@ -136,7 +146,9 @@ class FileRepoFactory extends RepoFactory {
         }
 
         // Determine what type of copy is needed...
-        if (srcAsset.isFile() && targetRepo.isFile()) {
+        // Note: For some reason the isFile() is not working for the first statement
+        //       so I'm using !isDirectory() instead...
+        if (!srcAsset.isDirectory() && !targetRepo.isDirectory()) {
             Utilities.copyFile(srcAsset,targetRepo)        
         } else if (srcAsset.isDirectory() && targetRepo.isDirectory()) {
             Utilities.copyDirectories(srcAsset,targetRepo)

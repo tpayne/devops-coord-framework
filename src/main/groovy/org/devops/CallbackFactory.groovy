@@ -70,17 +70,21 @@ class CallbackFactory implements Serializable {
      */     
     static private runStep(final Map toRun, final String key, final def steps, final Map stepsToRun) {
         if (toRun != null) {
-            if (steps) {
-                steps.stage(key) {
-                    // Do nothing for now...
-                }
-            }
             Map args = toRun
-            // Run the steps...
             try {
                 // Check if I have any steps to run...
-                if (args.body != null) {
-                    args.body()
+                if (steps != null) {
+                    steps.stage(key) {
+                        // Run the steps...
+                        if (args.body != null) {
+                            args.body()
+                        }
+                    }
+                } else {
+                    // Run the steps...
+                    if (args.body != null) {
+                        args.body()
+                    }
                 }
             } catch(Exception ex) {
                 // Special handling for RC...

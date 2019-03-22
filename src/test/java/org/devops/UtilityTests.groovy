@@ -123,4 +123,18 @@ public class UtilityTests extends GroovyTestCase {
       }    
       assertTrue(retStat)
    }         
+
+   void testHashFile() {
+      File propFile = new File("."+"/src/test/resources/unitTest.properties")
+
+      boolean retStat = true
+
+      try {
+         String hashCode = Utilities.calcFileHash(propFile)   
+         assertEquals(hashCode,"ad282eef15d1436e7e549b4b4603455b")
+      } catch(Exception e) {
+         retStat = false
+      }    
+      assertTrue(retStat)
+   }    
 }

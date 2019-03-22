@@ -36,7 +36,7 @@ public class RepositoryTests extends GroovyTestCase {
       File   tempDir = this.getTmpDir()
       Random rand = new Random()
       Long uid = rand.nextLong()      
-      File targetDir = new File(tempDir.getCanonicalPath()+"/repoTest"+uid)
+      File targetDir = new File(tempDir.getCanonicalPath()+"/repoTestFPBFNS"+uid)
       File srcPath = new File("/FROGGY"+uid)
 
       try {
@@ -66,7 +66,7 @@ public class RepositoryTests extends GroovyTestCase {
       File   tempDir = this.getTmpDir()
       Random rand = new Random()
       Long uid = rand.nextLong()      
-      File targetDir = new File(tempDir.getCanonicalPath()+"/repoTest"+uid)
+      File targetDir = new File(tempDir.getCanonicalPath()+"/repoTestFPLBFNS"+uid)
       File srcPath = new File("/FROGGY"+uid)
 
       try {
@@ -84,7 +84,7 @@ public class RepositoryTests extends GroovyTestCase {
       File   tempDir = this.getTmpDir()
       Random rand = new Random()
       Long uid = rand.nextLong()      
-      File targetDir = new File(tempDir.getCanonicalPath()+"/repoTest"+uid)
+      File targetDir = new File(tempDir.getCanonicalPath()+"/repoTestFPBFNT"+uid)
 
       if (targetDir.exists()) {
          targetDir.setWritable(true)
@@ -112,6 +112,8 @@ public class RepositoryTests extends GroovyTestCase {
          ldockerFile.delete()
          assertTrue(false)
       }
+
+      targetDir.delete()
    }
 
    /**
@@ -121,7 +123,7 @@ public class RepositoryTests extends GroovyTestCase {
       File   tempDir = this.getTmpDir()
       Random rand = new Random()
       Long uid = rand.nextLong()      
-      File targetDir = new File(tempDir.getCanonicalPath()+"/repoTest"+uid)
+      File targetDir = new File(tempDir.getCanonicalPath()+"/repoTestFPNFNT"+uid)
 
       if (targetDir.exists()) {
          targetDir.setWritable(true)
@@ -158,7 +160,7 @@ public class RepositoryTests extends GroovyTestCase {
       File   tempDir = this.getTmpDir()
       Random rand = new Random()
       Long uid = rand.nextLong()      
-      File targetDir = new File(tempDir.getCanonicalPath()+"/repoTest"+uid)
+      File targetDir = new File(tempDir.getCanonicalPath()+"/repoTestFBP"+uid)
       
       if (targetDir.exists()) {
          targetDir.setWritable(true)
@@ -199,13 +201,62 @@ public class RepositoryTests extends GroovyTestCase {
    }
 
    /**
+    * Push asset to file repo 
+    */
+   void testRepoFilePushNonExistantFile() {
+      File   tempDir = this.getTmpDir()
+      Random rand = new Random()
+      Long uid = rand.nextLong()      
+      File targetDir = new File(tempDir.getCanonicalPath()+"/repoTestFPNEF"+uid)
+      
+      if (targetDir.exists()) {
+         targetDir.setWritable(true)
+         Utilities.deleteDirs(targetDir)
+         targetDir.delete()
+      } 
+
+      targetDir.mkdirs()
+      targetDir.setWritable(true)
+
+      File buildDirectory = new File(".")
+      File dockerFile = new File(buildDirectory.getAbsolutePath()+map.get("docker_buildFile"))
+
+      if (!dockerFile.exists() || !dockerFile.canRead()) {
+         assert("Cannot read a source file to use "+dockerFile.getAbsolutePath())
+      }
+
+      File ldockerFile = new File(buildDirectory.getAbsolutePath()+File.separator+map.get("docker_fileName"))
+
+      ldockerFile.delete()
+      ldockerFile << dockerFile.bytes
+
+      File targetFile = new File(targetDir.getAbsolutePath()+File.separator+ldockerFile.getName()+"."+System.currentTimeMillis())
+      boolean retStat = Repository.pushAssetToRepo(ConfigPropertiesConstants.FILE,ldockerFile,targetFile)
+      assertTrue(retStat)
+      retStat = false
+      ldockerFile.delete()
+      ldockerFile = null
+      retStat = targetFile.exists()
+      targetFile.delete()
+      assertTrue(retStat)
+      if (targetDir.exists()) {
+         retStat = true
+         targetDir.setWritable(true)
+         Utilities.deleteDirs(targetDir)
+         targetDir.delete()
+      }
+      assertTrue(!targetDir.exists())
+      assertTrue(retStat)
+   }
+
+   /**
     * Pull asset from file repo 
     */
    void testRepoFilePullBasic() {
       File   tempDir = this.getTmpDir()
       Random rand = new Random()
       Long uid = rand.nextLong()      
-      File targetDir = new File(tempDir.getCanonicalPath()+"/repoTest"+uid)
+      File targetDir = new File(tempDir.getCanonicalPath()+"/repoTestFPB"+uid)
       
       if (targetDir.exists()) {
          targetDir.setWritable(true)

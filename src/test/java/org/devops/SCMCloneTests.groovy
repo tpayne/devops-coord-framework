@@ -72,7 +72,7 @@ public class SCMCloneTests extends GroovyTestCase {
    void testScmGitCloneWithTarget() {
       String scmURI = map.get("git_repoURI")
       File   tempDir = this.getTmpDir()
-      File tmpDir = new File(tempDir.getCanonicalPath()+"/"+map.get("git_repoDir")+"/")
+      File tmpDir = new File(tempDir.getCanonicalPath()+File.separator+map.get("git_repoDir")+"/")
 
       if (tmpDir.exists()) {
          tmpDir.setWritable(true)
@@ -107,7 +107,7 @@ public class SCMCloneTests extends GroovyTestCase {
    void testScmGitCloneWithTargetAndUser() {
       String scmURI = map.get("git_repoURI")
       File   tempDir = this.getTmpDir()
-      File tmpDir = new File(tempDir.getCanonicalPath()+"/"+map.get("git_repoDir")+"/")
+      File tmpDir = new File(tempDir.getCanonicalPath()+File.separator+map.get("git_repoDir")+"/")
 
       if (tmpDir.exists()) {
          tmpDir.setWritable(true)
@@ -200,7 +200,7 @@ public class SCMCloneTests extends GroovyTestCase {
    void testScmSVNCloneWithTarget() {
       String scmURI = map.get("git_repoURI")
       File   tempDir = this.getTmpDir()
-      File tmpDir = new File(tempDir.getCanonicalPath()+"/"+map.get("git_repoDir")+".git/")
+      File tmpDir = new File(tempDir.getCanonicalPath()+File.separator+map.get("git_repoDir")+".git/")
 
       if (tmpDir.exists()) {
          tmpDir.setWritable(true)
@@ -235,7 +235,7 @@ public class SCMCloneTests extends GroovyTestCase {
    void testScmSVNCloneWithTargetAndUser() {
       String scmURI = map.get("git_repoURI")
       File   tempDir = this.getTmpDir()
-      File tmpDir = new File(tempDir.getCanonicalPath()+"/"+map.get("git_repoDir")+".git/")
+      File tmpDir = new File(tempDir.getCanonicalPath()+File.separator+map.get("git_repoDir")+".git/")
 
       if (tmpDir.exists()) {
          tmpDir.setWritable(true)
@@ -272,5 +272,4 @@ public class SCMCloneTests extends GroovyTestCase {
       }
       assertTrue(retStat)
    }
-
 }

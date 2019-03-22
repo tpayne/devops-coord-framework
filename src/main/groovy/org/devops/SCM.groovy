@@ -10,16 +10,18 @@ class SCM implements Serializable {
      * 
      * @param final String - scmType
      * @param final String - scmURI
+     * @param StringBuffer - outputStr
      * @return boolean 
      * @throws FileNotFoundException, IllegalArgumentException, Exception
      */
     static final boolean scmClone(final String scmType,
-                                final String scmURI)
+                                final String scmURI,
+                                StringBuffer outputStr=null)
         throws FileNotFoundException, IllegalArgumentException, Exception {
         //
         // SCM clone using no user or password...
         //
-        return scmClone(scmType,scmURI,null,null,null)
+        return scmClone(scmType,scmURI,null,null,null,outputStr)
     }
 
     /**
@@ -29,47 +31,7 @@ class SCM implements Serializable {
      * @param final String - scmURI
      * @param final String - scmUser
      * @param final String - scmPwd
-     * @return boolean 
-     * @throws FileNotFoundException, IllegalArgumentException, Exception
-     */
-    static final boolean scmClone(final String scmType,
-                                final String scmURI,
-                                final String scmUser,
-                                final String scmPwd)
-        throws FileNotFoundException, IllegalArgumentException, Exception {
-        //
-        // SCM clone using user and passwd...
-        //
-        return scmClone(scmType,scmURI,scmUser,scmPwd,null)
-    }
-
-    /**
-     * Utility routine to clone code into a workarea
-     * 
-     * @param final String - scmType
-     * @param final String - scmURI
-     * @param final File - targetWorkArea
-     * @return boolean 
-     * @throws FileNotFoundException, IllegalArgumentException, Exception
-     */
-    static final boolean scmClone(final String scmType,
-                                final String scmURI,
-                                final File targetWorkArea)
-        throws FileNotFoundException, IllegalArgumentException, Exception {
-        //
-        // SCM clone using workarea...
-        //
-        return scmClone(scmType,scmURI,null,null,targetWorkArea)
-    }
-
-    /**
-     * Utility routine to clone code into a workarea
-     * 
-     * @param final String - scmType
-     * @param final String - scmURI
-     * @param final String - scmUser
-     * @param final String - scmPwd
-     * @param final File - targetWorkArea
+     * @param StringBuffer - outputStr
      * @return boolean 
      * @throws FileNotFoundException, IllegalArgumentException, Exception
      */
@@ -77,7 +39,53 @@ class SCM implements Serializable {
                                 final String scmURI,
                                 final String scmUser,
                                 final String scmPwd,
-                                final File targetWorkArea)
+                                StringBuffer outputStr=null)
+        throws FileNotFoundException, IllegalArgumentException, Exception {
+        //
+        // SCM clone using user and passwd...
+        //
+        return scmClone(scmType,scmURI,scmUser,scmPwd,null,outputStr)
+    }
+
+    /**
+     * Utility routine to clone code into a workarea
+     * 
+     * @param final String - scmType
+     * @param final String - scmURI
+     * @param final File - targetWorkArea
+     * @param StringBuffer - outputStr
+     * @return boolean 
+     * @throws FileNotFoundException, IllegalArgumentException, Exception
+     */
+    static final boolean scmClone(final String scmType,
+                                final String scmURI,
+                                final File targetWorkArea,
+                                StringBuffer outputStr=null)
+        throws FileNotFoundException, IllegalArgumentException, Exception {
+        //
+        // SCM clone using workarea...
+        //
+        return scmClone(scmType,scmURI,null,null,targetWorkArea,outputStr)
+    }
+
+    /**
+     * Utility routine to clone code into a workarea
+     * 
+     * @param final String - scmType
+     * @param final String - scmURI
+     * @param final String - scmUser
+     * @param final String - scmPwd
+     * @param final File - targetWorkArea
+     * @param StringBuffer - outputStr
+     * @return boolean 
+     * @throws FileNotFoundException, IllegalArgumentException, Exception
+     */
+    static final boolean scmClone(final String scmType,
+                                final String scmURI,
+                                final String scmUser,
+                                final String scmPwd,
+                                final File targetWorkArea,
+                                StringBuffer outputStr=null)
         throws FileNotFoundException, IllegalArgumentException, Exception {
         //
         // Test that the target directory specified exists & is readable...
@@ -150,6 +158,9 @@ class SCM implements Serializable {
         String returnOutput = returnStr.toString()
         returnOutput = returnOutput.trim()
         returnStr = null    
+        if (outputStr!=null) {
+            outputStr.append(returnOutput)
+        }
 
         return(retStat==0)
     }

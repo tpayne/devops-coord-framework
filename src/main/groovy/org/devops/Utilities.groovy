@@ -12,10 +12,20 @@ import java.nio.file.attribute.BasicFileAttributes
 import java.nio.file.attribute.FileTime
 import java.nio.file.CopyOption
 import java.nio.file.SimpleFileVisitor
+import java.security.MessageDigest
 import groovy.json.*
 import groovy.xml.*
 
 class Utilities implements Serializable {
+
+    static String outputInternalStr = null
+
+    /**
+     * Get command output
+     */
+    public final String getOutput() {
+        return this.outputInternalStr
+    }
 
     /**
      * This class detects if an operating system is Windows or UNIX
@@ -209,31 +219,46 @@ class Utilities implements Serializable {
     /**
      * Utility routine to run a shell command
      * 
-     * @param String - Command to run
+     * @param final String - Command to run
      * @param StringBuffer - return message
+     * @param final File - workingDir
      * @return int - Exit value
      */
-    static int runCmd(final String cmdStr, StringBuffer returnStr) {
+    static int runCmd(final String cmdStr, StringBuffer returnStr, final File workingDir=null) {
         //
         // Enable this if need to debug commands. Not adding debug facility due
         // to password concerns
         //
         //println "[DEBUG] "+cmdStr
-
+        File tempFile = File.createTempFile("devopsFramework", ".tmp")
         ProcessBuilder ph = null
         if (isUnix()) {
             ph = new ProcessBuilder("sh","-c",cmdStr)
         } else {
             ph = new ProcessBuilder("cmd","/c",cmdStr)
         }
+
+        if (workingDir != null) {
+            if (workingDir.exists() && workingDir.canWrite()) {
+                ph.directory(workingDir)                
+            }
+        }
         ph.redirectErrorStream(true);
+        ph.redirectOutput(tempFile)
         Process shell = ph.start()
         shell.waitFor()
         if (returnStr.length() > 0) {
             returnStr.delete(0, returnStr.length())
         }
-        returnStr.append(shell.text.toString())
 
+        String outputStr = new String(readAllBytes(tempFile))
+        outputStr = outputStr.trim()
+        //returnStr.append(shell.text.toString())
+        returnStr.append(outputStr)
+        tempFile.delete()
+        this.outputInternalStr = null
+        this.outputInternalStr = outputStr
+        outputStr = null
         // Enable this if need to debug commands. Not adding debug facility due
         // to password concerns
         //println "[DEBUG] "+returnStr.toString()
@@ -351,4 +376,25 @@ class Utilities implements Serializable {
         return null;
     }
 
+     /** 
+     * Utility to calculate the hash of a file
+     * @param final File - fileToCheck
+     * @return String - hashcode
+     * @throws FileNotFoundException
+     */   
+    static String calcFileHash(final File fileToCheck) {
+        if (fileToCheck == null || !fileToCheck.exists() || !fileToCheck.canRead()) {
+            throw new FileNotFoundException("Error: Specified file does not exist or cannot be read")
+        }
+
+        byte[] b = Files.readAllBytes(Paths.get(fileToCheck.getAbsolutePath()))
+        byte[] hash = MessageDigest.getInstance("MD5").digest(b)
+        String hashcode = ""
+        for (int i=0; i < hash.length; i++) {
+           hashcode += Integer.toString( ( hash[i] & 0xff ) + 0x100, 16).substring( 1 );
+        }
+        b = null
+        hash = null
+        return hashcode
+    }
 }
