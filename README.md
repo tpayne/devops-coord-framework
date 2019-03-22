@@ -2,7 +2,7 @@ Devops framework example
 ========================
 
 ````
-Framework Status: Alpha (still in development)
+Framework Status: Beta (still in test, but ready for playing with)
 ````
 
 This repository holds an example supporting devops-framework for use with Jenkins shared libraries.
