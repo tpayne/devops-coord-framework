@@ -199,6 +199,8 @@ This class provides various useful utilities that are used and has the following
 >| `deleteDirs()` | Used to emulate rm -fr  |
 >| `copyFile()` | Used to copy files  |
 >| `copyDirectories()` | Used to copy directories  |
+>| `getFileExt()` | Used to get a file extension  |
+>| `calcFileMD5()` | Used to get a calculate a file's MD5 checksum  |
 
 SCM
 ---
@@ -343,6 +345,15 @@ Virtually all the class functions documented above have example unit/functional 
 You can use these as examples to show you how to use the classes.
 
 (Note - The tests have very little documentation imbedded in them currently. This will be added slowly).
+
+Pipeline Examples
+=================
+Examples of pipelines created using the framework can be found in the `examples` directory.
+
+>| Example | Description | 
+>| ------ | ----------- |
+>| `buildJenkinsPluginPipeline.txt` | Example build pipeline that fetches code, builds it, commits it to a repo, then updates a component manifest with the new version |
+>| `buildJenkinsPluginPipelineWithSlackNotif.txt.txt` | As `buildJenkinsPluginPipeline.txt`, but also includes Slack channel notifications and shows how the component manifest can track many different components |
 
 Liability Warning
 =================
