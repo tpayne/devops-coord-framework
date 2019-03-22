@@ -348,7 +348,7 @@ You can use these as examples to show you how to use the classes.
 
 Pipeline Examples
 =================
-Examples of pipelines created using the framework can be found in the `examples` directory.
+Examples of pipelines created using the framework can be found in the [`examples`](https://github.com/tpayne/devops-framework/tree/master/examples) directory.
 
 >| Example | Description | 
 >| ------ | ----------- |
