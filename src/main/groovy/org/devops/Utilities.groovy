@@ -343,6 +343,22 @@ class Utilities implements Serializable {
     } 
 
     /** 
+     * Utility to get file extension
+     * @param final File - fileToCheck
+     * @return String 
+     */     
+    static String getFileExt(final File fileToCheck) {
+        String fileExt = ""
+        if (fileToCheck != null) {
+            int i = fileToCheck.getAbsolutePath().lastIndexOf('.');
+            if (i > 0) {
+                fileExt = fileToCheck.getAbsolutePath().substring(i+1);
+            }                 
+        }
+        return fileExt
+    }
+
+    /** 
      * Utility to detect if input string is XML or JSON
      * @param final File - fileToCheck
      * @return String - XML or JSON
@@ -382,7 +398,7 @@ class Utilities implements Serializable {
      * @return String - hashcode
      * @throws FileNotFoundException
      */   
-    static String calcFileHash(final File fileToCheck) {
+    static String calcFileMD5(final File fileToCheck) {
         if (fileToCheck == null || !fileToCheck.exists() || !fileToCheck.canRead()) {
             throw new FileNotFoundException("Error: Specified file does not exist or cannot be read")
         }

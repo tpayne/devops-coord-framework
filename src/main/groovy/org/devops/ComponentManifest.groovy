@@ -38,7 +38,8 @@ class ComponentManifest implements Serializable {
             def slurper = new JsonSlurper()
             this.manifest = slurper.parseText(jSON)
         } catch(Exception ex) {
-            this.manifest = null
+            this.manifest = new ManifestFile()
+            this.manifest.compList = new LinkedHashMap<String,CompList>()
         }
     }
 
@@ -53,7 +54,9 @@ class ComponentManifest implements Serializable {
             this.manifest = slurper.parse(jSON)
             this.repoFile = jSON
         } catch(Exception ex) {
-            this.manifest = null
+            this.manifest = new ManifestFile()
+            this.manifest.compList = new LinkedHashMap<String,CompList>()
+            this.repoFile = jSON
         }
     }
 
@@ -62,7 +65,7 @@ class ComponentManifest implements Serializable {
      * @return boolean
      */
     final boolean isValid() {
-        return this.manifest != null
+        return (this.manifest.compList.size()!=0)
     }
 
     /**

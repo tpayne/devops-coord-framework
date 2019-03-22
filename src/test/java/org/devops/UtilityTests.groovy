@@ -128,13 +128,20 @@ public class UtilityTests extends GroovyTestCase {
       File propFile = new File("."+"/src/test/resources/unitTest.properties")
 
       boolean retStat = true
-
       try {
-         String hashCode = Utilities.calcFileHash(propFile)   
+         String hashCode = Utilities.calcFileMD5(propFile)  
          assertEquals(hashCode,"ad282eef15d1436e7e549b4b4603455b")
+      } catch(FileNotFoundException e) {
+         assert("File not found")
       } catch(Exception e) {
          retStat = false
       }    
       assertTrue(retStat)
    }    
+
+   void testgetFileExt() {
+      File propFile = new File("."+"/src/test/resources/unitTest.properties")
+      String fileExt = Utilities.getFileExt(propFile)
+      assertEquals("properties",fileExt)
+   }   
 }

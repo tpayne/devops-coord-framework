@@ -1,5 +1,6 @@
 @Library('devops-framework')
 
+// Import the framework classes...
 import org.devops.*
 
 def config = [
@@ -9,12 +10,16 @@ def config = [
 ]
 
 def label = "${JOB_NAME}".toLowerCase().replaceAll("[^A-Za-z0-9]", "-").replaceAll("(-)+", "-")
+
+// This needs full specification, else you get a namespace conflict with Jenkins...
 def bld = new org.devops.Build(this, config)
 
 node {
-    // Set globals...
-    File fetchDir = new File("/Volumes/WorkDisk/BuildJobs/")
-    File targetRepo = new File("/Volumes/WorkDisk/Repos/")
+    // Set the globals...
+    File fetchDir = new File("/Volumes/WorkDisk/tmp/BuildJobs/")
+    File targetRepo = new File("/Volumes/WorkDisk/tmp/Repos/")
+    File targetRepoFile = new File(targetRepo.getAbsolutePath()+File.separator+"repo.json")
+    File checkInFile = null
     String scmURI = "https://github.com/jenkinsci/github-plugin.git"
     
     // Where am I building...
@@ -31,6 +36,32 @@ node {
 
     // Register a promote callback to clean up my files and "promote"...
     bld.promote(body:{
+        // Promote the component to the manifest...
+        ComponentManifest manifest = new ComponentManifest(targetRepoFile)
+        String manifestVer = manifest.getManifestVersion()
+        if (manifestVer != null && !manifestVer.isEmpty()) {
+            int manVer = Integer.parseInt(manifestVer)
+            manVer++
+            manifest.setManifestVersion(Integer.toString(manVer))
+        } else {
+            manifest.setManifestVersion("1")   
+        }
+        manifest.setManifestStatus("Integration Test")
+        
+        String fileExtension = Utilities.getFileExt(checkInFile)
+        if (fileExtension.isEmpty()) {
+            fileExtension = "1"
+        }
+        
+        // Update or add the component name...
+        manifest.updateComponent('gitplugin',fileExtension,'Integration Test',
+                                checkInFile.getAbsolutePath())
+        // Commit the manifest...
+        if (manifest.commit()) {
+            println "Component promoted"
+        } else {
+            println "Component promotion failed"
+        }
         println ">Promote - clean my files up...<"
         if (fetchDir.exists()) {
             Utilities.deleteDirs(fetchDir)
@@ -57,7 +88,7 @@ node {
         // This is a Maven which will compile and run all the unit tests as
         // part of the process, so we do not need all the other build callbacks...
         println ">Run build...<"
-        sh(script: "cd ${fetchDir.getAbsolutePath()}; mvn package")
+        sh(script: "cd ${fetchDir.getAbsolutePath()}; mvn -q package")
     })        
 
     // Register an upload assets callback...
@@ -70,11 +101,11 @@ node {
         } else {
             println "Built file: "+builtAsset.getAbsolutePath()
             println "Built file size: "+builtAsset.length()
-            println "Built file MD5: "+Utilities.calcFileHash(builtAsset)
+            println "Built file MD5: "+Utilities.calcFileMD5(builtAsset)
         }
         
         // Checking the file into the target repo as file + UTC time...
-        File checkInFile = new File(targetRepo.getAbsolutePath()+File.separator+builtAsset.getName()+"."+System.currentTimeMillis())
+        checkInFile = new File(targetRepo.getAbsolutePath()+File.separator+builtAsset.getName()+"."+System.currentTimeMillis())
         println "Committing file to repo as : "+checkInFile.getAbsolutePath()
         boolean retStat = Repository.pushAssetToRepo(ConfigPropertiesConstants.FILE,
                                                     builtAsset,
@@ -90,4 +121,3 @@ node {
     // Run my pipeline...
     bld.runPipeline()
 }
-
