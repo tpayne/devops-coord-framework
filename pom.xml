@@ -9,8 +9,15 @@
     <packaging>jar</packaging>
     <!--http://start.spring.io/-->
     <name>devops-framework</name>
-    <description>POC project for groovy devops-framework</description>
+    <description>Project for an example groovy-based devops-framework+services</description>
 
+    <licenses>
+        <license>
+            <name>The MIT license</name>
+            <url>https://opensource.org/licenses/MIT</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
     <dependencies>
         <dependency>
