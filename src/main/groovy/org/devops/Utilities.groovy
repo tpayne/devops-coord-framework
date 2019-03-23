@@ -13,8 +13,29 @@ import java.nio.file.attribute.FileTime
 import java.nio.file.CopyOption
 import java.nio.file.SimpleFileVisitor
 import java.security.MessageDigest
+
+import java.io.File
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.regex.Matcher
+import java.util.regex.Pattern 
+import java.io.Serializable;
+import java.io.FileOutputStream;
+
 import groovy.json.*
 import groovy.xml.*
+
+import hudson.FilePath
+import hudson.model.TaskListener
+import hudson.remoting.VirtualChannel
+import hudson.util.Secret
+import hudson.FilePath;
+import hudson.Launcher;
+import hudson.Launcher.LocalLauncher;
+import hudson.model.StreamBuildListener;
+import hudson.model.TaskListener;
+import hudson.util.StreamTaskListener
 
 class Utilities implements Serializable {
 
@@ -23,8 +44,15 @@ class Utilities implements Serializable {
     /**
      * Get command output
      */
-    public final String getOutput() {
+    public static final String getOutput() {
         return this.outputInternalStr
+    }
+
+    /**
+     * Set command output
+     */
+    private static void setOutput(final String output) {
+        this.outputInternalStr = output
     }
 
     /**
@@ -42,6 +70,181 @@ class Utilities implements Serializable {
                     OS.indexOf("nux") >= 0 || OS.indexOf("aix") >= 0 ||
                     OS.indexOf("sunos") >= 0)
         }
+    }
+
+    /**
+     * This class runs commands
+     */
+    private static class cmdRunner {   
+        /**
+         * Utility routine to run a shell command
+         * 
+         * @param final String - Command to run
+         * @param StringBuffer - return message
+         * @param final File - workingDir
+         * @return int - Exit value
+         */
+        static int CDRunner(final String cmdStr, StringBuffer returnStr, final File workingDir=null) {
+            int retStatus = 0
+
+            List<String> args = Utilities.parseArgs(cmdStr)
+            File tempFile = File.createTempFile("devopsFramework", ".tmp")
+            File tempFile1 = File.createTempFile("devopsFramework", ".tmp")
+            FileOutputStream fos = new FileOutputStream(tempFile);
+            StreamBuildListener os = new StreamBuildListener(fos);
+            boolean[] masks = new boolean[args.size];
+
+            // This stream will be ignored, but is needed for the interface...
+            FileOutputStream fos1 = new FileOutputStream(tempFile1);
+            StreamTaskListener listener = new StreamTaskListener(fos1)            
+            Launcher launcher = new LocalLauncher(listener)
+
+            int i = 0;
+            if (args.size() > 1) {
+                for (String astr : args) {
+                    if (astr.contains("--username") || astr.contains("--password")) {
+                        masks[i] = true;
+                        masks[i + 1] = true;
+                    } else if (astr.contains("//") && astr.contains(":") && astr.contains("@")) {
+                        masks[i] = true;
+                    } else if (astr.contains("-u") && astr.contains(":")) {
+                        masks[i] = true
+                    }
+                    i++;
+                }
+            }
+            String outputStr = null
+
+            try {
+                Launcher.ProcStarter ps = launcher.launch();
+                if (args.size() == 1) {
+                    ps.cmdAsSingleString(cmdStr)
+                } else {
+                    ps.cmds(args)
+                }
+                ps.stdout(os.getLogger());
+                ps.stdin(null);
+                if (workingDir) {
+                    ps.pwd(workingDir)
+                }
+                if (args.size() > 1) {
+                    ps.masks(masks);
+                }
+                retStatus = ps.join();
+            } catch(IOException ex) {
+                retStatus = 1
+                outputStr = ex.getMessage()
+            } finally {
+                os.getLogger().flush();
+                listener.getLogger().flush()
+                fos.close();
+                fos1.close()
+            }
+
+            if (outputStr == null || outputStr.isEmpty()) {
+                outputStr = new String(readAllBytes(tempFile))
+            }
+            if (outputStr == null) {
+                outputStr = ""
+            }
+
+            outputStr = outputStr.trim()
+            //returnStr.append(shell.text.toString())
+            returnStr.append(outputStr)
+            tempFile.delete()
+            tempFile1.delete()
+            Utilities.setOutput(null)
+            Utilities.setOutput(outputStr)
+            println outputStr
+            outputStr = null
+            if (retStatus > 0) {
+                return 1
+            } else if (retStatus < 0) {
+                return -1
+            }
+            return retStatus
+        }     
+
+        /**
+         * Utility routine to run a shell command
+         * 
+         * @param final String - Command to run
+         * @param StringBuffer - return message
+         * @param final File - workingDir
+         * @return int - Exit value
+         */
+        static int OsRunner(final String cmdStr, StringBuffer returnStr, final File workingDir=null) {
+            //
+            // Enable this if need to debug commands. Not adding debug facility due
+            // to password concerns
+            //
+            //println "[DEBUG] "+cmdStr
+            File tempFile = File.createTempFile("devopsFramework", ".tmp")
+            ProcessBuilder ph = null
+            if (isUnix()) {
+                ph = new ProcessBuilder("sh","-c",cmdStr)
+            } else {
+                ph = new ProcessBuilder("cmd","/c",cmdStr)
+            }
+
+            if (workingDir != null) {
+                if (workingDir.exists() && workingDir.canWrite()) {
+                    ph.directory(workingDir)                
+                }
+            }
+            ph.redirectErrorStream(true);
+            ph.redirectOutput(tempFile)
+            Process shell = ph.start()
+            shell.waitFor()
+            if (returnStr.length() > 0) {
+                returnStr.delete(0, returnStr.length())
+            }
+
+            String outputStr = new String(readAllBytes(tempFile))
+            outputStr = outputStr.trim()
+            //returnStr.append(shell.text.toString())
+            returnStr.append(outputStr)
+            tempFile.delete()
+            Utilities.setOutput(null)
+            Utilities.setOutput(outputStr)
+            outputStr = null
+            // Enable this if need to debug commands. Not adding debug facility due
+            // to password concerns
+            //println "[DEBUG] "+returnStr.toString()
+            
+            int retStatus = shell.exitValue()
+            if (retStatus > 0) {
+                return 1
+            } else if (retStatus < 0) {
+                return -1
+            }
+            return retStatus
+        }                
+    }
+
+    /**
+     * Utility routine to run a shell command
+     * 
+     * @param final String - Command to run
+     * @param StringBuffer - return message
+     * @param final File - workingDir
+     * @return int - Exit value
+     */
+    static int runCmd(final String cmdStr, StringBuffer returnStr, final File workingDir=null) {
+        String jenkinsURI = System.getenv("JENKINS_URL")
+        String buildURI = System.getenv("BUILD_URL")
+        String buildTag = System.getenv("BUILD_TAG")
+        boolean isJenkins = (jenkinsURI != null && !jenkinsURI.isEmpty() && 
+                             buildURI != null && !buildURI.isEmpty() &&
+                             buildTag != null && !buildTag.isEmpty() &&
+                             buildTag.contains("jenkins"))
+        int retStatus = -1
+        if (isJenkins) {
+            retStatus = cmdRunner.CDRunner(cmdStr,returnStr,workingDir)
+        } else {
+            retStatus = cmdRunner.OsRunner(cmdStr,returnStr,workingDir)
+        }
+        return retStatus
     }
 
     /**
@@ -98,6 +301,25 @@ class Utilities implements Serializable {
      */
     static boolean isWindows() {
         return (OsDetector.isWindows()) 
+    }
+
+     /** 
+     * Utility to parse command line into list
+     * @param final String - cmdLine
+     * @return boolean
+     */
+    static List<String> parseArgs(final String cmdLine) {
+        List<String> args = new ArrayList<String>()
+
+        if (cmdLine.contains("'")) {
+            args.add(cmdLine)
+        } else {
+            Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(cmdLine)
+            while (m.find()) {
+                args.add(m.group(1));
+            }
+        }
+        return args
     }
 
     /** 
@@ -214,62 +436,6 @@ class Utilities implements Serializable {
             throw new FileNotFoundException(exec + ": could not be found in the path");
         }
         return exe;
-    }
-
-    /**
-     * Utility routine to run a shell command
-     * 
-     * @param final String - Command to run
-     * @param StringBuffer - return message
-     * @param final File - workingDir
-     * @return int - Exit value
-     */
-    static int runCmd(final String cmdStr, StringBuffer returnStr, final File workingDir=null) {
-        //
-        // Enable this if need to debug commands. Not adding debug facility due
-        // to password concerns
-        //
-        //println "[DEBUG] "+cmdStr
-        File tempFile = File.createTempFile("devopsFramework", ".tmp")
-        ProcessBuilder ph = null
-        if (isUnix()) {
-            ph = new ProcessBuilder("sh","-c",cmdStr)
-        } else {
-            ph = new ProcessBuilder("cmd","/c",cmdStr)
-        }
-
-        if (workingDir != null) {
-            if (workingDir.exists() && workingDir.canWrite()) {
-                ph.directory(workingDir)                
-            }
-        }
-        ph.redirectErrorStream(true);
-        ph.redirectOutput(tempFile)
-        Process shell = ph.start()
-        shell.waitFor()
-        if (returnStr.length() > 0) {
-            returnStr.delete(0, returnStr.length())
-        }
-
-        String outputStr = new String(readAllBytes(tempFile))
-        outputStr = outputStr.trim()
-        //returnStr.append(shell.text.toString())
-        returnStr.append(outputStr)
-        tempFile.delete()
-        this.outputInternalStr = null
-        this.outputInternalStr = outputStr
-        outputStr = null
-        // Enable this if need to debug commands. Not adding debug facility due
-        // to password concerns
-        //println "[DEBUG] "+returnStr.toString()
-        
-        int retStatus = shell.exitValue()
-        if (retStatus > 0) {
-            return 1
-        } else if (retStatus < 0) {
-            return -1
-        }
-        return 0
     }
 
     /**

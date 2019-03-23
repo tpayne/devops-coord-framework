@@ -224,14 +224,13 @@ class Notifications implements Serializable {
 
         // Construct the required command...
         String cmdStr = curlExe.getAbsolutePath()+" "+curlStr
-        
+
         StringBuffer returnStr = new StringBuffer()
 
         int retStat = Utilities.runCmd(cmdStr,returnStr)
         String returnOutput = returnStr.toString()
         returnOutput = returnOutput.trim()
         returnStr = null
-        
         if (retStat>0 || returnOutput.contains("invalid_payload") ||
             returnOutput.isEmpty() || !returnOutput.contains("ok")) {
             return false

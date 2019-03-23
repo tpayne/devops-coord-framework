@@ -21,6 +21,15 @@ public class UtilityTests extends GroovyTestCase {
 
    }
 
+   void testParseArgs() {
+      String cmdStr = "/opt/local/bin/curl  -X POST --data-urlencode \'payload={\"text\":\"The build may have worked. The return status is unsure\"}\' localhost:0:XCVD/"
+      List<String> args = Utilities.parseArgs(cmdStr)
+      assertEquals(args.size(),1)
+      cmdStr = "arg1 arg2 arg3 arg4 \"arg 5\" arg6"
+      args = Utilities.parseArgs(cmdStr)
+      assertEquals(args.size(),6)
+   }
+
    void testShellCmdSuccess() {
       def cmdStr
       StringBuffer returnStr = new StringBuffer()
@@ -42,7 +51,8 @@ public class UtilityTests extends GroovyTestCase {
       String returnOutput = returnStr.toString()
       returnOutput = returnOutput.trim()
       assertTrue(retStat>0)
-      assertTrue(returnOutput.contains("lsdx: command not found"))
+      assertTrue(returnOutput.contains("lsdx: command not found") ||
+                 returnOutput.contains("\"lsdx\": error=2, No such file or directory"))
    }
 
    void testPropertyFileRead() {

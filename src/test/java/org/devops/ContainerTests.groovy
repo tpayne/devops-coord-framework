@@ -37,7 +37,7 @@ public class ContainerTests extends GroovyTestCase {
       boolean retStat = Container.runContainer(ConfigPropertiesConstants.DOCKER,imgName, cmdStr, outputStr)
       String output = outputStr
       assertTrue(retStat)
-      assertEquals(output,"hello")
+      assertTrue(output.contains("hello"))
    }
 
    void testrunContainerCmdOpts() {
@@ -76,9 +76,10 @@ public class ContainerTests extends GroovyTestCase {
    void testrmContainerBasicFailOutput() {
       String imgName = map.get("docker_container")
       StringBuffer outputStr = new StringBuffer()
-      boolean retStat = Container.deleteContainerImage(ConfigPropertiesConstants.DOCKER,imgName)
+      boolean retStat = Container.deleteContainerImage(ConfigPropertiesConstants.DOCKER,imgName, false, outputStr)
+      assertTrue(outputStr.toString().contains("conflict: unable to remove repository reference"))
       retStat = Container.deleteContainerImage(ConfigPropertiesConstants.DOCKER,imgName, true, outputStr)
-      assertEquals(outputStr.toString().trim(),"Error response from daemon: No such image: "+imgName+":latest")
+      assertTrue(outputStr.toString().contains("Untagged: "+imgName+":latest"))
    }
 
    void testBuildContainBasic() {
