@@ -56,7 +56,7 @@ The framework will only run with the following: -
 
 You can downgrade the versions by modifying the `pom.xml` file, but you will also need to downgrade any dependent plugins.
 
-The framework has only been compiled and tested using the above.
+The framework has only been compiled and tested using the documented versions above (and the latest versions of Jenkins 2.168).
 
 Framework Classes
 =================
