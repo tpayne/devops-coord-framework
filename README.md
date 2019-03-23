@@ -48,6 +48,16 @@ already available.
 
 This callback format has already been used successfully in a number of companies to overcome various different issues.
 
+Jenkins & Compiler Support
+==========================
+The framework will only run with the following: -
+- JDK 8+ (javac 1.8.0_201+)
+- Jenkis LTS 2.164.1+
+
+You can downgrade the versions by modifying the `pom.xml` file, but you will also need to downgrade any dependent plugins.
+
+The framework has only been compiled and tested using the above.
+
 Framework Classes
 =================
 The following are the main framework classes and the methods that they have.
