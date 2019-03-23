@@ -353,7 +353,7 @@ Examples of pipelines created using the framework can be found in the [`examples
 >| Example | Description | 
 >| ------ | ----------- |
 >| `buildJenkinsPluginPipeline.txt` | Example build pipeline that fetches code, builds it, commits it to a repo, then updates a component manifest with the new version |
->| `buildJenkinsPluginPipelineWithSlackNotif.txt.txt` | As `buildJenkinsPluginPipeline.txt`, but also includes Slack channel notifications and shows how the component manifest can track many different components |
+>| `buildJenkinsPluginPipelineWithSlackNotif.txt` | As `buildJenkinsPluginPipeline.txt`, but also includes Slack channel notifications and shows how the component manifest can track many different components |
 
 Liability Warning
 =================
