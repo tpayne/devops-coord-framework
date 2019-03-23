@@ -36,6 +36,7 @@ import hudson.Launcher.LocalLauncher;
 import hudson.model.StreamBuildListener;
 import hudson.model.TaskListener;
 import hudson.util.StreamTaskListener
+import jenkins.model.Jenkins
 
 class Utilities implements Serializable {
 
@@ -231,13 +232,8 @@ class Utilities implements Serializable {
      * @return int - Exit value
      */
     static int runCmd(final String cmdStr, StringBuffer returnStr, final File workingDir=null) {
-        String jenkinsURI = System.getenv("JENKINS_URL")
-        String buildURI = System.getenv("BUILD_URL")
-        String buildTag = System.getenv("BUILD_TAG")
-        boolean isJenkins = (jenkinsURI != null && !jenkinsURI.isEmpty() && 
-                             buildURI != null && !buildURI.isEmpty() &&
-                             buildTag != null && !buildTag.isEmpty() &&
-                             buildTag.contains("jenkins"))
+        final Jenkins jenkins = Jenkins.getInstance()
+        boolean isJenkins = (jenkins!=null && jenkins.getRootDir() != null && !jenkins.getRootDir().getAbsolutePath().isEmpty())
         int retStatus = -1
         if (isJenkins) {
             retStatus = cmdRunner.CDRunner(cmdStr,returnStr,workingDir)
