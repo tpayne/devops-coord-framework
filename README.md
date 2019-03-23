@@ -382,3 +382,4 @@ Known Issues
 The following are known issues: -
 - The framework has not been fully ported or tested on Windows. Do not be surprised if some work needs to be done to make it work on that OS. Where possible classes have been written to support both UNIX and Windows, but they have not been tested on Windows, so some issues may occur. The framework was developed and tested on Unix.
 - The Jfrog-cli is not currently supported in the Artifactory classes. This will be added later on.
+- Currently, the framework can run both with in and without of Jenkins (if so required), but this duality is not guaranteed to be maintained in the future.
