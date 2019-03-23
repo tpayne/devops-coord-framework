@@ -156,7 +156,6 @@ class Utilities implements Serializable {
             tempFile1.delete()
             Utilities.setOutput(null)
             Utilities.setOutput(outputStr)
-            println outputStr
             outputStr = null
             if (retStatus > 0) {
                 return 1
