@@ -346,7 +346,7 @@ by using the command
 
 	% mvn gplus:generateStubs gplus:groovydoc
 
-This will generate JavaDoc style comments in the target/ directory
+This will generate JavaDoc style comments in the `target/` directory
 
 Class Usage Examples
 ====================
