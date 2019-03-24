@@ -350,7 +350,7 @@ This will generate JavaDoc style comments in the `target/` directory
 
 Class Usage Examples
 ====================
-Virtually all the class functions documented above have example unit/functional tests which are run in the Maven test phase.
+Virtually all the class functions documented above have example [unit/functional tests](https://github.com/tpayne/devops-framework/tree/master/src/test/java/org/devops) which are run in the Maven test phase.
 
 You can use these as examples to show you how to use the classes.
 
