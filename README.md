@@ -181,7 +181,7 @@ All callbacks are run in the above order, no matter how your register them.
 
 CIFramework Class
 -----------------
-The CDFramework class is provided to control your CD process and has the following methods...
+The CIFramework class is provided to control your CI process and has the following methods...
 
 >| Method | Description | 
 >| ------ | ----------- |
