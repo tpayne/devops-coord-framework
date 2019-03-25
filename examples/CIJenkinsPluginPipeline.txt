@@ -1,0 +1,176 @@
+@Library('devops-framework')
+
+// Import the framework classes...
+import org.devops.*
+
+def config = [
+    property1: 'value1',
+    property2: 'value2',
+    property3: 'value3'
+]
+
+def label = "${JOB_NAME}".toLowerCase().replaceAll("[^A-Za-z0-9]", "-").replaceAll("(-)+", "-")
+
+// This needs full specification, else you get a namespace conflict with Jenkins...
+def bld = new org.devops.Build(this, config)
+def dpl = new org.devops.Deploy(this, config)
+def ci = new org.devops.CIFramework()
+
+node {
+    withEnv(["PATH+LOCALBIN=/opt/local/bin/","JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_201.jdk/Contents/Home/",
+            "PATH+USRBIN=/usr/bin/"]) {
+        // Set globals...
+        File fetchDir = new File("/Volumes/WorkDisk/tmp/BuildJobs/")
+        File targetRepo = new File("/Volumes/WorkDisk/tmp/Repos/")
+        File targetRepoFile = new File(targetRepo.getAbsolutePath()+File.separator+"repo.json")
+        File checkInFile = null
+        String packageName = "JavaAppCICD"
+        String scmURI = "https://github.com/Siddharthchdry/JavaAppCICD.git"
+        String slackURI = "https://hooks.slack.com/services/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"
+
+        //
+        // Setup the build process...
+        //
+
+        // Where am I building...
+        println "Using temporary directory "+fetchDir.getAbsolutePath()
+        
+        // Register a prepareWorkArea callback...
+        bld.prepareWorkArea(body:{
+            println ">Prepare Work Area - clean my files up...<"
+            if (fetchDir.exists()) {
+                Utilities.deleteDirs(fetchDir)
+            }
+            fetchDir.mkdirs()
+        })
+
+        // Register a promote callback to clean up my files and "promote"...
+        bld.promote(body:{
+            // Promote the component to the manifest...
+            ComponentManifest manifest = new ComponentManifest(targetRepoFile)
+            String manifestVer = manifest.getManifestVersion()
+            if (manifestVer != null && !manifestVer.isEmpty()) {
+                int manVer = Integer.parseInt(manifestVer)
+                manVer++
+                manifest.setManifestVersion(Integer.toString(manVer))
+            } else {
+                manifest.setManifestVersion("1")   
+            }
+            manifest.setManifestStatus("Integration Test")
+            
+            String fileExtension = Utilities.getFileExt(checkInFile)
+            if (fileExtension.isEmpty()) {
+                fileExtension = "1"
+            }
+            
+            // Update or add the component name...
+            manifest.updateComponent('${packageName}',fileExtension,'Integration Test',
+                                    checkInFile.getAbsolutePath())
+            // Commit the manifest...
+            if (manifest.commit()) {
+                println "Component promoted"
+                Notifications.messageSlackChannel(slackURI,"${label}: Promotion worked")
+            } else {
+                println "Component promotion failed"
+                Notifications.messageSlackChannel(slackURI,"${label}: Clone failed")
+            }
+            println ">Promote - clean my files up...<"
+            if (fetchDir.exists()) {
+                Utilities.deleteDirs(fetchDir)
+            }
+        })
+        
+        // Register a get code callback...
+        bld.getCode(body:{
+            println ">Get code - cloning from GIT...<"
+            StringBuffer outputStr = new StringBuffer()
+            boolean retStat = SCM.scmClone(ConfigPropertiesConstants.SCMGIT,
+                                            scmURI,fetchDir,outputStr)
+            if (retStat) {
+                println "Code clone worked"
+                Notifications.messageSlackChannel(slackURI,"${label}: Clone worked")
+            } else {
+                println "Code clone failed"
+                println outputStr.toString()
+                Notifications.messageSlackChannel(slackURI,"${label}: Code clone failed - "+outputStr.toString())
+            }  
+            outputStr = null
+        })        
+
+        // Register a run build callback...
+        bld.runBuild(body:{
+            // This is a Maven which will compile and run all the unit tests as
+            // part of the process, so we do not need all the other build callbacks...
+            println ">Run build...<"
+            sh(script: "cd ${fetchDir.getAbsolutePath()}; chmod +rx ./mvnw; ./mvnw -q package")
+        })        
+
+        // Register an upload assets callback...
+        bld.uploadAssets(body:{
+            // Push the built asset to my file based repo...
+            println ">Run repo push...<"
+            File builtAsset = new File(fetchDir.getAbsolutePath()+"/target/jpetstore.war")
+            if (!builtAsset.exists()) {
+                throw new FileNotFoundException("Error: The file did not build correctly")
+            } else {
+                println "Built file: "+builtAsset.getAbsolutePath()
+                println "Built file size: "+builtAsset.length()
+                println "Built file MD5: "+Utilities.calcFileMD5(builtAsset)
+            }
+            
+            // Checking the file into the target repo as file + UTC time...
+            checkInFile = new File(targetRepo.getAbsolutePath()+File.separator+builtAsset.getName()+"."+System.currentTimeMillis())
+            println "Committing file to repo as : "+checkInFile.getAbsolutePath()
+            boolean retStat = Repository.pushAssetToRepo(ConfigPropertiesConstants.FILE,
+                                                        builtAsset,
+                                                        checkInFile)
+
+            if (retStat) {
+                println "Commit worked"
+                Notifications.messageSlackChannel(slackURI,"${label}: Commit worked")
+            } else {
+                println "Commit failed"
+                Notifications.messageSlackChannel(slackURI,"${label}: Commit failed")
+            }  
+        })        
+
+        // Register the bake process assets callback...
+        bld.bakeImage(body:{
+            // Bake an image... 
+            StringBuffer outputStr = new StringBuffer()
+            boolean retStat = Container.buildContainer(ConfigPropertiesConstants.DOCKER,packageName.toLowerCase(),
+                                                        fetchDir,null,outputStr)
+            if (retStat) {
+                println "Bake worked"
+                Notifications.messageSlackChannel(slackURI,"${label}: Bake worked")
+            } else {
+                println "Bake failed "+outputStr
+                Notifications.messageSlackChannel(slackURI,"${label}: Bake failed "+outputStr.toString())
+            }  
+        })      
+
+        ci.setBuild(bld)
+
+        // Quick check of the baked image in deployment...
+        dpl.preDeploy(body:{
+            // Bake an image... 
+            StringBuffer outputStr = new StringBuffer()
+            boolean retStat = Container.runContainer(ConfigPropertiesConstants.DOCKER,
+                                                    packageName.toLowerCase(),
+                                                    "ls /usr/local/tomcat/webapps/jpetstore.war",
+                                                    outputStr)
+            if (retStat && outputStr.toString().contains("/usr/local/tomcat/webapps/jpetstore.war")) {
+                println "Deploy worked"
+                Notifications.messageSlackChannel(slackURI,"${label}: Deploy worked")
+            } else {
+                println "Deploy failed "+outputStr
+                Notifications.messageSlackChannel(slackURI,"${label}: Deploy failed")
+            }  
+        })      
+
+        ci.setDeploy(dpl)
+
+        // Run my pipeline...
+        ci.launchCI()
+    }
+}

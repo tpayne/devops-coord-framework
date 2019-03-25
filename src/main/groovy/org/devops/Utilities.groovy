@@ -428,7 +428,7 @@ class Utilities implements Serializable {
             }
         }
         if (exe == null) {
-            throw new FileNotFoundException(exec + ": could not be found in the path");
+            throw new FileNotFoundException(exec + ": could not be found in the path '"+path+"'");
         }
         return exe;
     }
