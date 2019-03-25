@@ -31,6 +31,12 @@ class Integration implements Serializable {
     }
 
     /**
+     * Default Constructor
+     */
+    Integration() {
+    }
+    
+    /**
      * Constructor
      * @param step
      * @param Map - config     

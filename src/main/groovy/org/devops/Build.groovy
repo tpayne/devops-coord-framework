@@ -31,6 +31,12 @@ class Build implements Serializable {
     }
 
     /**
+     * Default Constructor
+     */
+    Build() {
+    }
+    
+    /**
      * Constructor
      * @param step
      * @param Map - config     

@@ -32,6 +32,12 @@ class ReleaseCandidate implements Serializable {
     }
 
     /**
+     * Default Constructor
+     */
+    ReleaseCandidate() {
+    }
+    
+    /**
      * Constructor
      * @param step
      * @param Map - config     

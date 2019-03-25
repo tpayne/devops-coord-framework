@@ -31,6 +31,12 @@ class Deploy implements Serializable {
     }
 
     /**
+     * Default Constructor
+     */
+    Deploy() {
+    }
+
+    /**
      * Constructor
      * @param step
      * @param Map - config     

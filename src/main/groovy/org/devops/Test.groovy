@@ -31,6 +31,12 @@ class Test implements Serializable {
     }
 
     /**
+     * Default Constructor
+     */
+    Test() {
+    }
+
+    /**
      * Constructor method
      * @param steps
      * @param Map - config
