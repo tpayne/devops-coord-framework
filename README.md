@@ -19,6 +19,8 @@ There are 5 main interface classes provided. These are...
 >| `Test` | Which is used to control your test process |
 >| `Integration` | Which is used to control your integration process |
 >| `ReleaseCandidate` | Which is used to control your Release candidate process |
+>| `CIFramework` | Which is used to control your CI process (Build, Deploy and Test) |
+>| `CDFramework` | Which is used to control your CD process (Integration and Release)|
 	
 There are also a number of service classes which wrap tools and make them available for use within
 framework. These are...
@@ -176,6 +178,32 @@ The ReleaseCandidate class is provided to control your release process and has t
 >| `runPipeline()` | Run the pipeline |
 
 All callbacks are run in the above order, no matter how your register them.
+
+CIFramework Class
+-----------------
+The CDFramework class is provided to control your CD process and has the following methods...
+
+>| Method | Description | 
+>| ------ | ----------- |
+>| `setBuild()` | A callout provided to set your build object into the CI framework for processing |
+>| `getBuild()` | A callout provided to set your build object from the CI framework |
+>| `setDeploy()` | A callout provided to set your deploy object into the CI framework for processing |
+>| `getDeploy()` | A callout provided to get your deploy object from the CI framework |
+>| `setTest()` | A callout provided to set your test object into the CI framework for processing |
+>| `getTest()` | A callout provided to get your test object from the CI framework |
+>| `launchCI()` | A callout provided to run the CI process |
+
+CDFramework Class
+-----------------
+The CDFramework class is provided to control your CD process and has the following methods...
+
+>| Method | Description | 
+>| ------ | ----------- |
+>| `setIntegration()` | A callout provided to set your integration object into the CD framework for processing |
+>| `getIntegration()` | A callout provided to set your integration object from the CD framework |
+>| `setReleaseCandidate()` | A callout provided to set your release candidate object into the CD framework for processing |
+>| `getReleaseCandidate()` | A callout provided to get your release candidate object from the CD framework |
+>| `launchCD()` | A callout provided to run the CD process |
 
 How to Install
 ==============
@@ -364,6 +392,8 @@ Examples of pipelines created using the framework can be found in the [`examples
 >| ------ | ----------- |
 >| `buildJenkinsPluginPipeline.txt` | Example build pipeline that fetches code, builds it, commits it to a repo, then updates a component manifest with the new version |
 >| `buildJenkinsPluginPipelineWithSlackNotif.txt` | As `buildJenkinsPluginPipeline.txt`, but also includes Slack channel notifications and shows how the component manifest can track many different components |
+>| `CIJenkinsPluginPipeline.txt.txt` | Example build pipeline that fetches code, builds it, commits it to a repo, creates a baked Docker image, then updates a component manifest with the new version. It is implemented using the CIFramework object |
+
 
 Liability Warning
 =================
