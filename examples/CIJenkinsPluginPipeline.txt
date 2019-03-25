@@ -72,7 +72,7 @@ node {
                 Notifications.messageSlackChannel(slackURI,"${label}: Promotion worked")
             } else {
                 println "Component promotion failed"
-                Notifications.messageSlackChannel(slackURI,"${label}: Clone failed")
+                Notifications.messageSlackChannel(slackURI,"${label}: Promotion failed")
             }
             println ">Promote - clean my files up...<"
             if (fetchDir.exists()) {
