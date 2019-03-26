@@ -64,7 +64,7 @@ node {
             }
             
             // Update or add the component name...
-            manifest.updateComponent('${packageName}',fileExtension,'Integration Test',
+            manifest.updateComponent(packageName,fileExtension,'Integration Test',
                                     checkInFile.getAbsolutePath())
             // Commit the manifest...
             if (manifest.commit()) {

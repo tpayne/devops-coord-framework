@@ -151,6 +151,11 @@ public class RepositoryTests extends GroovyTestCase {
          ldockerFile.delete()
          assertTrue(false)
       }
+      if (targetDir.exists()) {
+         targetDir.setWritable(true)
+         Utilities.deleteDirs(targetDir)
+         targetDir.delete()
+      }    
    }
 
    /**
@@ -248,6 +253,56 @@ public class RepositoryTests extends GroovyTestCase {
       assertTrue(!targetDir.exists())
       assertTrue(retStat)
    }
+
+   /**
+    * Push/pull file asset from file repo 
+    */
+   void testRepoFilePushPull() {
+      File   tempDir = this.getTmpDir()
+      Random rand = new Random()
+      Long uid = rand.nextLong()      
+      File targetDir = new File(tempDir.getCanonicalPath()+"/repoTestFPB"+uid)
+      
+      if (targetDir.exists()) {
+         targetDir.setWritable(true)
+         Utilities.deleteDirs(targetDir)
+         targetDir.delete()
+      } 
+
+      targetDir.mkdirs()
+      targetDir.setWritable(true)
+
+      File buildDirectory = new File(".")
+      File dockerFile = new File(buildDirectory.getAbsolutePath()+map.get("docker_buildFile"))
+
+      if (!dockerFile.exists() || !dockerFile.canRead()) {
+         assert("Cannot read a source file to use "+dockerFile.getAbsolutePath())
+      }
+
+      File ldockerFile = new File(buildDirectory.getAbsolutePath()+File.separator+map.get("docker_fileName"))
+
+      ldockerFile.delete()
+      ldockerFile << dockerFile.bytes
+
+      File targetFile = new File(targetDir.getAbsolutePath()+File.separator+ldockerFile.getName()+"."+System.currentTimeMillis())
+      boolean retStat = Repository.pushAssetToRepo(ConfigPropertiesConstants.FILE,ldockerFile,targetFile)
+      assertTrue(retStat)
+      ldockerFile.delete()      
+
+      retStat = Repository.pullAssetFromRepo(ConfigPropertiesConstants.FILE,targetFile,ldockerFile)
+      boolean retStat1 = ldockerFile.exists()
+      ldockerFile.delete() 
+      targetFile.delete()
+
+      if (targetDir.exists()) {
+         targetDir.setWritable(true)
+         Utilities.deleteDirs(targetDir)
+         targetDir.delete()
+      }
+      assertTrue(retStat)
+      assertTrue(retStat1)
+      assertTrue(!targetDir.exists())
+   } 
 
    /**
     * Pull asset from file repo 

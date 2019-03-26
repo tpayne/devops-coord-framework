@@ -21,6 +21,19 @@ public class UtilityTests extends GroovyTestCase {
 
    }
 
+   void testWriteFile() {
+      Random rand = new Random()
+      Long uid = rand.nextLong()
+
+      File targetFile = new File(getTmpDir().getAbsolutePath()+File.separator+"utilTest-"+uid)
+      targetFile.delete()
+      assertTrue(targetFile.createNewFile())
+      Utilities.writeFile(targetFile,"Hello world")
+      String tst = new String(Utilities.readAllBytes(targetFile))
+      targetFile.delete()
+      assertTrue(tst.contains("Hello world"))
+   }
+
    void testParseArgs() {
       String cmdStr = "/opt/local/bin/curl  -X POST --data-urlencode \'payload={\"text\":\"The build may have worked. The return status is unsure\"}\' localhost:0:XCVD/"
       List<String> args = Utilities.parseArgs(cmdStr)

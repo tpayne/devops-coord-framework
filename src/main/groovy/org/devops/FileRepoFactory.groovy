@@ -61,13 +61,15 @@ class FileRepoFactory extends RepoFactory {
         }
 
         // Determine what type of copy is needed...
-        if (srcAsset.isFile() && targetAsset.isFile()) {
+        // Note: For some reason the isFile() is not working for the first statement
+        //       so I'm using !isDirectory() instead...
+        if (!srcAsset.isDirectory() && !targetAsset.isDirectory()) {
             Utilities.copyFile(srcAsset,targetAsset)        
         } else if (srcAsset.isDirectory() && targetAsset.isDirectory()) {
             Utilities.copyDirectories(srcAsset,targetAsset)
-        } else if (srcAsset.isDirectory() && targetAsset.isFile()) {
+        } else if (srcAsset.isDirectory() && !targetAsset.isDirectory()) {
             throw new IllegalArgumentException("Error: Invalid parameters specified")
-        } else if (srcAsset.isFile() && targetAsset.isDirectory()) {
+        } else if (!srcAsset.isDirectory() && targetAsset.isDirectory()) {
             Utilities.copyFile(srcAsset,targetAsset)        
         } else {
             return false

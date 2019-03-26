@@ -362,6 +362,41 @@ class Utilities implements Serializable {
     }
 
     /**
+     * Utility routine to write file text
+     * @param final File - file
+     * @param final String - contents
+     * @param final String - encoding
+     * @throws IOException
+     */
+    static final void writeFile(final File file, final String contents, 
+                                final String encoding="UTF-8") throws IOException {
+        try {
+            PrintWriter writer = new PrintWriter(file, encoding);
+            writer.println(contents);
+            writer.close();
+        } catch(Exception ex) {
+            throw new IOException(ex.getMessage())
+        }
+    }
+
+    /**
+     * Utility routine to write file text
+     * @param final File - file
+     * @param final byte[] - contents
+     * @throws IOException
+     */
+    static final void writeFile(final File file, final byte[] contents) 
+        throws IOException {
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            out.write(contents);
+            out.close()        
+        } catch(Exception ex) {
+            throw new IOException(ex.getMessage())
+        }
+    }
+
+    /**
      * Utility routine to read file into memory
      * @param final File - file
      * @return byte[] - File contents
@@ -473,6 +508,8 @@ class Utilities implements Serializable {
 
             if (srcFile.isDirectory()) {
                 throw new IOException("Error: This function does not support directory copies")
+            } else if (!srcFile.exists() || !srcFile.canRead()) {
+               throw new IOException("Error: The source file specified '"+srcFile.getAbsolutePath()+"' cannot be read")
             }
             if (targetFile.isDirectory()) {
                 String target = targetFile.getAbsolutePath()+File.separator+srcFile.getName()
