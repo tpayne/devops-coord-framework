@@ -31,7 +31,7 @@ framework. These are...
 >| `SCM` | For GIT and SVN SCM function(s) - currently only supporting cloning |
 >| `Container` | For various container management commands - currently only supporting [Docker](https://www.docker.com) |
 >| `Repository` | For pushing and pulling files from repos - currently only file & [Artifactory](https://jfrog.com/artifactory/) is supported |
->| `ComponentManifest` | For maintaining your manifest of integrated components |
+>| `ComponentManifest` | For maintaining your manifest of integrated components. This is the list of component names, versions, status and locations that you register with the manifest. These can then be accessed later on for usage in other testing or release processes |
 
 Why have a framework?
 =====================
