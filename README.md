@@ -231,6 +231,7 @@ This class provides various useful utilities that are used and has the following
 >| `mapProperties()` | Used to map a properties file intp a Map |
 >| `getDefaultProperties()` | Used to read any default properties that might have been setup for the framework to use |
 >| `readAllBytes()` | Used to read a file into memory as an array of bytes |
+>| `writeFile()` | Used to write strings or bytes to a file |
 >| `getExecutable()` | Used to locate an executable file in the path and return a File object to it |
 >| `runCmd()` | Used to run a shell command and trap any output if wanted |
 >| `getTmpDir()` | Used to return a File object to the temporary directory setup on the machine |
