@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+   name: linux-std
+spec:
+   containers:
+   - name: linux-std
+     image: localhost:5000/server/linux-std:0.1 
+     ports:
+     - containerPort: 6379

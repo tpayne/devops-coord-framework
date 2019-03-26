@@ -1,0 +1,15 @@
+FROM centos
+
+# Install Development packages and Java tools
+# -------------------------------------------
+RUN yum update -y && yum clean all
+
+# Define users and groups
+# -----------------------
+RUN groupadd -g 501 devgroup &&\
+    adduser -m -d /home/devuser -s /bin/bash -u 500 -g devgroup devuser
+
+# Install runtime packages needed
+# -------------------------------
+RUN yum install -y binutils.x86_64 zip unzip httpd
+ENTRYPOINT [ "sh", "-c" ]

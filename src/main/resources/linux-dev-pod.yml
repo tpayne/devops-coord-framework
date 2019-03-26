@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+   name: linux-dev
+spec:
+   containers:
+   - name: linux-dev
+     image: localhost:5000/server/linux-dev:0.1 
+     ports:
+     - containerPort: 6378
