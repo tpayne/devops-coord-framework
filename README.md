@@ -393,7 +393,19 @@ Examples of pipelines created using the framework can be found in the [`examples
 >| `buildJenkinsPluginPipeline.txt` | Example build pipeline that fetches code, builds it, commits it to a repo, then updates a component manifest with the new version |
 >| `buildJenkinsPluginPipelineWithSlackNotif.txt` | As `buildJenkinsPluginPipeline.txt`, but also includes Slack channel notifications and shows how the component manifest can track many different components |
 >| `CIJenkinsPluginPipeline.txt.txt` | Example build pipeline that fetches code, builds it, commits it to a repo, creates a baked Docker image, then updates a component manifest with the new version. It is implemented using the CIFramework object |
+>| `IntegrationTestPlugin.txt` | Example integration pipeline that fetches binaries from the component manifest, bakes a Docker image using them, then tests the container. It is implemented using the Integration object |
 
+Some screenshots of the various jobs are shown below
+
+Build test case...
+
+![Build Test case](https://github.com/tpayne/devops-framework/blob/master/examples/BuildTestCase.jpg)
+
+CI Framework test case...
+![CIFramework Test case](https://github.com/tpayne/devops-framework/blob/master/examples/CIFrameworkTestCase.jpg)
+
+Integration test case...
+![Integration Test case](https://github.com/tpayne/devops-framework/blob/master/examples/IntegrationTestCase.jpg)
 
 Liability Warning
 =================
