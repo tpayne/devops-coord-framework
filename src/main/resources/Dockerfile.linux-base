@@ -12,4 +12,5 @@ RUN groupadd -g 501 devgroup &&\
 # Install runtime packages needed
 # -------------------------------
 RUN yum install -y binutils.x86_64 zip unzip httpd
-ENTRYPOINT [ "sh", "-c" ]
+ENTRYPOINT [ "top", "-b" ]
+CMD [ "sh", "-c", "cat" ]
