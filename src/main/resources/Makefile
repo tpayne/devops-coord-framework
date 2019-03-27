@@ -7,6 +7,7 @@
 # kubectl run debug-container -it --image=<imageName>
 # kubectl get pods
 # kubectl describe pod/<podName>
+# kubectl get -a pods --watch
 
 all: buildDev buildStd
 	@echo Built image
