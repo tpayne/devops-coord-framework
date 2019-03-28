@@ -9,6 +9,9 @@ import junit.textui.TestRunner;
  */
 public class TestTests extends GroovyTestCase {
 
+	/**
+	 * Unit tests for registering callbacks
+	 */
    	void testFunctions() {
       	Test bld = new Test(null,null)
 
@@ -25,6 +28,9 @@ public class TestTests extends GroovyTestCase {
 		bld.runPipeline()
    	}
 
+	/**
+	 * Unit tests for registering callbacks and exceptions
+	 */
   	void testFunctionsWithException() {
       	Test bld = new Test(null,null)
 
@@ -49,6 +55,9 @@ public class TestTests extends GroovyTestCase {
 		bld.runPipeline()
    	}
 
+	/**
+	 * Unit tests for registering callbacks and exceptions and finals
+	 */
   	void testFunctionsWithFinal() {
       	Test bld = new Test(null,null)
 

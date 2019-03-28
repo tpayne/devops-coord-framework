@@ -9,6 +9,9 @@ import junit.textui.TestRunner;
  */
 public class ReleaseCandidateTests extends GroovyTestCase {
 
+	/**
+	 * Unit tests for registering callbacks
+	 */
    	void testFunctions() {
       	ReleaseCandidate bld = new ReleaseCandidate(null,null)
 
@@ -35,6 +38,9 @@ public class ReleaseCandidateTests extends GroovyTestCase {
 		bld.runPipeline()
    	}
 
+	/**
+	 * Unit tests for registering callbacks and exceptions
+	 */
   	void testFunctionsWithException() {
       	ReleaseCandidate bld = new ReleaseCandidate(null,null)
 
@@ -79,6 +85,9 @@ public class ReleaseCandidateTests extends GroovyTestCase {
 		bld.runPipeline()
    	}
 
+	/**
+	 * Unit tests for registering callbacks and exceptions and finals
+	 */
   	void testFunctionsWithFinal() {
       	ReleaseCandidate bld = new ReleaseCandidate(null,null)
 

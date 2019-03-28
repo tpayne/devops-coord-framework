@@ -12,11 +12,16 @@ public class SCMCloneTests extends GroovyTestCase {
    File propFile = new File("."+"/src/test/resources/unitTest.properties")
    def map = Utilities.mapProperties(propFile)
 
-   // Utility function to get temporary directory...
+   /**
+    * Utility function for getting tmpDir
+    */
    File getTmpDir() {
       return new File((map.get("tmpDir") != null) ? map.get("tmpDir") : System.getProperty("java.io.tmpdir"))
    }
 
+   /**
+    * Unit test for git cloning
+    */
    void testScmGitCloneBasic() {
       String scmURI = map.get("git_repoURI")
       File tmpDir = new File(map.get("git_repoDir"))
@@ -41,6 +46,9 @@ public class SCMCloneTests extends GroovyTestCase {
       assertTrue(retStat)
    }
 
+   /**
+    * Unit test for git cloning with user/password
+    */
    void testScmGitCloneBasicWithUser() {
       String scmURI = map.get("git_repoURI")
       File tmpDir = new File(map.get("git_repoDir"))
@@ -69,6 +77,9 @@ public class SCMCloneTests extends GroovyTestCase {
       assertTrue(retStat)
    }
 
+   /**
+    * Unit test for git cloning with target
+    */
    void testScmGitCloneWithTarget() {
       String scmURI = map.get("git_repoURI")
       File   tempDir = this.getTmpDir()
@@ -104,6 +115,9 @@ public class SCMCloneTests extends GroovyTestCase {
       assertTrue(retStat)
    }
 
+   /**
+    * Unit test for git cloning with target and user/password
+    */
    void testScmGitCloneWithTargetAndUser() {
       String scmURI = map.get("git_repoURI")
       File   tempDir = this.getTmpDir()
@@ -145,6 +159,9 @@ public class SCMCloneTests extends GroovyTestCase {
       assertTrue(retStat)
    }
 
+   /**
+    * Unit test for svn cloning
+    */
    void testScmSVNCloneBasic() {
       String scmURI = map.get("git_repoURI")
       File tmpDir = new File(map.get("git_repoDir")+".git")
@@ -169,6 +186,9 @@ public class SCMCloneTests extends GroovyTestCase {
       assertTrue(retStat)
    }
 
+   /**
+    * Unit test for svn cloning with user/password
+    */
    void testScmSVNCloneBasicWithUser() {
       String scmURI = map.get("git_repoURI")
       File tmpDir = new File(map.get("git_repoDir")+".git")
@@ -197,6 +217,9 @@ public class SCMCloneTests extends GroovyTestCase {
       assertTrue(retStat)
    }
 
+   /**
+    * Unit test for svn cloning with target directory
+    */
    void testScmSVNCloneWithTarget() {
       String scmURI = map.get("git_repoURI")
       File   tempDir = this.getTmpDir()
@@ -232,6 +255,9 @@ public class SCMCloneTests extends GroovyTestCase {
       assertTrue(retStat)
    }
 
+   /**
+    * Unit test for svn cloning with target directory and user/password
+    */
    void testScmSVNCloneWithTargetAndUser() {
       String scmURI = map.get("git_repoURI")
       File   tempDir = this.getTmpDir()

@@ -12,6 +12,9 @@ public class NotificationsTests extends GroovyTestCase {
    File propFile = new File("."+"/src/test/resources/unitTest.properties")
    def map = Utilities.mapProperties(propFile)
 
+   /**
+    * Unit test for using Slack messaging
+    */
    void testSlackNotificationOk() {
       String slackURI = map.get("slack_webhookURI")
       String text = map.get("slack_channelMsg")
@@ -19,6 +22,9 @@ public class NotificationsTests extends GroovyTestCase {
       assertTrue(retStat)
    }
 
+   /**
+    * Unit test for using Slack messaging
+    */
    void testSlackNotificationFail() {
       String slackURI = "localhost:0:XCVD/"
       String text = map.get("slack_channelMsg")
@@ -26,6 +32,9 @@ public class NotificationsTests extends GroovyTestCase {
       assertFalse(retStat)
    }
 
+   /**
+    * Unit test for using email
+    */
    void testEmailComplex() {
       String mailServer = map.get("smtp_mailServer")
       String fromEmailAddress = map.get("smtp_mailFrom")
@@ -53,6 +62,9 @@ public class NotificationsTests extends GroovyTestCase {
       }
    }
 
+   /**
+    * Unit test for using email
+    */
    void testEmail() {
       String mailServer = map.get("smtp_mailServer")
       String fromEmailAddress = map.get("smtp_mailFrom")
@@ -74,6 +86,9 @@ public class NotificationsTests extends GroovyTestCase {
       }
    }
 
+   /**
+    * Unit test for using email
+    */
    void testEmailFile() {
       String mailServer = map.get("smtp_mailServer")
       String fromEmailAddress = map.get("smtp_mailFrom")

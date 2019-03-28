@@ -9,6 +9,9 @@ import junit.textui.TestRunner;
  */
 public class DeployTests extends GroovyTestCase {
 
+	/**
+	 * Unit tests for registering callbacks
+	 */
    	void testFunctions() {
       	Deploy bld = new Deploy(null,null)
 
@@ -26,7 +29,10 @@ public class DeployTests extends GroovyTestCase {
 		bld.runPipeline()
    	}
 
-  	void testFunctionsWithException() {
+	/**
+	 * Unit tests for registering callbacks and exceptions
+	 */  	
+	 void testFunctionsWithException() {
       	Deploy bld = new Deploy(null,null)
 
       	// Register callbacks - any order...
@@ -52,6 +58,9 @@ public class DeployTests extends GroovyTestCase {
 		bld.runPipeline()
    	}
 
+	/**
+	 * Unit tests for registering callbacks and exceptions and finals
+	 */
   	void testFunctionsWithFinal() {
       	Deploy bld = new Deploy(null,null)
 

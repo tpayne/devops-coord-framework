@@ -12,11 +12,16 @@ public class ComponentManifestTests extends GroovyTestCase {
    File propFile = new File("."+"/src/test/resources/unitTest.properties")
    def map = Utilities.mapProperties(propFile)
 
-   // Utility function to get temporary directory...
+   /**
+    * Utility function to get tmpDir used for testing
+    */
    File getTmpDir() {
       return new File((map.get("tmpDir") != null) ? map.get("tmpDir") : System.getProperty("java.io.tmpdir"))
    }
 
+   /**
+    * Unit test the adding component
+    */
    void testaddComponent() {
       ComponentManifest compList = new ComponentManifest()
       compList.addComponent('comp1','1.0','approved','file:///tmp/file.zip')
@@ -31,6 +36,9 @@ public class ComponentManifestTests extends GroovyTestCase {
       assertTrue(compList.getComponentList().size()==8)  
    }
 
+   /**
+    * Unit test the getting component
+    */
    void testgetComponent() {
       ComponentManifest compList = new ComponentManifest()
       compList.addComponent('comp1','1.0','approved','file:///tmp/file.zip')
@@ -46,6 +54,9 @@ public class ComponentManifestTests extends GroovyTestCase {
       assertEquals(compList.getComponent('comp5').componentVersion,'1.4')
    }
 
+   /**
+    * Unit test getters and setters
+    */
    void testGetAndSet() {
       ComponentManifest compList = new ComponentManifest()
       compList.setManifestVersion('1.0')
@@ -58,6 +69,9 @@ public class ComponentManifestTests extends GroovyTestCase {
       assertEquals(compList.getComponent('comp2').componentLocation,'file:///tmp/file1.zip')      
    }   
 
+   /**
+    * Unit test JSON coverter
+    */
    void testConvert2JSON() {
       ComponentManifest compList = new ComponentManifest()
       compList.setManifestVersion('1.0')
@@ -80,6 +94,9 @@ public class ComponentManifestTests extends GroovyTestCase {
       //compList1.getComponentList().each { k, v -> println "${k}:${v.componentName}-${v.componentVersion}-${v.componentLocation}"} 
    } 
 
+   /**
+    * Unit test committing
+    */
    void testCommit() {
       ComponentManifest compList = new ComponentManifest()
       compList.addComponent('comp1','1.0','approved','file:///tmp/file.zip')

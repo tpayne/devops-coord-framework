@@ -9,7 +9,10 @@ import junit.textui.TestRunner;
  */
 public class CIFrameworkTests extends GroovyTestCase {
 
-   	void testFunctions() {
+   /**
+    * Unit test basic functions
+    */   	
+   void testFunctions() {
       	Build bld = new Build()
       	Deploy dpl = new Deploy()
       	Test tst = new Test()
@@ -28,24 +31,30 @@ public class CIFrameworkTests extends GroovyTestCase {
       	assertTrue((ci.getTest()==null))
    	}
 
-   	void testSetGetFunctions() {
-      	Build bld = new Build()
-      	Deploy dpl = new Deploy()
-      	Test tst = new Test()
+   /**
+    * Unit test setters and getters
+    */      
+   void testSetGetFunctions() {
+   	Build bld = new Build()
+   	Deploy dpl = new Deploy()
+   	Test tst = new Test()
 
-      	CIFramework ci = new CIFramework()
-      	ci.setBuild(bld)
-      	ci.setDeploy(dpl)
-      	ci.setTest(tst)
-      	assertTrue((ci.getBuild()!=null))
-      	assertTrue((ci.getDeploy()!=null))
-      	assertTrue((ci.getTest()!=null))
-   	}  
+   	CIFramework ci = new CIFramework()
+   	ci.setBuild(bld)
+   	ci.setDeploy(dpl)
+   	ci.setTest(tst)
+   	assertTrue((ci.getBuild()!=null))
+   	assertTrue((ci.getDeploy()!=null))
+   	assertTrue((ci.getTest()!=null))
+   }  
 
-   	void testlauchFunctions() {
-      	CIFramework ci = new CIFramework()
+   /**
+    * Unit test launch functions
+    */   
+   void testlauchFunctions() {
+      CIFramework ci = new CIFramework()
 
-      	Build bld = new Build()
+   	Build bld = new Build()
 
       	// Register callbacks - any order...
 		bld.bakeImage(body:{println ">Bake image<"})
@@ -60,14 +69,14 @@ public class CIFrameworkTests extends GroovyTestCase {
 		bld.runStaticCodeTests(body:{println ">Run code analysis<"})
 		bld.runUnitTests(body:{println ">Run unit tests<"})
 		bld.uploadAssets(body:{println ">Upload assets<"})
-      	bld.prepareWorkArea(body:{println ">Prepare workarea<"})
-      	ci.setBuild(bld)
+      bld.prepareWorkArea(body:{println ">Prepare workarea<"})
+   	ci.setBuild(bld)
 
-      	ci.launchCI()
+   	ci.launchCI()
 
-       	Deploy dpl = new Deploy()
+    	Deploy dpl = new Deploy()
 
-      	// Register callbacks - any order...
+   	// Register callbacks - any order...
 		dpl.evaluateSmokeTests(body:{println ">Evaluare smoke-tests<"})
 		dpl.getAssets(body:{println ">Get assets<"}) 
 		dpl.logResults(body:{println ">Log results<"})
@@ -76,14 +85,14 @@ public class CIFrameworkTests extends GroovyTestCase {
 		dpl.promote(body:{println ">Promote<"})      
 		dpl.runDeploy(body:{println ">Run Deploy<"})
 		dpl.runSmokeTests(body:{println ">Run smoke tests<"})
-      	dpl.prepareForDeploy(body:{println ">Prepare for deploy<"})
-      	ci.setDeploy(dpl)
+   	dpl.prepareForDeploy(body:{println ">Prepare for deploy<"})
+   	ci.setDeploy(dpl)
 
-      	ci.launchCI()
+   	ci.launchCI()
 
-      	Test tst = new Test()
+   	Test tst = new Test()
 
-      	// Register callbacks - any order...
+   	// Register callbacks - any order...
 		tst.evaluateTests(body:{println ">Evaluare tests<"})
 		tst.getAssets(body:{println ">Get assets<"}) 
 		tst.logResults(body:{println ">Log results<"})
@@ -91,10 +100,10 @@ public class CIFrameworkTests extends GroovyTestCase {
 		tst.preTest(body:{println ">Pre Test<"})
 		tst.promote(body:{println ">Promote<"})      
 		tst.runTest(body:{println ">Run Test<"})
-      	tst.prepareForTest(body:{println ">Prepare for Test<"})     	
-      	ci.setTest(tst)
+   	tst.prepareForTest(body:{println ">Prepare for Test<"})     	
+   	ci.setTest(tst)
 
-      	ci.launchCI()
+   	ci.launchCI()
 
-   	}     	 	
+	}     	 	
 }

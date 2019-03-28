@@ -12,17 +12,25 @@ public class ContainerTests extends GroovyTestCase {
    File propFile = new File("."+"/src/test/resources/unitTest.properties")
    def map = Utilities.mapProperties(propFile)
 
-    // Utility function to get temporary directory...
+   /**
+    * Utility function for getting tmpDir
+    */
    File getTmpDir() {
         return new File((map.get("tmpDir") != null) ? map.get("tmpDir") : System.getProperty("java.io.tmpdir"))
    }
 
+   /**
+    * Unit test for running a container
+    */
    void testrunContainerBasic() {
       String imgName = map.get("docker_container")
       boolean retStat = Container.runContainer(ConfigPropertiesConstants.DOCKER,imgName)
       assertTrue(retStat)
    }
 
+   /**
+    * Unit test for running container
+    */
    void testrunContainerCmd() {
       String imgName = map.get("docker_container")
       String cmdStr = "df"
@@ -30,6 +38,9 @@ public class ContainerTests extends GroovyTestCase {
       assertTrue(retStat)
    }
 
+   /**
+    * Unit test for running container with output
+    */
    void testrunContainerOutputCmd() {
       String imgName = map.get("docker_container")
       String cmdStr = "echo hello"
@@ -40,6 +51,9 @@ public class ContainerTests extends GroovyTestCase {
       assertTrue(output.contains("hello"))
    }
 
+   /**
+    * Unit test for running container with options
+    */
    void testrunContainerCmdOpts() {
       String imgName = map.get("docker_container")
       String cmdStr = "df"
@@ -57,6 +71,9 @@ public class ContainerTests extends GroovyTestCase {
       assertTrue(retStat)
    }
 
+   /**
+    * Unit test for deleting a container
+    */
    void testrmContainerBasic() {
       String imgName = map.get("docker_container")
       boolean retStat = Container.deleteContainerImage(ConfigPropertiesConstants.DOCKER,imgName, true)
@@ -66,6 +83,9 @@ public class ContainerTests extends GroovyTestCase {
       assertTrue(retStat)
    }
 
+   /**
+    * Unit test for deleting a container with failure
+    */
    void testrmContainerBasicFail() {
       String imgName = map.get("docker_container")
       boolean retStat = Container.deleteContainerImage(ConfigPropertiesConstants.DOCKER,imgName)
@@ -73,6 +93,9 @@ public class ContainerTests extends GroovyTestCase {
       assertFalse(retStat)
    }
 
+   /**
+    * Unit test for deleting a container with output
+    */
    void testrmContainerBasicFailOutput() {
       String imgName = map.get("docker_container")
       StringBuffer outputStr = new StringBuffer()
@@ -82,6 +105,9 @@ public class ContainerTests extends GroovyTestCase {
       assertTrue(outputStr.toString().contains("Untagged: "+imgName+":latest"))
    }
 
+   /**
+    * Unit test for building a container
+    */
    void testBuildContainBasic() {
       Random rand = new Random()
       Long uid = rand.nextLong()
@@ -107,6 +133,9 @@ public class ContainerTests extends GroovyTestCase {
       assertTrue(retStat)
    }
 
+   /**
+    * Unit test for building a container
+    */
    void testBuildContainBuildDir() {
       Random rand = new Random()
       Long uid = rand.nextLong()
@@ -149,6 +178,9 @@ public class ContainerTests extends GroovyTestCase {
       assertTrue(retStat)
    }
 
+   /**
+    * Unit test for building a container
+    */
    void testBuildContainBuildDirFile() {
       Random rand = new Random()
       Long uid = rand.nextLong()
@@ -192,6 +224,9 @@ public class ContainerTests extends GroovyTestCase {
       assertTrue(retStat)
    }
 
+   /**
+    * Unit test for building a container
+    */
    void testBuildContainOutputStr() {
       Random rand = new Random()
       Long uid = rand.nextLong()
@@ -239,6 +274,9 @@ public class ContainerTests extends GroovyTestCase {
       assertTrue(retStr.contains("sha256:"))
    }
 
+   /**
+    * Unit test for building a container
+    */
    void testBuildContainOpts() {
       Random rand = new Random()
       Long uid = rand.nextLong()
@@ -291,6 +329,9 @@ public class ContainerTests extends GroovyTestCase {
       assertTrue(retStr.contains("sha256:"))
    }
 
+   /**
+    * Unit test for tagging/pulling/pushing a container
+    */
    void testtagContainerBasic() {
       String imageName = map.get("docker_container")
       String regName = imageName+"-"

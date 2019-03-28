@@ -12,16 +12,18 @@ public class UtilityTests extends GroovyTestCase {
    File propFile = new File("."+"/src/test/resources/unitTest.properties")
    def map = Utilities.mapProperties(propFile)
 
-   // Utility function to get temporary directory...
+   /**
+    * Utility function for getting tmpDir
+    */
    File getTmpDir() {
       return new File((map.get("tmpDir") != null) ? map.get("tmpDir") : System.getProperty("java.io.tmpdir"))
    }
 
-   void testReadFile() {
 
-   }
-
-   void testWriteFile() {
+   /**
+    * Unit test for read and write functions
+    */
+   void testReadWriteFile() {
       Random rand = new Random()
       Long uid = rand.nextLong()
 
@@ -34,6 +36,9 @@ public class UtilityTests extends GroovyTestCase {
       assertTrue(tst.contains("Hello world"))
    }
 
+   /**
+    * Unit test parsing arguments
+    */
    void testParseArgs() {
       String cmdStr = "/opt/local/bin/curl  -X POST --data-urlencode \'payload={\"text\":\"The build may have worked. The return status is unsure\"}\' localhost:0:XCVD/"
       List<String> args = Utilities.parseArgs(cmdStr)
@@ -43,6 +48,9 @@ public class UtilityTests extends GroovyTestCase {
       assertEquals(args.size(),6)
    }
 
+   /**
+    * Unit test for running commands
+    */
    void testShellCmdSuccess() {
       def cmdStr
       StringBuffer returnStr = new StringBuffer()
@@ -55,6 +63,9 @@ public class UtilityTests extends GroovyTestCase {
       assertEquals(returnOutput,"1")
    }
 
+   /**
+    * Unit test for running commands and failure
+    */
    void testShellCmdFailure() {
       def cmdStr
       StringBuffer returnStr = new StringBuffer()
@@ -68,12 +79,18 @@ public class UtilityTests extends GroovyTestCase {
                  returnOutput.contains("\"lsdx\": error=2, No such file or directory"))
    }
 
+   /**
+    * Unit test for reading property files
+    */
    void testPropertyFileRead() {
       File propFile = new File("."+"/src/test/resources/unitTest.properties")
       def map = Utilities.mapProperties(propFile)
       assertTrue(map.containsKey("slack_webhookURI"))
    }
 
+   /**
+    * Unit test for file copy IO
+    */
    void testCopyFile() {
       File propFile = new File("."+"/src/test/resources/unitTest.properties")
       File targetFile = new File(getTmpDir().getAbsolutePath()+File.separator+propFile.getName())
@@ -84,6 +101,9 @@ public class UtilityTests extends GroovyTestCase {
       assertTrue(retStat)
    }  
 
+   /**
+    * Unit test for directory copying
+    */
    void testCopyFileDir() {
       File propFile = new File("."+"/src/test/resources/unitTest.properties")
       File targetFile = new File(getTmpDir().getAbsolutePath())
@@ -97,6 +117,9 @@ public class UtilityTests extends GroovyTestCase {
       assertTrue(retStat)
    }  
 
+   /**
+    * Unit test for directory copying
+    */
    void testCopyDirDir() {
       File propFile = new File(getTmpDir().getAbsolutePath())
       File targetFile = new File(getTmpDir().getAbsolutePath())
@@ -112,6 +135,9 @@ public class UtilityTests extends GroovyTestCase {
       assertTrue(retStat)
    }  
 
+   /**
+    * Unit test for directory copying
+    */
    void testCopyDir() {
       Random rand = new Random()
       Long uid = rand.nextLong()
@@ -132,6 +158,9 @@ public class UtilityTests extends GroovyTestCase {
       assertTrue(i==3)
    } 
 
+   /**
+    * Unit test for directory/file copying
+    */
    void testCopyDirFile() {
       File propFile = new File("."+"/src/test/resources/unitTest.properties")
       File targetFile = new File(getTmpDir().getAbsolutePath())
@@ -147,6 +176,9 @@ public class UtilityTests extends GroovyTestCase {
       assertTrue(retStat)
    }         
 
+   /**
+    * Unit test for MD5 chksumming
+    */
    void testHashFile() {
       File propFile = new File("."+"/src/test/resources/unitTest.properties")
 
@@ -162,6 +194,9 @@ public class UtilityTests extends GroovyTestCase {
       assertTrue(retStat)
    }    
 
+   /**
+    * Unit test for getting file extentions
+    */
    void testgetFileExt() {
       File propFile = new File("."+"/src/test/resources/unitTest.properties")
       String fileExt = Utilities.getFileExt(propFile)

@@ -9,6 +9,9 @@ import junit.textui.TestRunner;
  */
 public class IntegrationTests extends GroovyTestCase {
 
+	/**
+	 * Unit tests for registering callbacks
+	 */
    	void testFunctions() {
       	Integration bld = new Integration(null,null)
 
@@ -34,6 +37,9 @@ public class IntegrationTests extends GroovyTestCase {
 		bld.runPipeline()
    	}
 
+	/**
+	 * Unit tests for registering callbacks and exceptions
+	 */
   	void testFunctionsWithException() {
       	Integration bld = new Integration(null,null)
 
@@ -76,6 +82,9 @@ public class IntegrationTests extends GroovyTestCase {
 		bld.runPipeline()
    	}
 
+	/**
+	 * Unit tests for registering callbacks and exceptions and finals
+	 */
   	void testFunctionsWithFinal() {
       	Integration bld = new Integration(null,null)
 
