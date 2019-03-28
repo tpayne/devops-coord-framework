@@ -50,6 +50,24 @@ already available.
 
 This callback format has already been used successfully in a number of companies to overcome various different issues.
 
+Overall Process Flow
+--------------------
+The overall process flow of the framework works as follows
+
+>![Overall Process flow](https://github.com/tpayne/devops-framework/blob/master/src/main/resources/OverallFrameworkFlow.jpg)
+
+Individual products use a standard CI build, deploy and test process to verify their changes are working as expected. 
+These are then promoted to the component manifest for further testing as shown below.
+
+>![CI Process flow](https://github.com/tpayne/devops-framework/blob/master/src/main/resources/CIFrameworkProcessFlow.jpg)
+
+Then, when an update is detected in the component manifest, this kicks off the CD flow which runs integration and other
+release verification processes to ensure the release stack is ready for deployment to production.
+
+>![CD Process flow](https://github.com/tpayne/devops-framework/blob/master/src/main/resources/CDFrameworkProcessFlow.jpg)
+
+The callouts are where you define the process used to implement these build, deploy, test and integration verification processes.
+
 Jenkins & Compiler Support
 ==========================
 The framework will only run with the following: -
