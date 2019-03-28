@@ -2,7 +2,7 @@ Devops framework example
 ========================
 
 ````
-Framework Status: Beta (still in test, but ready for playing with)
+Framework Status: Ready for use
 ````
 
 This repository holds an example supporting devops-framework for use with Jenkins shared libraries.
@@ -451,11 +451,19 @@ by using the command
 
 This will generate JavaDoc style comments in the `target/` directory
 
-Class Usage Examples
-====================
+Class Usage Examples & Running Unit-tests
+=========================================
 Virtually all the class functions documented above have example [unit/functional tests](https://github.com/tpayne/devops-framework/tree/master/src/test/java/org/devops) which are run in the Maven test phase.
 
-You can use these as examples to show you how to use the classes.
+You can use these as examples to show you how to use the classes. 
+
+Running the unit-tests
+----------------------
+The values used in the unit-tests for things like slack channels and GitHub repos are currently hardcoded to working values.
+However, these will need to be changed if you wish to run the tests. These values are located in a properties file 
+`[unitTest.properties]`(https://github.com/tpayne/devops-framework/blob/master/src/test/resources/unitTest.properties). 
+
+These will need to be modified to values more specific for you otherwise some of the tests may fail.
 
 (Note - The tests have very little documentation imbedded in them currently. This will be added slowly).
 
