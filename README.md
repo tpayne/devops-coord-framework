@@ -461,7 +461,7 @@ Running the unit-tests
 ----------------------
 The values used in the unit-tests for things like slack channels and GitHub repos are currently hardcoded to working values.
 However, these will need to be changed if you wish to run the tests. These values are located in a properties file 
-`[unitTest.properties]`(https://github.com/tpayne/devops-framework/blob/master/src/test/resources/unitTest.properties). 
+[`unitTest.properties`](https://github.com/tpayne/devops-framework/blob/master/src/test/resources/unitTest.properties). 
 
 These will need to be modified to values more specific for you otherwise some of the tests may fail.
 
