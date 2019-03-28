@@ -324,7 +324,63 @@ This class provides repository related functionality for maintaining your compon
 >| `removeComponent()` | Used to remove a component from the manifest |
 >| `convertManifestToJSON()` | Used to convert the component manifest to a JSON string |
 >| `commit()` | Used to commit the manifest details to the repo file |
-	
+
+The manifest file (by default) is a JSON file stored in the repository file. This manifest file looks like this: -
+
+	{
+	  "commitComment": "Committed version 30 by alexgray at 13:20:12 27/03/2019",
+	  "compList": {
+	    "gitplugin": {
+	      "componentVersion": "1553692812066",
+	      "componentName": "gitplugin",
+	      "componentLocation": "/Volumes/WorkDisk/tmp/Repos/github.hpi.1553692812066",
+	      "componentStatus": "Integration Test"
+	    },
+	    "dimensionsscm": {
+	      "componentVersion": "1553692305487",
+	      "componentName": "dimensionsscm",
+	      "componentLocation": "/Volumes/WorkDisk/tmp/Repos/dimensionsscm.hpi.1553692305487",
+	      "componentStatus": "Integration Test"
+	    },
+	    "JavaAppCICD": {
+	      "componentVersion": "1553609424273",
+	      "componentName": "JavaAppCICD",
+	      "componentLocation": "/Volumes/WorkDisk/tmp/Repos/jpetstore.war.1553609424273",
+	      "componentStatus": "Integration Test"
+	    }
+	  },
+	  "committer": "alexgray",
+	  "status": "Integration Test",
+	  "version": "30",
+	  "commitUTCDate": 1553692812367
+	}
+
+There are a number of parts to it as follows: -
+
+>| Key | Description | 
+>| --- | ----------- |
+>| `commitComment` | Used to hold the last commit comment |
+>| `compList` | Used to hold the registered components |
+>| `committer` | Used to register who did the last commit |
+>| `status` | Used to hold the current status |
+>| `version` | Used to hold the current version |
+>| `commitUTCDate` | Used to hold the last commit date/time in UTC format |
+
+The `compList` is formatted as: -
+
+>| Key | Description | 
+>| --- | ----------- |
+>| `<componentKey>` | Used to hold the component key, e.g. JavaAppCICD |
+>| `componentVersion` | Used to hold the registered component version |
+>| `componentName` | Used to hold the registered component name |
+>| `componentLocation` | Used to hold the registered component location, i.e. where it is stored |
+>| `componentStatus` | Used to hold the registered component status |
+
+The values of these keys are free text and are set by the appropriate `set...()` methods. What formats
+you use are up to you.
+
+Further keys can be added like MD5 checksum by modifying the `ComponentManifest.groovy` file as needed.
+
 How to Use
 ==========
 The shared library works by providing controller classes that you can use
