@@ -5,8 +5,48 @@ Devops Framework
 Framework Status: Ready for use
 ````
 
+Contents
+========
+
+* [Overview](#overview)
+* [Framework Objects](#framework-objects)
+* [Service Objects](#service-objects)
+* [So, why have a DevOps framework?](#so-why-have-a-devops-framework?)
+	* [The Problem Statement](#the-problem-statement)
+	* [The Implementation](#the-implementation)
+* [Framework Process Flows](#framework-process-flows)
+	* [The Overall Process Flow](#the-overall-process-flow)
+	* [The CI Process Flow](#the-ci-process-flow)
+	* [The CD Process Flow](#the-cd-process-flow)
+* [Jenkins & Compiler Support](#jenkins-&-compiler-support)
+* [Framework Classes](#framework-classes)
+	* [Build Class](#build-class)
+	* [Deploy Class](#deploy-class)
+	* [Test Class](#test-class)
+	* [Integration Class](#integration-class)
+	* [ReleaseCandidate Class](#releasecandidate-class)
+	* [CIFramework Class](#ciframework-class)
+	* [CDFramework Class](#cdframework-class)
+* [How to Install](#how-to-install)
+* [Service Classes](#service-classes)
+	* [Utilities](#utilities)
+	* [SCM](#scm)
+	* [Notifications](#notifications)
+	* [Container](#container)
+	* [Repository](#repository)
+	* [ComponentManifest](#componentmanifest)
+* [How to Use](#how-to-use)
+* [Framework Documentation](#framework-documentation)
+* [Class Usage Examples & Running Unit-tests](#class-usage-examples-&-running-unit-tests)
+	* [Running the unit-tests](#running-the-unit-tests)
+* [Pipeline Examples](#pipeline-examples)
+	* [Screenshots](#screenshots)
+* [Liability Warning](#liability-warning)
+* [Licensing](#licensing)
+* [Known Issues](#known-issues)
+
 Overview
---------
+========
 This repository delivers a framework that was created to help manage the DevOps process for releases that involve a 
 large number of components and/or that need a standard process for managing components and how they are delivered.
 
@@ -25,7 +65,7 @@ All you need to do is register callbacks to do your own specific build logic or 
 will manage all the running of that process and the coordination with other steps.
 
 Framework Objects
------------------
+=================
 The framework is split into two main pipelines: -
 - The CI process for individual products/components 
 - The CD process for integrated releases
@@ -61,7 +101,7 @@ and then the framework will take care of running these callbacks in the correct 
 the steps.
 
 Service Objects
----------------
+===============
 The framework also provides a number of "service" objects aimed at providing commonly required DevOps capabilities like 
 cloning code, running Docker images, sending emails etc. These services are provided to help make a DevOps implementation
 easier to do by providing working services and utilities that are commonly required.
