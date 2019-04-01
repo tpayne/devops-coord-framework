@@ -11,7 +11,7 @@ Contents
 * [Overview](#overview)
 * [Framework Objects](#framework-objects)
 * [Service Objects](#service-objects)
-* [So, why have a DevOps framework?](#so-why-have-a-devops-framework?)
+* [So, why have a DevOps framework?](#so-why-have-a-devops-framework)
 	* [The Problem Statement](#the-problem-statement)
 	* [The Implementation](#the-implementation)
 * [Framework Process Flows](#framework-process-flows)
@@ -114,8 +114,8 @@ easier to do by providing working services and utilities that are commonly requi
 >| `Repository` | For pushing and pulling files from repos - currently only file & [Artifactory](https://jfrog.com/artifactory/) is supported |
 >| `ComponentManifest` | For maintaining your manifest of integrated components. This is the list of component names, versions, status and locations that you register with the manifest. These can then be accessed later on for usage in other testing or release processes |
 
-So, why have a DevOps framework?
-================================
+So, why have a DevOps framework
+===============================
 As mentioned above, the framework is primarily provided as a way of allowing you to control - in a standard way - 
 how products are on-boarded into CI/CD and how that process is then managed. It does this in two ways. Firstly,
 by providing a standard framework into which product-teams can implement their CI processes, so ensuring everyone
