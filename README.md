@@ -133,8 +133,8 @@ candidate for integration testing.
 The CD Process Flow
 -------------------
 When an update is detected to the component manifest, this kicks off the CD flow which then runs the integration and other
-release verification processes to ensure that the release stack is ready for deployment to production. This flow is shown
-below
+release verification processes to ensure that the release stack is ready for deployment to production. This pipeline flow 
+is shown below.
 
 >![CD Process flow](https://github.com/tpayne/devops-framework/blob/master/src/main/resources/CDFrameworkProcessFlow.jpg)
 
@@ -154,7 +154,7 @@ The following are the main framework classes and the methods that they have.
 
 Build Class
 -----------
-The Build class is provided to control your build process and has the following methods...
+The Build class is provided to control your build process and has the following methods: -
 
 >| Method | Description | 
 >| ------ | ----------- |
@@ -177,7 +177,7 @@ All callbacks are run in the above order, no matter how your register them.
 
 Deploy Class
 ------------
-The Deploy class is provided to control your deploy process and has the following methods...
+The Deploy class is provided to control your deploy process and has the following methods: -
 
 >| Method | Description | 
 >| ------ | ----------- |
@@ -196,7 +196,7 @@ All callbacks are run in the above order, no matter how your register them.
 
 Test Class
 ----------
-The Test class is provided to control your test process and has the following methods...
+The Test class is provided to control your test process and has the following methods: -
 
 >| Method | Description | 
 >| ------ | ----------- |
@@ -214,7 +214,7 @@ All callbacks are run in the above order, no matter how your register them.
 
 Integration Class
 -----------------
-The Integration class is provided to control your integration process and has the following methods...
+The Integration class is provided to control your integration process and has the following methods: -
 
 >| Method | Description | 
 >| ------ | ----------- |
@@ -241,7 +241,7 @@ All callbacks are run in the above order, no matter how your register them.
 
 ReleaseCandidate Class
 ----------------------
-The ReleaseCandidate class is provided to control your release process and has the following methods...
+The ReleaseCandidate class is provided to control your release process and has the following methods: -
 
 >| Method | Description | 
 >| ------ | ----------- |
@@ -269,7 +269,7 @@ All callbacks are run in the above order, no matter how your register them.
 
 CIFramework Class
 -----------------
-The CIFramework class is provided to control your CI process and has the following methods...
+The CIFramework class is provided to control your CI process and has the following methods: -
 
 >| Method | Description | 
 >| ------ | ----------- |
@@ -453,9 +453,8 @@ Further keys can be added like MD5 checksum by modifying the `ComponentManifest.
 
 How to Use
 ==========
-The shared library works by providing controller classes that you can use
-in a pipeline job. As such, you need to create a pipeline job and register the
-callbacks that you want to use.
+The shared library works by providing controller classes that you can use in a pipeline job. As such, you need 
+to create a pipeline job and register the callbacks that you want to use.
 
 For example, a sample pipeline might look like
 
