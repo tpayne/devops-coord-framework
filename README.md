@@ -335,7 +335,7 @@ The CDFramework class is provided to control your CD process and has the followi
 
 How to Install
 ==============
-To install this [Jenkins share library](https://jenkins.io/doc/book/pipeline/shared-libraries/#global-shared-libraries), do the following...
+To install this [Jenkins share library](https://jenkins.io/doc/book/pipeline/shared-libraries), do the following...
 
 	1) git clone https://github.com/tpayne/devops-framework.git
 	2) cd devops-framework
