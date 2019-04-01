@@ -18,7 +18,7 @@ Contents
 	* [The Overall Process Flow](#the-overall-process-flow)
 	* [The CI Process Flow](#the-ci-process-flow)
 	* [The CD Process Flow](#the-cd-process-flow)
-* [Jenkins & Compiler Support](#jenkins-&-compiler-support)
+* [Jenkins and Compiler Support](#jenkins-and-compiler-support)
 * [Framework Classes](#framework-classes)
 	* [Build Class](#build-class)
 	* [Deploy Class](#deploy-class)
@@ -37,7 +37,7 @@ Contents
 	* [ComponentManifest](#componentmanifest)
 * [How to Use](#how-to-use)
 * [Framework Documentation](#framework-documentation)
-* [Class Usage Examples & Running Unit-tests](#class-usage-examples-&-running-unit-tests)
+* [Class Usage Examples and Running Unit-tests](#class-usage-examples-and-running-unit-tests)
 	* [Running the unit-tests](#running-the-unit-tests)
 * [Pipeline Examples](#pipeline-examples)
 	* [Screenshots](#screenshots)
@@ -178,8 +178,8 @@ is shown below.
 
 >![CD Process flow](https://github.com/tpayne/devops-framework/blob/master/src/main/resources/CDFrameworkProcessFlow.jpg)
 
-Jenkins & Compiler Support
-==========================
+Jenkins and Compiler Support
+============================
 The framework will only run with the following: -
 - JDK 8+ (javac 1.8.0_201+)
 - Jenkis LTS 2.164.1+
@@ -560,8 +560,8 @@ by using the command
 
 This will generate JavaDoc style comments in the `target/` directory
 
-Class Usage Examples & Running Unit-tests
-=========================================
+Class Usage Examples and Running Unit-tests
+===========================================
 Virtually all the class functions documented above have example [unit/functional tests](https://github.com/tpayne/devops-framework/tree/master/src/test/java/org/devops) which are run in the Maven test phase.
 
 You can use these as examples to show you how to use the classes. 
