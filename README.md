@@ -307,6 +307,14 @@ The ReleaseCandidate class is provided to control your release process and has t
 
 All callbacks are run in the above order, no matter how your register them.
 
+In addition, every callback takes the following parameters: -
+
+>| Parameter | Description | 
+>| --------- | ----------- |
+>| `body:{}` | Used to specify the Groovy code to run the process |
+>| `finalHandler:{}` | Used to specify any Groovy code which will be invoked after the process has run |
+>| `exceptionHandler:{}` | Used to specify any Groovy code which will be invoked if any exception occurs |
+
 CIFramework Class
 -----------------
 The CIFramework class is provided to control your CI process and has the following methods: -
@@ -323,7 +331,7 @@ The CIFramework class is provided to control your CI process and has the followi
 
 CDFramework Class
 -----------------
-The CDFramework class is provided to control your CD process and has the following methods...
+The CDFramework class is provided to control your CD process and has the following methods: -
 
 >| Method | Description | 
 >| ------ | ----------- |
@@ -510,46 +518,53 @@ For example, a sample pipeline might look like
 	def bld = new org.devops.Build(this, config)
 
 	node {    
+	        File fetchDir = new File("/Volumes/WorkDisk/tmp/BuildJobs/")
+		String scmURI = "https://github.com/sourcerepo/JavaAppCICD.git"
+		String slackURI = "https://hooks.slack.com/services/SDJSHETEJDKRJFHFIDLODJFF"
+
 		// Register my build process...    
-		bld.runBuild(body:{ 
-			println ">Start build...<"
-			sh label: '', script: '''cd /tmp
-			echo hello2
-			pwd
-			sh /Users/alexgray/build.sh
-			'''        
+		bld.runBuild(body:{
+		    // This is a Maven which will compile and run all the unit tests as
+		    // part of the process, so we do not need all the other build callbacks...
+		    println ">Run build...<"
+		    sh(script: "cd ${fetchDir.getAbsolutePath()}; chmod +rx ./mvnw; ./mvnw -q package")
 		}, finalHandler:{ println ">Build Job Done<" })
 
 		// Register my get code callback...
-		bld.getCode(body:{ println ">Get my code<" })
+		bld.getCode(body:{
+		    println ">Get code - cloning from GIT...<"
+		    StringBuffer outputStr = new StringBuffer()
+		    boolean retStat = SCM.scmClone(ConfigPropertiesConstants.SCMGIT,
+						    scmURI,fetchDir,outputStr)
+		    if (retStat) {
+			println "Code clone worked"
+			Notifications.messageSlackChannel(slackURI,"${label}: Clone worked")
+		    } else {
+			println "Code clone failed"
+			println outputStr.toString()
+			Notifications.messageSlackChannel(slackURI,"${label}: Code clone failed - "+outputStr.toString())
+		    }  
+		    outputStr = null
+		}) 
 
 		// Register my bake callback...
 		bld.bakeImage(body:{ println ">Run my bake<" })
 
-		// Register a pre-build callback...
-		bld.preBuild(body:{
-			println ">Pre-build - clean my files up...<"
-			sh label: 'Pre-build sh:', script: '''cd /tmp
-			if [ -f main ]; then
-				ls main
-				rm -f main
-			fi
-			'''        
+		// Register a prepareWorkArea callback...
+		bld.prepareWorkArea(body:{
+		    println ">Prepare Work Area - clean my files up...<"
+		    if (fetchDir.exists()) {
+			Utilities.deleteDirs(fetchDir)
+		    }
+		    fetchDir.mkdirs()
 		})
+
 		// Run my pipeline...
 		bld.runPipeline()
 	}
 
-This will run the `getCode()`, `preBuild()`, `runBuild()` and `bakeImage()` callbacks in this
+This will run the `prepareWorkArea()`, `getCode()`, `runBuild()` and `bakeImage()` callbacks in this
 order.
-
-Each callback takes the following...
-
->| Method | Description | 
->| ------ | ----------- |
->| `body:{}` | Used to specify the Groovy code to run the process |
->| `finalHandler:{}` | Used to specify any Groovy code which will be invoked after the process has run |
->| `exceptionHandler:{}` | Used to specify any Groovy code which will be invoked if any exception occurs |
 	
 Framework Documentation
 =======================
