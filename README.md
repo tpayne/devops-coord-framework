@@ -1,29 +1,70 @@
-Devops framework example
-========================
+Devops Framework
+================
 
 ````
 Framework Status: Ready for use
 ````
 
-This repository holds an example supporting devops-framework for use with Jenkins shared libraries.
+Overview
+--------
+This repository delivers a framework that was created to help manage the DevOps process for releases that involve a 
+large number of components and that need a standard process for managing those components and how they are delivered.
 
-The framework provides a set of callouts which can be used to control your [DevOps](https://en.wikipedia.org/wiki/DevOps) process depending
-on the callouts that you use.
+This framework provides a set of objects intended to drive each major phase of a CI/CD pipeline into which custom logic
+can be placed that will then be run at the correct place, so removing the need for linking jobs together or building
+flow logic into your pipeline.
 
-There are 5 main interface classes provided. These are...
+For example, a `Build` object is present that allows you to register callbacks for operations like: -
+- Cleaning work areas
+- Getting code
+- Running a build process
+- Running a unit-test process
+- Running a static code analysis process etc.
+
+All you need to do is register a callback to do your specific build process or unit-test process etc. and the framework
+will manage all the running of that process and the coordination with the other steps.
+
+Framework Objects
+-----------------
+The framework is split into two main pipelines: -
+- The CI process for individual products/components 
+- The CD process for integrated releases
+
+The CI process is used to manage the build, deploy and test process for each individual component and the CD process is used
+to manage the integration and release phase.
+
+The main interface objects for controlling these phases are shown below: -
+
+>| Class | Description | 
+>| ----- | ----------- |
+>| `CIFramework` | Which is used to control your CI process (Build, Deploy and Test process) |
+>| `CDFramework` | Which is used to control your CD process (Integration and Release candidate verification process)|
+
+The `CIFramework` interface is split into three main phases - each of which are controlled by a specific object: -
 
 >| Class | Description | 
 >| ----- | ----------- |
 >| `Build` | Which is used to control your build process |
 >| `Deploy` | Which is used to control your deployment process |
 >| `Test` | Which is used to control your test process |
+
+Likewise, the `CDFramework` interface is split into two main phases - each of which are controlled by a specific object
+as well: -
+
+>| Class | Description | 
+>| ----- | ----------- |
 >| `Integration` | Which is used to control your integration process |
 >| `ReleaseCandidate` | Which is used to control your Release candidate process |
->| `CIFramework` | Which is used to control your CI process (Build, Deploy and Test) |
->| `CDFramework` | Which is used to control your CD process (Integration and Release)|
-	
-There are also a number of service classes which wrap tools and make them available for use within
-framework. These are...
+
+These interface objects allow you to register the callbacks that you want to use for each main process - like build - 
+and then the framework will take care of running these callbacks in the correct flow and managing the coordination between
+the steps.
+
+Service Objects
+---------------
+The framework also provides a number of "service" objects aimed at providing commonly required DevOps capabilities like 
+cloning code, running Docker images, sending emails etc. These services are provided to help make a DevOps implementation
+easier to do by providing working services and utilities that are commonly required.
 
 >| Class | Description | 
 >| ----- | ----------- |
@@ -33,9 +74,13 @@ framework. These are...
 >| `Repository` | For pushing and pulling files from repos - currently only file & [Artifactory](https://jfrog.com/artifactory/) is supported |
 >| `ComponentManifest` | For maintaining your manifest of integrated components. This is the list of component names, versions, status and locations that you register with the manifest. These can then be accessed later on for usage in other testing or release processes |
 
-Why have a framework?
-=====================
-The framework is provided as a way of allowing you to control how products are on-boarded into CI/CD.
+So, why have a DevOps framework?
+================================
+As mentioned above, the framework is primarily provided as a way of allowing you to control - in a standard way - 
+how products are on-boarded into CI/CD and how that process is then managed. It does this in two ways. Firstly,
+by providing a standard framework into which product-teams can implement their CI processes, so ensuring everyone
+is using the same guidelines. Secondly, by having the framework manage the process flow of the overall steps and
+the coordination between them.
 
 You may have many products that need to be converted over to using CI/CD and without a framework in place
 those products may end up using lots of different standards or pipelines for implementing their CI/CD process.
@@ -204,7 +249,7 @@ The CIFramework class is provided to control your CI process and has the followi
 >| Method | Description | 
 >| ------ | ----------- |
 >| `setBuild()` | A callout provided to set your build object into the CI framework for processing |
->| `getBuild()` | A callout provided to set your build object from the CI framework |
+>| `getBuild()` | A callout provided to get your build object from the CI framework |
 >| `setDeploy()` | A callout provided to set your deploy object into the CI framework for processing |
 >| `getDeploy()` | A callout provided to get your deploy object from the CI framework |
 >| `setTest()` | A callout provided to set your test object into the CI framework for processing |
@@ -218,7 +263,7 @@ The CDFramework class is provided to control your CD process and has the followi
 >| Method | Description | 
 >| ------ | ----------- |
 >| `setIntegration()` | A callout provided to set your integration object into the CD framework for processing |
->| `getIntegration()` | A callout provided to set your integration object from the CD framework |
+>| `getIntegration()` | A callout provided to get your integration object from the CD framework |
 >| `setReleaseCandidate()` | A callout provided to set your release candidate object into the CD framework for processing |
 >| `getReleaseCandidate()` | A callout provided to get your release candidate object from the CD framework |
 >| `launchCD()` | A callout provided to run the CD process |
