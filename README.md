@@ -591,15 +591,15 @@ Screenshots
 -----------
 Some screenshots of the various jobs are shown below
 
-Build test case...
+**Build test case**
 
 >![Build Test case](https://github.com/tpayne/devops-framework/blob/master/examples/BuildTestCase.jpg)
 
-CI Framework test case...
+**CI Framework test case**
 
 >![CIFramework Test case](https://github.com/tpayne/devops-framework/blob/master/examples/CIFrameworkTestCase.jpg)
 
-Integration test case...
+**Integration test case**
 
 >![Integration Test case](https://github.com/tpayne/devops-framework/blob/master/examples/IntegrationTestCase.jpg)
 
