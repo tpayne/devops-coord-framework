@@ -8,11 +8,11 @@ Framework Status: Ready for use
 Overview
 --------
 This repository delivers a framework that was created to help manage the DevOps process for releases that involve a 
-large number of components and that need a standard process for managing those components and how they are delivered.
+large number of components and/or that need a standard process for managing components and how they are delivered.
 
-This framework provides a set of objects intended to drive each major phase of a CI/CD pipeline into which custom logic
-can be placed that will then be run at the correct place, so removing the need for linking jobs together or building
-flow logic into your pipeline.
+The framework provides a set of objects intended to manage each major phase of a CI/CD pipeline into which custom logic
+can be placed that will then be execute at the correct place, so removing the need for linking jobs together or building
+custom flow logic into your pipeline.
 
 For example, a `Build` object is present that allows you to register callbacks for operations like: -
 - Cleaning work areas
@@ -21,8 +21,8 @@ For example, a `Build` object is present that allows you to register callbacks f
 - Running a unit-test process
 - Running a static code analysis process etc.
 
-All you need to do is register a callback to do your specific build process or unit-test process etc. and the framework
-will manage all the running of that process and the coordination with the other steps.
+All you need to do is register callbacks to do your own specific build logic or unit-test process etc. and the framework
+will manage all the running of that process and the coordination with other steps.
 
 Framework Objects
 -----------------
@@ -30,8 +30,8 @@ The framework is split into two main pipelines: -
 - The CI process for individual products/components 
 - The CD process for integrated releases
 
-The CI process is used to manage the build, deploy and test process for each individual component and the CD process is used
-to manage the integration and release phase.
+The CI process is used to manage the build, deploy and test processes for each individual component and the CD process 
+is used to manage the integration and release phases.
 
 The main interface objects for controlling these phases are shown below: -
 
@@ -82,36 +82,61 @@ by providing a standard framework into which product-teams can implement their C
 is using the same guidelines. Secondly, by having the framework manage the process flow of the overall steps and
 the coordination between them.
 
-You may have many products that need to be converted over to using CI/CD and without a framework in place
-those products may end up using lots of different standards or pipelines for implementing their CI/CD process.
-This framework allows you to have one standard for implementation, whilst at the same time allowing complete
-flexiblity about the processes that are run.
+The Problem Statement
+---------------------
+As an organization with many products or different components in place, transferring these all over to a CI/CD process
+may be a bit daunting - especially if they each use different types of technologies or build processes. Without a 
+framework in place, those products may each end up implementing their own CI/CD process or technology, making the 
+management and integration of those products a big challenge.
+
+Integration of products and the management of that process is also a big problematic area. A release that is made up
+of many products means that you need to track which versions of products have been released, which versions are
+in test and how they can work with each other. If, for example, your release if made up of 20 different products
+managing the status and dependencies of those products could be a large task. This is something the framework can
+do for you by managing the list of components and how they are promoted through the release pipeline.
 
 Also, by extending the base framework, you can implement specific customisations that you might want to apply
-to every product - like security scans - that cannot be overriden by manipulating the build pipeline.
+to every product - like security scans - that cannot be "forgotten" or missed when teams implement their own CD
+processes.
 
-You can also add services and library routines that will then be available to everyone - building on the functionality
-already available.
+The Implementation
+------------------
+The framework has been implemented using Groovy/Java based callbacks. This means that you can easily integrate it into
+Jenkins pipelines as a shared library or use it standalone. The callback mechanism means that virtually any CLI or 
+API based build technology can be run using it, so it is totally flexible regarding the CI/CD processes it can wrap. 
 
-This callback format has already been used successfully in a number of companies to overcome various different issues.
+Examples of both standalone and Jenkins pipeline implementations are provided.
 
-Overall Process Flow
---------------------
-The overall process flow of the framework works as follows
+Framework Process Flows
+=======================
+The process flows provided by the framework are described below.
+
+The Overall Process Flow
+------------------------
+The overall process flow is that used to implement the CI/CD pipeline. The picture below shows how this works.
 
 >![Overall Process flow](https://github.com/tpayne/devops-framework/blob/master/src/main/resources/OverallFrameworkFlow.jpg)
 
 Individual products use a standard CI build, deploy and test process to verify their changes are working as expected. 
-These are then promoted to the component manifest for further testing as shown below.
+These are then promoted to the component manifest for further testing in an integrated flow.
+
+The CI Process Flow
+-------------------
+The CI process flow controls the component or product-level build, deploy and test process. This pipeline works as
+follows.
 
 >![CI Process flow](https://github.com/tpayne/devops-framework/blob/master/src/main/resources/CIFrameworkProcessFlow.jpg)
 
-Then, when an update is detected in the component manifest, this kicks off the CD flow which runs integration and other
-release verification processes to ensure the release stack is ready for deployment to production.
+When a product has finished with the testing process, then it will be promoted to the component manifest to make it a
+candidate for integration testing.
+
+The CD Process Flow
+-------------------
+When an update is detected to the component manifest, this kicks off the CD flow which then runs the integration and other
+release verification processes to ensure that the release stack is ready for deployment to production. This flow is shown
+below
 
 >![CD Process flow](https://github.com/tpayne/devops-framework/blob/master/src/main/resources/CDFrameworkProcessFlow.jpg)
-
-The callouts are where you define the process used to implement these build, deploy, test and integration verification processes.
 
 Jenkins & Compiler Support
 ==========================
