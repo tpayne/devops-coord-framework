@@ -160,6 +160,14 @@ The overall process flow is that used to implement the CI/CD pipeline. The pictu
 Individual products use a standard CI build, deploy and test process to verify their changes are working as expected. 
 These are then promoted to the component manifest for further testing in an integrated flow.
 
+In the context of a release end to end flow, the framework works as shown in the picture below. The CI process is used
+for feature development and the CD process is used for the release verification. Quality gates are implemented using 
+the test processes to determine if components should be added to the component manifest and to determine if the release
+candidate can be promoted to production.
+
+>![E2E Process flow](https://github.com/tpayne/devops-framework/blob/master/src/main/resources/DevOpsE2EOverview.jpg)
+
+
 The CI Process Flow
 -------------------
 The CI process flow controls the component or product-level build, deploy and test process. This pipeline works as
