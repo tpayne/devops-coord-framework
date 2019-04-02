@@ -652,3 +652,4 @@ The following are known issues: -
 - The Jfrog-cli is not currently supported in the Artifactory classes. This will be added later on.
 - Currently, the framework can run both with in and without of Jenkins (if so required), but this duality is not guaranteed to be maintained in the future.
 - Container singletons have been provided to show how they can be created, but these have not been verified in usage
+- Due to a "feature" with Jenkins, any process which takes 5+ mins to run will be killed by Jenkins. This is core Jenkins pipeline and cannot be overriden without writing a custom threading plugin. The Jenkins developers seem to regard long running jobs as errors. 
