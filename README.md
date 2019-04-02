@@ -160,6 +160,14 @@ The overall process flow is that used to implement the CI/CD pipeline. The pictu
 Individual products use a standard CI build, deploy and test process to verify their changes are working as expected. 
 These are then promoted to the component manifest for further testing in an integrated flow.
 
+In the context of a release end to end flow, the framework works as shown in the picture below. The CI process is used
+for feature development and the CD process is used for the release verification. Quality gates are implemented using 
+the test processes to determine if components should be added to the component manifest and to determine if the release
+candidate can be promoted to production.
+
+>![E2E Process flow](https://github.com/tpayne/devops-framework/blob/master/src/main/resources/DevOpsE2EOverview.jpg)
+
+
 The CI Process Flow
 -------------------
 The CI process flow controls the component or product-level build, deploy and test process. This pipeline works as
@@ -366,7 +374,8 @@ This class provides various useful utilities that are used and has the following
 >| `isWindows()` | Used to detect Windows based OS |
 >| `mapProperties()` | Used to map a properties file intp a Map |
 >| `getDefaultProperties()` | Used to read any default properties that might have been setup for the framework to use |
->| `readAllBytes()` | Used to read a file into memory as an array of bytes |
+>| `readAllBytes()` | Used to read a file into memory as an array of bytes. Mostly for binary files |
+>| `readFile()` | Used to read a text file into memory as a string |
 >| `writeFile()` | Used to write strings or bytes to a file |
 >| `getExecutable()` | Used to locate an executable file in the path and return a File object to it |
 >| `runCmd()` | Used to run a shell command and trap any output if wanted |
@@ -391,7 +400,7 @@ This class provides notification related functionality and has the following met
 
 >| Method | Description | 
 >| ------ | ----------- |
->| `sendMail()` | Used for sending email notifications |
+>| `sendMail()` | Used for sending email text or HTML/text notifications |
 >| `messageSlackChannel()` | Used for sending notifications to Slack |
 	
 Container
