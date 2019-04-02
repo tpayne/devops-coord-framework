@@ -374,7 +374,8 @@ This class provides various useful utilities that are used and has the following
 >| `isWindows()` | Used to detect Windows based OS |
 >| `mapProperties()` | Used to map a properties file intp a Map |
 >| `getDefaultProperties()` | Used to read any default properties that might have been setup for the framework to use |
->| `readAllBytes()` | Used to read a file into memory as an array of bytes |
+>| `readAllBytes()` | Used to read a file into memory as an array of bytes. Mostly for binary files |
+>| `readFile()` | Used to read a text file into memory as a string |
 >| `writeFile()` | Used to write strings or bytes to a file |
 >| `getExecutable()` | Used to locate an executable file in the path and return a File object to it |
 >| `runCmd()` | Used to run a shell command and trap any output if wanted |
@@ -399,7 +400,7 @@ This class provides notification related functionality and has the following met
 
 >| Method | Description | 
 >| ------ | ----------- |
->| `sendMail()` | Used for sending email notifications |
+>| `sendMail()` | Used for sending email text or HTML/text notifications |
 >| `messageSlackChannel()` | Used for sending notifications to Slack |
 	
 Container
