@@ -607,16 +607,19 @@ Screenshots
 Some screenshots of the various jobs are shown below
 
 **Build test case**
+
 The following is an example run using the Build object.
 
 >![Build Test case](https://github.com/tpayne/devops-framework/blob/master/examples/BuildTestCase.jpg)
 
 **CI Framework test case**
+
 The following is an example run using the CIFramework object.
 
 >![CIFramework Test case](https://github.com/tpayne/devops-framework/blob/master/examples/CIFrameworkTestCase.jpg)
 
 **Integration test case**
+
 The following is an example run using the Integration object.
 
 >![Integration Test case](https://github.com/tpayne/devops-framework/blob/master/examples/IntegrationTestCase.jpg)
