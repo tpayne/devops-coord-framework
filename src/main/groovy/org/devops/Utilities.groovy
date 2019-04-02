@@ -32,6 +32,7 @@ import hudson.remoting.VirtualChannel
 import hudson.util.Secret
 import hudson.FilePath;
 import hudson.Launcher;
+import hudson.Proc;
 import hudson.Launcher.LocalLauncher;
 import hudson.model.StreamBuildListener;
 import hudson.model.TaskListener;
@@ -131,7 +132,9 @@ class Utilities implements Serializable {
                 if (args.size() > 1) {
                     ps.masks(masks);
                 }
-                retStatus = ps.join();
+                Proc p = ps.start()
+                retStatus = p.join()
+                //retStatus = ps.join();
             } catch(IOException ex) {
                 retStatus = 1
                 outputStr = ex.getMessage()
