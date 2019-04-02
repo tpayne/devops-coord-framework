@@ -26,6 +26,7 @@ public class UtilityTests extends GroovyTestCase {
    void testReadWriteFile() {
       Random rand = new Random()
       Long uid = rand.nextLong()
+      File propFile = new File("."+"/src/test/resources/unitTest.properties")
 
       File targetFile = new File(getTmpDir().getAbsolutePath()+File.separator+"utilTest-"+uid)
       targetFile.delete()
@@ -34,6 +35,9 @@ public class UtilityTests extends GroovyTestCase {
       String tst = new String(Utilities.readAllBytes(targetFile))
       targetFile.delete()
       assertTrue(tst.contains("Hello world"))
+      tst = null
+      tst = Utilities.readFile(propFile)
+      assertTrue(tst.contains("# SCM properties..."))
    }
 
    /**
@@ -185,7 +189,7 @@ public class UtilityTests extends GroovyTestCase {
       boolean retStat = true
       try {
          String hashCode = Utilities.calcFileMD5(propFile)  
-         assertEquals(hashCode,"ad282eef15d1436e7e549b4b4603455b")
+         assertEquals(hashCode,"05e17d440f997fab326f238bbcb090d5")
       } catch(FileNotFoundException e) {
          assert("File not found")
       } catch(Exception e) {

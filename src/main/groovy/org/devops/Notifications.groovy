@@ -72,6 +72,7 @@ class Notifications implements Serializable {
      * @param  final String - toEmailAddress
      * @param  final String - subject
      * @param  final File - emailText
+     * @param  final boolean - bHtml
      * @return boolean
      * @throws MessagingException, Exception, FileNotFoundException
      */
@@ -79,14 +80,16 @@ class Notifications implements Serializable {
                         final String fromEmailAddress,
                         final String toEmailAddress,
                         final String subjectTxt,
-                        final File   emailText) 
+                        final File   emailText,
+                        final boolean bHtml=false) 
         throws MessagingException, Exception, FileNotFoundException {
             return(sendEmail(mailServer,null,null,false,
                     fromEmailAddress,
                     toEmailAddress,
                     subjectTxt,
                     null, 
-                    emailText))
+                    emailText,
+                    bHtml))
     }
 
     /**
@@ -104,6 +107,7 @@ class Notifications implements Serializable {
      * @param  final String - subject
      * @param  final String - emailText
      * @param  final File   - emailFile
+     * @param  final boolean - bHtml
      * @return boolean
      * @throws MessagingException, Exception, FileNotFoundException
      */
@@ -115,7 +119,8 @@ class Notifications implements Serializable {
                         final String toEmailAddress,
                         final String subjectTxt,
                         final String emailText,
-                        final File   emailFile) 
+                        final File   emailFile,
+                        final boolean bHtml=false) 
         throws MessagingException, Exception, FileNotFoundException {
 
         String portN = "25"
@@ -166,12 +171,16 @@ class Notifications implements Serializable {
 
                 String emailTxt = null 
                 if (emailFile != null) {
-                    emailTxt = new String(Utilities.readAllBytes(emailFile))
+                    emailTxt = Utilities.readFile(emailFile)
                 } else {
                     emailTxt = new String(emailText)
                 }             
 
-                setContent emailTxt, 'text/html'
+                if (bHtml) {
+                    setContent emailTxt, 'text/html'
+                } else {
+                    setText emailTxt
+                }
 
                 // Add recipients
                 addRecipient( Message.RecipientType.TO, new InternetAddress( toEmailAddress ) )
