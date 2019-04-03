@@ -64,6 +64,7 @@ node {
         } else {
             println "Component promotion failed"
             Notifications.messageSlackChannel(slackURI,"${label}: Clone failed")
+            error("Component promotion failed")
         }
         println ">Promote - clean my files up...<"
         if (fetchDir.exists()) {
@@ -84,6 +85,7 @@ node {
             println "Code clone failed"
             println outputStr.toString()
             Notifications.messageSlackChannel(slackURI,"${label}: Code clone failed - "+outputStr.toString())
+            error("Code clone failed - "+outputStr.toString())
         }  
         outputStr = null
     })        
@@ -122,6 +124,7 @@ node {
         } else {
             println "Commit failed"
             Notifications.messageSlackChannel(slackURI,"${label}: Commit failed")
+            error("Commit failed")
         }  
     })        
     

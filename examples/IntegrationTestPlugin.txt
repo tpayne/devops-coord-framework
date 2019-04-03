@@ -68,6 +68,7 @@ node {
             if (!retStat) {
                 println "Repo pull failed "+outputStr.toString()
                 Notifications.messageSlackChannel(slackURI,"${label}: Repo pull failed "+outputStr.toString())
+                error("Repo pull failed "+outputStr.toString())
             }  
             srcFile = null
             outputStr = null
@@ -110,6 +111,7 @@ node {
         } else {
             println "Bake failed "+outputStr
             Notifications.messageSlackChannel(slackURI,"${label}: Bake failed "+outputStr.toString())
+            error("Bake failed "+outputStr.toString())
         }  
         manifest = null
         dockerFile.delete()
@@ -130,6 +132,7 @@ node {
         } else {
             println "Deploy failed "+outputStr
             Notifications.messageSlackChannel(slackURI,"${label}: Deploy failed")
+            error("Deploy failed "+outputStr.toString())
         }  
     })
 

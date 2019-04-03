@@ -73,6 +73,7 @@ node {
             } else {
                 println "Component promotion failed"
                 Notifications.messageSlackChannel(slackURI,"${label}: Promotion failed")
+                error("Component promotion failed")
             }
             println ">Promote - clean my files up...<"
             if (fetchDir.exists()) {
@@ -93,6 +94,7 @@ node {
                 println "Code clone failed"
                 println outputStr.toString()
                 Notifications.messageSlackChannel(slackURI,"${label}: Code clone failed - "+outputStr.toString())
+                error("Code clone failed - "+outputStr.toString())
             }  
             outputStr = null
         })        
@@ -131,6 +133,7 @@ node {
             } else {
                 println "Commit failed"
                 Notifications.messageSlackChannel(slackURI,"${label}: Commit failed")
+                error("Commit failed")
             }  
         })        
 
@@ -146,6 +149,7 @@ node {
             } else {
                 println "Bake failed "+outputStr
                 Notifications.messageSlackChannel(slackURI,"${label}: Bake failed "+outputStr.toString())
+                error("Bake failed "+outputStr.toString())
             }  
         })      
 

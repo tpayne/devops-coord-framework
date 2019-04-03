@@ -61,6 +61,7 @@ node {
             println "Component promoted"
         } else {
             println "Component promotion failed"
+            error("Component promotion failed")
         }
         println ">Promote - clean my files up...<"
         if (fetchDir.exists()) {
@@ -79,6 +80,7 @@ node {
         } else {
             println "Code clone failed"
             println outputStr.toString()
+            error("Code clone failed "+outputStr.toString())
         }  
         outputStr = null
     })        
@@ -115,6 +117,7 @@ node {
             println "Commit worked"
         } else {
             println "Commit failed"
+            error("Commit failed")
         }  
     })        
     

@@ -37,6 +37,7 @@ import hudson.Launcher.LocalLauncher;
 import hudson.model.StreamBuildListener;
 import hudson.model.TaskListener;
 import hudson.util.StreamTaskListener
+
 import jenkins.model.Jenkins
 
 class Utilities implements Serializable {
@@ -643,3 +644,4 @@ class Utilities implements Serializable {
         return hashcode
     }
 }
+
