@@ -12,7 +12,7 @@
     <groupId>org.devops</groupId>
     <artifactId>devops-framework</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>hpi</packaging>
     <!--http://start.spring.io/-->
     <name>devops-framework</name>
     <description>Project for an example groovy-based devops-framework+services</description>
