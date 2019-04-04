@@ -1,0 +1,16 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
+    <f:block>
+        <table width="100%" style="border:solid">
+            <f:entry field="containerName" title="${%Container Name}">
+                <f:textbox/>
+            </f:entry>
+            <f:entry field="containerFile" title="${%Container Bake File}">
+                <f:textbox/>
+            </f:entry>
+            <f:entry field="buildDirectory" title="${%Container Directory}">
+                <f:textbox/>
+            </f:entry>        
+        </table>
+    </f:block>
+</j:jelly>

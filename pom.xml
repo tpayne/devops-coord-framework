@@ -11,11 +11,11 @@
 
     <groupId>org.devops</groupId>
     <artifactId>devops-framework</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <packaging>hpi</packaging>
     <!--http://start.spring.io/-->
-    <name>devops-framework</name>
-    <description>Project for an example groovy-based devops-framework+services</description>
+    <name>DevOps-Framework</name>
+    <description>This plugin provides a DSL, command-line and Jenkins shared library DevOps framework for CI/CD projects</description>
 
     <repositories>
         <repository>
@@ -39,6 +39,14 @@
         </license>
     </licenses>
 
+    <developers>
+        <developer>
+            <id>tim.tpayne@gmail.com</id>
+            <name>Tim Payne</name>
+            <organization>HCL Infra, DRYICE</organization>
+        </developer>
+    </developers>
+
     <dependencies>
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
@@ -61,21 +69,59 @@
             <version>1.6.2</version>
         </dependency>        
         <dependency>
-           <groupId>junit</groupId>
-           <artifactId>junit</artifactId>
-           <version>4.12</version>
-           <scope>test</scope>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
-          <groupId>com.cloudbees</groupId>
-          <artifactId>groovy-cps</artifactId>
-          <version>1.11</version>
+            <groupId>com.cloudbees</groupId>
+            <artifactId>groovy-cps</artifactId>
+            <version>1.24</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jenkins-ci.plugins.workflow</groupId>
+            <artifactId>workflow-step-api</artifactId>
+            <version>2.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jenkins-ci.plugins.workflow</groupId>
+            <artifactId>workflow-api</artifactId>
+            <version>2.23.1</version>
+        </dependency>        
+        <dependency>
+            <groupId>org.jenkins-ci.plugins.workflow</groupId>
+            <artifactId>workflow-job</artifactId>
+            <version>2.15</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jenkins-ci.plugins.workflow</groupId>
+            <artifactId>workflow-cps</artifactId>
+            <version>2.41</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jenkins-ci.plugins.workflow</groupId>
+            <artifactId>workflow-basic-steps</artifactId>
+            <version>2.6</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jenkins-ci.plugins</groupId>
+            <artifactId>structs</artifactId>
+            <version>1.10</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
     <properties>
         <jenkins.version>2.164.1</jenkins.version>
         <java.level>8</java.level>
+        <!-- If we want to be strict...
+            <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
+            <maven.compiler.showWarnings>true</maven.compiler.showWarnings>
+        -->
     </properties>
 
     <build>

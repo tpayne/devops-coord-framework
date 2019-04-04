@@ -5,21 +5,21 @@ package org.devops;
 
 import java.util.Locale
 
-class ConfigPropertiesConstants {
+public class ConfigPropertiesConstants {
 	// Generic properties...
-    static final Locale ROOT_LOCALE = Locale.US
-    static final String XML = "XML"
-    static final String JSON = "JSON"
+    public static final Locale ROOT_LOCALE = Locale.US
+    public static final String XML = "XML"
+    public static final String JSON = "JSON"
     
 	// SCM constants...
-	static final String SCMGIT = "SCMGIT"
-	static final String SCMSVN = "SCMSVN"
+	public static final String SCMGIT = "SCMGIT"
+	public static final String SCMSVN = "SCMSVN"
 
 	// Container constants...
-	static final String DOCKER = "DOCKER"
+	public static final String DOCKER = "DOCKER"
 
 	// Repository constants...
-	static final String FILE = "FILEREPO"
-	static final String ARTIFACTORY = "ARTIFACTORYREPO"
+	public static final String FILE = "FILEREPO"
+	public static final String ARTIFACTORY = "ARTIFACTORYREPO"
 }
 

@@ -449,6 +449,49 @@ class Container implements Serializable {
      * 
      * @param final String - containerType
      * @param final String - containerName
+     * @param final String - buildDirectoryStr
+     * @param final String - build file
+     * @param StringBuffer - outputStr
+     * @param final Map    - vararg list
+     * @return boolean 
+     * @throws FileNotFoundException, IllegalArgumentException, Exception
+     */
+    static final boolean buildContainer(final String containerType,
+                                      final String containerName,
+                                      final String buildDirectoryStr,
+                                      final String containerFileStr=null,
+                                      StringBuffer outputStr=null,
+                                      final Map    args = [:])
+        throws FileNotFoundException, IllegalArgumentException, Exception {
+
+          File buildDirectory = new File(buildDirectoryStr);
+          File containerFile = new File(containerFileStr);
+          boolean retStat = false;
+
+          try {
+            retStat = buildContainer(containerType,
+                                      containerName,
+                                      buildDirectory,
+                                      containerFile,
+                                      outputStr,
+                                      args);
+          } catch(Exception ex) {
+            buildDirectory = null;
+            containerFile = null;
+            throw ex; 
+          }
+
+          buildDirectory = null;
+          containerFile = null;
+        
+          return retStat;
+    }
+    
+    /**
+     * Utility routine to build a container
+     * 
+     * @param final String - containerType
+     * @param final String - containerName
      * @param final File   - buildDirectory
      * @param final File   - build file
      * @param StringBuffer - outputStr

@@ -1,0 +1,4 @@
+<?jelly escape-by-default='true'?>
+<div>
+ This plugin provides a DevOps framework for use with Jenkins and command line. For more information see <a href="https://github.com/tpayne/devops-framework/blob/master/README.md">here</a>
+</div>
