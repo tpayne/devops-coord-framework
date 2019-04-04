@@ -37,7 +37,7 @@ import jenkins.util.BuildListenerAdapter;
 import javax.annotation.Nonnull;
 import java.util.Set;
 
-public class DevOpsFrameworkRunContainerStepExecution extends SynchronousNonBlockingStepExecution<Void> {
+public class DevOpsFrameworkRunContainerStepExecution extends SynchronousNonBlockingStepExecution<Boolean> {
 
     @StepContextParameter
     private transient TaskListener listener;
@@ -56,7 +56,7 @@ public class DevOpsFrameworkRunContainerStepExecution extends SynchronousNonBloc
     }
 
     @Override
-    protected Void run() throws Exception {
+    protected Boolean run() throws Exception {
         listener = getContext().get(TaskListener.class);
         StringBuffer outputStr = new StringBuffer();
         boolean retStat = Container.runContainer(ConfigPropertiesConstants.DOCKER,
@@ -70,7 +70,7 @@ public class DevOpsFrameworkRunContainerStepExecution extends SynchronousNonBloc
             listener.error(output);
         }
         outputStr = null;
-        return null;
+        return retStat;
     }
 
     private static final long serialVersionUID = 1L;
