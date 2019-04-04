@@ -37,7 +37,7 @@ import jenkins.util.BuildListenerAdapter;
 import javax.annotation.Nonnull;
 import java.util.Set;
 
-public class DevOpsFrameworkRunContainerStepExecution extends SynchronousNonBlockingStepExecution<Boolean> {
+public class DevOpsFrameworkPullContainerStepExecution extends SynchronousNonBlockingStepExecution<Boolean> {
 
     @StepContextParameter
     private transient TaskListener listener;
@@ -48,9 +48,9 @@ public class DevOpsFrameworkRunContainerStepExecution extends SynchronousNonBloc
     @StepContextParameter
     private transient Launcher launcher;
 
-    private transient final DevOpsFrameworkRunContainerStep step;
+    private transient final DevOpsFrameworkPullContainerStep step;
 
-    DevOpsFrameworkRunContainerStepExecution(DevOpsFrameworkRunContainerStep step, StepContext context) {
+    DevOpsFrameworkPullContainerStepExecution(DevOpsFrameworkPullContainerStep step, StepContext context) {
         super(context);
         this.step = step;
     }
@@ -59,11 +59,10 @@ public class DevOpsFrameworkRunContainerStepExecution extends SynchronousNonBloc
     protected Boolean run() throws Exception {
         listener = getContext().get(TaskListener.class);
         StringBuffer outputStr = new StringBuffer();
-        listener.getLogger().println("Running container "+step.getContainerName());
-        boolean retStat = Container.runContainer(ConfigPropertiesConstants.DOCKER,
-                                                step.getContainerName(), 
-                                                step.getCmdStr(), 
-                                                outputStr);
+        listener.getLogger().println("Pulling container "+step.getContainerName());
+        boolean retStat = Container.pullContainerImage(ConfigPropertiesConstants.DOCKER,
+                                                   step.getContainerName(),
+                                                   outputStr);
         String output = outputStr.toString();
         if (retStat) {
             listener.getLogger().println(output);
