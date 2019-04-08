@@ -622,6 +622,15 @@ class Utilities implements Serializable {
         return null;
     }
 
+    /**
+     * Get a Map in JSON format
+     * @return final String
+     */ 
+    static final String convertMapToJSON(final Map conv) {
+        def builder = new JsonBuilder(conv)
+        return builder.toString()
+    }
+
      /** 
      * Utility to calculate the hash of a file
      * @param final File - fileToCheck

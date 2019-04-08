@@ -59,6 +59,7 @@ public class DevOpsFrameworkBuildContainerStepExecution extends SynchronousNonBl
     protected Boolean run() throws Exception {
         listener = getContext().get(TaskListener.class);
         StringBuffer outputStr = new StringBuffer();
+        listener.getLogger().println("Building container "+step.getContainerName());
         boolean retStat = Container.buildContainer(ConfigPropertiesConstants.DOCKER,
                                                    step.getContainerName(),
                                                    step.getBuildDirectory(),

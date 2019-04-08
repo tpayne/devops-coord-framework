@@ -3,32 +3,7 @@
  */
  package org.devops;
 
-class Test implements Serializable {
-
-    def steps = null
-    def config = null
-    private CallbackFactory cbFactory = new CallbackFactory()
-
-    private Map stepMap = null
-
-    /**
-     * Method to run the pipeline
-     */
-    def runPipeline() {
-        cbFactory.executeStack(this.steps,this.stepMap)
-    }
-
-    /**
-     * Method to replace a package in the map with a custom callout
-     * @param String - key
-     * @param Map    - args
-     */
-    private def _replacePackage(String key, Map args) {
-        if (this.stepMap == null) {
-            this.stepMap = cbFactory.getCallbacks(this,this.config)
-        }
-        cbFactory.replacePackage(stepMap,key,args)       
-    }
+class Test extends BaseCoordinator implements Serializable {
 
     /**
      * Default Constructor
@@ -43,11 +18,34 @@ class Test implements Serializable {
      */
     Test(steps, Map config) {
         if (steps) {
-            this.steps = steps
+            super.steps = steps
         }
         if (config) {
-            this.config = config
+            super.config = config
         }    
+    }
+
+    /**
+     * Method to return number of callbacks
+     * @return int
+     */
+    int getCallbackNo() {
+        return super.getCallbackNo()
+    }
+
+    /**
+     * Method to convert callouts to JSON
+     * @return String
+     */
+    final String convertCalloutsToJSON() {
+        return super.convertCalloutsToJSON()
+    }
+
+    /**
+     * Method to run the pipeline
+     */
+    public void runPipeline() {
+        super.runPipeline()
     }
 
     /**
@@ -55,7 +53,7 @@ class Test implements Serializable {
      * @param Map - args
      */
     def prepareForTest(Map args = [:]) {
-        _replacePackage(CallbackConstants.prepareForTest, args)
+        super._replacePackage(CallbackConstants.prepareForTest, args)
     }
 
     /**
@@ -63,7 +61,7 @@ class Test implements Serializable {
      * @param Map - args
      */
     def getAssets(Map args = [:])  {
-        _replacePackage(CallbackConstants.getAssets, args)
+        super._replacePackage(CallbackConstants.getAssets, args)
     }
 
     /**
@@ -71,7 +69,7 @@ class Test implements Serializable {
      * @param Map - args
      */
     def preTest(Map args = [:])  {
-        _replacePackage(CallbackConstants.preTest, args)
+        super._replacePackage(CallbackConstants.preTest, args)
     }
 
     /**
@@ -79,7 +77,7 @@ class Test implements Serializable {
      * @param Map - args
      */
     def runTest(Map args = [:]) {
-        _replacePackage(CallbackConstants.runTest, args)
+        super._replacePackage(CallbackConstants.runTest, args)
     }
 
     /**
@@ -87,7 +85,7 @@ class Test implements Serializable {
      * @param Map - args
      */
     def postTest(Map args = [:]) {
-        _replacePackage(CallbackConstants.postTest, args)
+        super._replacePackage(CallbackConstants.postTest, args)
     }
 
     /**
@@ -95,7 +93,7 @@ class Test implements Serializable {
      * @param Map - args
      */
     def evaluateTests(Map args = [:]) {
-        _replacePackage(CallbackConstants.evaluateTests, args)
+        super._replacePackage(CallbackConstants.evaluateTests, args)
     }
 
     /**
@@ -103,7 +101,7 @@ class Test implements Serializable {
      * @param Map - args
      */
     def logResults(Map args = [:]) {
-        _replacePackage(CallbackConstants.logResults, args)
+        super._replacePackage(CallbackConstants.logResults, args)
     }
 
     /**
@@ -111,6 +109,6 @@ class Test implements Serializable {
      * @param Map - args
      */
     def promote(Map args = [:]) {
-        _replacePackage(CallbackConstants.promote, args)
+        super._replacePackage(CallbackConstants.promote, args)
     }
 }
