@@ -40,7 +40,12 @@ import hudson.util.StreamTaskListener
 
 import jenkins.model.Jenkins
 
+import java.util.logging.Logger
+import java.util.logging.Level
+
 class Utilities implements Serializable {
+
+    private static final Logger LOGGER = Logger.getLogger( Utilities.class.getName() )
 
     static String outputInternalStr = null
 
@@ -160,6 +165,8 @@ class Utilities implements Serializable {
             tempFile1.delete()
             Utilities.setOutput(null)
             Utilities.setOutput(outputStr)
+            LOGGER.log(Level.FINE, "Command output '{0}'",outputStr);
+
             outputStr = null
             if (retStatus > 0) {
                 return 1
@@ -211,6 +218,7 @@ class Utilities implements Serializable {
             tempFile.delete()
             Utilities.setOutput(null)
             Utilities.setOutput(outputStr)
+            LOGGER.log(Level.FINE, "Command output '{0}'",outputStr);
             outputStr = null
             // Enable this if need to debug commands. Not adding debug facility due
             // to password concerns

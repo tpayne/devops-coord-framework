@@ -21,7 +21,7 @@ class SCM implements Serializable {
         //
         // SCM clone using no user or password...
         //
-        return scmClone(scmType,scmURI,null,null,null,outputStr)
+        return scmClone(scmType,scmURI,null,null,"",outputStr)
     }
 
     /**
@@ -44,7 +44,7 @@ class SCM implements Serializable {
         //
         // SCM clone using user and passwd...
         //
-        return scmClone(scmType,scmURI,scmUser,scmPwd,null,outputStr)
+        return scmClone(scmType,scmURI,scmUser,scmPwd,"",outputStr)
     }
 
     /**
@@ -75,6 +75,37 @@ class SCM implements Serializable {
      * @param final String - scmURI
      * @param final String - scmUser
      * @param final String - scmPwd
+     * @param final String - targetWorkArea
+     * @param StringBuffer - outputStr
+     * @return boolean 
+     * @throws FileNotFoundException, IllegalArgumentException, Exception
+     */
+    static final boolean scmClone(final String scmType,
+                                final String scmURI,
+                                final String scmUser,
+                                final String scmPwd,
+                                final String targetWorkArea,
+                                StringBuffer outputStr=null)
+        throws FileNotFoundException, IllegalArgumentException, Exception {
+        //
+        // SCM clone using workarea...
+        //
+        File targetWorkAreaFile = null
+        if (targetWorkArea != null && !targetWorkArea.isEmpty()) {
+            targetWorkAreaFile = new File(targetWorkArea)
+        } else {
+            targetWorkAreaFile = new File("")
+        }
+        return scmClone(scmType,scmURI,scmUser,scmPwd,targetWorkAreaFile,outputStr)
+    }
+
+    /**
+     * Utility routine to clone code into a workarea
+     * 
+     * @param final String - scmType
+     * @param final String - scmURI
+     * @param final String - scmUser
+     * @param final String - scmPwd
      * @param final File - targetWorkArea
      * @param StringBuffer - outputStr
      * @return boolean 
@@ -92,7 +123,7 @@ class SCM implements Serializable {
         // This parameter could be nullable in the future, but for now make
         // it mandatory to ensure target...
         //
-        if (targetWorkArea == null) {
+        if (targetWorkArea == null || targetWorkArea.getName().isEmpty()) {
         }
         else if (targetWorkArea.exists() && targetWorkArea.canWrite() &&
                  targetWorkArea.isDirectory()) {
@@ -134,7 +165,7 @@ class SCM implements Serializable {
                 pathURI = pathURI.substring(2,pathURI.length())
             } 
             cmdStr += pathURI
-            if (targetWorkArea) {
+            if (targetWorkArea != null && !targetWorkArea.getName().isEmpty()) {
                 cmdStr += " "+targetWorkArea.getAbsolutePath()
             }
             cmdStr += " --quiet"
@@ -146,7 +177,7 @@ class SCM implements Serializable {
                 cmdStr += " --username "+scmUser+" --password "+scmPwd
                 pathURI = pathURI.substring(2,pathURI.length())
             } 
-            if (targetWorkArea) {
+            if (targetWorkArea != null && !targetWorkArea.getName().isEmpty()) {
                 cmdStr += " "+targetWorkArea.getAbsolutePath()
             }
             cmdStr += " --quiet"
