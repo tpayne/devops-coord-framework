@@ -356,8 +356,8 @@ To install this [Jenkins share library](https://jenkins.io/doc/book/pipeline/sha
 	1) git clone https://github.com/tpayne/devops-framework.git
 	2) cd devops-framework
 	3) mvn package
-	4) cd target/
-	5) Unzip devops-framework-0.0.1-SNAPSHOT-artifact.zip into a working directory
+	4) cd devops-framework-pipeline/target/
+	5) Unzip devops-framework-pipeline-dsl-pack.zip into a working directory
 	6) Use the instructions in the Jenkins Wiki (https://jenkins.io/doc/book/pipeline/shared-libraries/#global-shared-libraries) to install the shared library into your Jenkins system
 
 Service Classes
@@ -517,6 +517,14 @@ For example, a sample pipeline might look like
 
 	// Sample pipeline...
 	@Library('devops-framework')
+	import org.devops.*
+	
+	// Include the core services as I want to use them as well...
+	@GrabResolver(name='devops-core', root='file:///Volumes/WorkDisk/GROOVY/devops-framework/devops-framework-core/target/lib/')
+	@Grab('org.devops.framework.core:devops-framework-core:0.0.1-SNAPSHOT')
+	
+	// Import the framework core classes...
+	import org.devops.framework.core.*
 
 	def config = [
 	    property1: 'value1',
@@ -652,4 +660,4 @@ The following are known issues: -
 - The Jfrog-cli is not currently supported in the Artifactory classes. This will be added later on.
 - Currently, the framework can run both with in and without of Jenkins (if so required), but this duality is not guaranteed to be maintained in the future.
 - Container singletons have been provided to show how they can be created, but these have not been verified in usage
-- Due to a "feature" with Jenkins, any process which takes 5+ mins to run will be killed by Jenkins. This is core Jenkins pipeline and cannot be overriden without writing a custom threading plugin. The Jenkins developers seem to regard long running jobs as errors. 
+- Due to a "feature" with Jenkins, any process which takes 5+ mins to run will be killed by Jenkins. This is core Jenkins pipeline and cannot be overriden without writing a custom threading plugin. The Jenkins developers seem to regard long running jobs as errors. To overcome this you will need to use the DevOps-framework DSL plugin for Jenkins. DSL functions have been added that provide the same functionality, but remove the time issue.
