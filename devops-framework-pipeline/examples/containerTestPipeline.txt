@@ -1,0 +1,33 @@
+@Library('devops-framework')
+import org.devops.*
+
+@GrabResolver(name='devops-core', root='file:///Volumes/WorkDisk/GROOVY/devops-framework/devops-framework-core/target/lib/')
+@Grab('org.devops.framework.core:devops-framework-core:0.0.1-SNAPSHOT')
+// Import the framework classes...
+import org.devops.framework.core.*
+
+def config = [
+    property1: 'value1',
+    property2: 'value2',
+    property3: 'value3'
+]
+
+def label = "${JOB_NAME}".toLowerCase().replaceAll("[^A-Za-z0-9]", "-").replaceAll("(-)+", "-")
+
+// This needs full specification, else you get a namespace conflict with Jenkins...
+def bld = new org.devops.Build(this, config)
+
+defaultUnixTemplate
+{
+    podTemplate(
+        label: label,
+        inheritFrom: 'default',
+        containers: []
+    )
+    {
+        node(label)
+        {
+            sh(script: "echo Hello world!")
+        }
+    }
+}
