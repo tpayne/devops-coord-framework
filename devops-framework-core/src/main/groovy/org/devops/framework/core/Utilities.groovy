@@ -574,7 +574,8 @@ class Utilities implements Serializable {
             LOGGER.log(Level.FINE, "srcDirectory=\"{0}\" targetDirectory=\"{1}\"",
                         srcDirectory.getAbsolutePath(),targetDirectory.getAbsolutePath());
             LOGGER.log(Level.FINE, "srcDirectory(dir)=\"{0}\" targetDirectory=(dir)\"{1}\" isDir={2}",
-                        srcDirectory.isDirectory(),targetDirectory.isDirectory());
+                        srcDirectory.isDirectory(),targetDirectory.isDirectory(),
+                        isDir);
 
             if (!srcDirectory.isDirectory() || (!targetDirectory.isDirectory() && !isDir)) {
                 throw new IOException("Error: This function only supports directory copies")
