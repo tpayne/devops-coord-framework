@@ -41,6 +41,7 @@ Contents
 	* [Running the unit-tests](#running-the-unit-tests)
 * [Pipeline Examples](#pipeline-examples)
 	* [Screenshots](#screenshots)
+* [DSL Plugin](#dsl-plugin)
 * [Liability Warning](#liability-warning)
 * [Licensing](#licensing)
 * [Known Issues](#known-issues)
@@ -63,6 +64,23 @@ For example, a `Build` object is present that allows you to register callbacks f
 
 All you need to do is register callbacks to do your own specific build logic or unit-test process etc. and the framework
 will manage all the running of that process and the coordination with other steps.
+
+The framework also provides a small set of "most commonly used functions" service library to help "kick-start" your CI/CD
+process if needed. These functions include operations like: -
+- Slack notification
+- Email
+- Container services
+- SCM services
+- various file based services
+
+These can be used (if needed) from Jenkins or command line.
+
+Framework Plugins for Jenkins
+-----------------------------
+The framework provides two different plugins for Jenkins. The first of these is a shared library which is used to provide
+the CI/CD framework (and service) objects discussed below. The second is a set of DSL extensions which - if installed 
+as a Jenkins plugin - provides a set of DSL extensions which can be used in a Jenkins pipeline syntax. These are also 
+discussed below.
 
 Framework Objects
 =================
@@ -155,7 +173,7 @@ The Overall Process Flow
 ------------------------
 The overall process flow is that used to implement the CI/CD pipeline. The picture below shows how this works.
 
->![Overall Process flow](https://github.com/tpayne/devops-framework/blob/master/src/main/resources/OverallFrameworkFlow.jpg)
+>![Overall Process flow](https://github.com/tpayne/devops-framework/blob/master/devops-framework-pipeline/src/main/resources/OverallFrameworkFlow.jpg)
 
 Individual products use a standard CI build, deploy and test process to verify their changes are working as expected. 
 These are then promoted to the component manifest for further testing in an integrated flow.
@@ -165,7 +183,7 @@ for feature development and the CD process is used for the release verification.
 the test processes to determine if components should be added to the component manifest and to determine if the release
 candidate can be promoted to production.
 
->![E2E Process flow](https://github.com/tpayne/devops-framework/blob/master/src/main/resources/DevOpsE2EOverview.jpg)
+>![E2E Process flow](https://github.com/tpayne/devops-framework/blob/master/devops-framework-pipeline/src/main/resources/DevOpsE2EOverview.jpg)
 
 
 The CI Process Flow
@@ -173,7 +191,7 @@ The CI Process Flow
 The CI process flow controls the component or product-level build, deploy and test process. This pipeline works as
 follows.
 
->![CI Process flow](https://github.com/tpayne/devops-framework/blob/master/src/main/resources/CIFrameworkProcessFlow.jpg)
+>![CI Process flow](https://github.com/tpayne/devops-framework/blob/master/devops-framework-pipeline/src/main/resources/CIFrameworkProcessFlow.jpg)
 
 When a product has finished with the testing process, then it will be promoted to the component manifest to make it a
 candidate for integration testing.
@@ -184,7 +202,7 @@ When an update is detected to the component manifest, this kicks off the CD flow
 release verification processes to ensure that the release stack is ready for deployment to production. This pipeline flow 
 is shown below.
 
->![CD Process flow](https://github.com/tpayne/devops-framework/blob/master/src/main/resources/CDFrameworkProcessFlow.jpg)
+>![CD Process flow](https://github.com/tpayne/devops-framework/blob/master/devops-framework-pipeline/src/main/resources/CDFrameworkProcessFlow.jpg)
 
 Jenkins and Compiler Support
 ============================
@@ -627,19 +645,121 @@ Some screenshots of the various jobs are shown below
 
 The following is an example run using the Build object.
 
->![Build Test case](https://github.com/tpayne/devops-framework/blob/master/examples/BuildTestCase.jpg)
+>![Build Test case](https://github.com/tpayne/devops-framework/blob/master/devops-framework-pipeline/examples/BuildTestCase.jpg)
 
 **CI Framework test case**
 
 The following is an example run using the CIFramework object.
 
->![CIFramework Test case](https://github.com/tpayne/devops-framework/blob/master/examples/CIFrameworkTestCase.jpg)
+>![CIFramework Test case](https://github.com/tpayne/devops-framework/blob/master/devops-framework-pipeline/examples/CIFrameworkTestCase.jpg)
 
 **Integration test case**
 
 The following is an example run using the Integration object.
 
->![Integration Test case](https://github.com/tpayne/devops-framework/blob/master/examples/IntegrationTestCase.jpg)
+>![Integration Test case](https://github.com/tpayne/devops-framework/blob/master/devops-framework-pipeline/examples/IntegrationTestCase.jpg)
+
+DSL Plugin
+==========
+As well as the framework objects above, the framework also provides a HPI DSL plugin which when loaded into Jenkins (as a
+normal plugin) adds a number of service steps which can be used in your Jenkins pipeline to get your CI/CD process
+off the ground. These service steps are as follows.
+
+>| Step DSL | Description | 
+>| -------- | ----------- | 
+>| `devOpsFrameworkBuildContainerStep` | This step provides a way of building container images (Docker) | 
+>| `devOpsFrameworkPullContainerStep` | This step provides a way of pulling container images (Docker) | 
+>| `devOpsFrameworkRunContainerStep` | This step provides a way of running container images (Docker) | 
+>| `devOpsFrameworkRmContainerStep` | This step provides a way of removing container images (Docker) | 
+>| `devOpsFrameworkTagContainerStep` | This step provides a way of tagging container images (Docker) | 
+>| `devOpsFrameworkSvnCloneStep` | This step provides a way of cloning a branch from a SVN repo | 
+>| `devOpsFrameworkGitCloneStep` | This step provides a way of cloning a branch from a GIT repo | 
+
+Plugin Syntax
+-------------
+The above steps have the following syntax: -
+
+**Building a container image**
+Name: `devOpsFrameworkBuildContainerStep`
+Purpose: This step is for building a container image from a makefile
+Example:
+	`devOpsFrameworkBuildContainerStep buildDirectory: '/tmp', containerFile: '/tmp/Dockerfile', containerName: 'tomcat'`
+Parameters: 
+	| Parameter Name | Value | Description |
+	| -------------- | ----- | ----------- |
+	| `buildDirectory` | `'<someDirectory>'` | Mandatory parameter to specify which directory to run the build in |
+	| `containerFile` | `'<fileName>'` | Optional parameter to specify which build file to use. The default is Dockerfile |
+	| `containerName` | `'<containerName>'` | Mandatory parameter to specify the container name to build |
+	
+**Pulling a container image**
+Name: `devOpsFrameworkPullContainerStep`
+Purpose: This step is for pulling a container image from a repo
+Example:
+	`devOpsFrameworkPullContainerStep containerName: 'tomcat'`	
+Parameters: 
+	| Parameter Name | Value | Description |
+	| -------------- | ----- | ----------- |
+	| `containerName` | `'<containerName>'` | Mandatory parameter to specify the container name to pull |
+
+**Running a container image**
+Name: `devOpsFrameworkRunContainerStep`
+Purpose: This step is for running a container image with a command
+Example:
+	`devOpsFrameworkRunContainerStep cmdStr: 'df -H', containerName: 'tomcat'`	
+Parameters: 
+	| Parameter Name | Value | Description |
+	| -------------- | ----- | ----------- |
+	| `containerName` | `'<containerName>'` | Mandatory parameter to specify the container name to run |
+	| `cmdStr` | `'<commandString>'` | Mandatory parameter to specify the command string to run |
+
+**Removing a container image**
+Name: `devOpsFrameworkRmContainerStep`
+Purpose: This step is for deleting a container image from the local repo
+Example:
+	`devOpsFrameworkRmContainerStep containerName: 'tomcat', force: true`	
+Parameters: 
+	| Parameter Name | Value | Description |
+	| -------------- | ----- | ----------- |
+	| `containerName` | `'<containerName>'` | Mandatory parameter to specify the container name to delete |
+	| `force` | `'<true|false>'` | Optional parameter to force the container to be removed |
+
+**Tagging a container image**
+Name: `devOpsFrameworkTagContainerStep`
+Purpose: This step is for tagging a container image 
+Example:
+	`devOpsFrameworkTagContainerStep containerName: 'tomcat', targetName: 'taggedTomcat'`	
+Parameters: 
+	| Parameter Name | Value | Description |
+	| -------------- | ----- | ----------- |
+	| `containerName` | `'<containerName>'` | Mandatory parameter to specify the container name to tag |
+	| `targetName` | `'<targetName>'` | Mandatory parameter to specify the target tag |
+	
+**Clone SVN Repo**
+Name: `devOpsFrameworkSvnCloneStep`
+Purpose: This step is for cloning the code from a SVN repository 
+Example:
+	`devOpsFrameworkSvnCloneStep repoName: 'http://svnrepo.net/mycode/', targetDir: '/tmp/', userName: 'user1', userPwd: 'user1Pwd'`	
+Parameters: 
+	| Parameter Name | Value | Description |
+	| -------------- | ----- | ----------- |
+	| `repoName` | `'<repoName>'` | Mandatory parameter to specify the repo to clone|
+	| `targetDir` | `'<someDirectory>'` | Optional parameter to specify the target directory to use |
+	| `userName` | `'<userName>'` | Optional parameter to specify a valid SCM username |
+	| `userPwd` | `'<password>'` | Optional parameter to specify a valid SCM user password |
+
+**Clone GIT Repo**
+Name: `devOpsFrameworkGitCloneStep`
+Purpose: This step is for cloning the code from a GIT repository 
+Example:
+	`devOpsFrameworkGitCloneStep repoName: 'https://github.com/myuser/myrepo.git', targetDir: '/tmp/', userName: 'user1', userPwd: 'user1Pwd'`	
+	
+Parameters: 
+	| Parameter Name | Value | Description |
+	| -------------- | ----- | ----------- |
+	| `repoName` | `'<repoName>'` | Mandatory parameter to specify the repo to clone|
+	| `targetDir` | `'<someDirectory>'` | Optional parameter to specify the target directory to use |
+	| `userName` | `'<userName>'` | Optional parameter to specify a valid SCM username |
+	| `userPwd` | `'<password>'` | Optional parameter to specify a valid SCM user password |
 
 Liability Warning
 =================
