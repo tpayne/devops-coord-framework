@@ -165,7 +165,7 @@ class Utilities implements Serializable {
             tempFile1.delete()
             Utilities.setOutput(null)
             Utilities.setOutput(outputStr)
-            LOGGER.log(Level.FINE, "Command output '{0}'",outputStr);
+            LOGGER.log(Level.FINE, "Command output \"{0}\"",outputStr);
 
             outputStr = null
             if (retStatus > 0) {
@@ -218,7 +218,7 @@ class Utilities implements Serializable {
             tempFile.delete()
             Utilities.setOutput(null)
             Utilities.setOutput(outputStr)
-            LOGGER.log(Level.FINE, "Command output '{0}'",outputStr);
+            LOGGER.log(Level.FINE, "Command output \"{0}\"",outputStr);
             outputStr = null
             // Enable this if need to debug commands. Not adding debug facility due
             // to password concerns
@@ -563,13 +563,20 @@ class Utilities implements Serializable {
     /** 
      * Utility to copy directories around
      * @param final File - srcDirectory
-     * @return final File - targetDirectory
+     * @param final File - targetDirectory
+     * @param final boolean - isDir     
      * @throws IOException
      */    
-     static void copyDirectories(final File srcDirectory, final File targetDirectory) 
+     static void copyDirectories(final File srcDirectory, final File targetDirectory,
+                                final boolean isDir=false) 
         throws IOException {
 
-            if (!srcDirectory.isDirectory() || !targetDirectory.isDirectory()) {
+            LOGGER.log(Level.FINE, "srcDirectory=\"{0}\" targetDirectory=\"{1}\"",
+                        srcDirectory.getAbsolutePath(),targetDirectory.getAbsolutePath());
+            LOGGER.log(Level.FINE, "srcDirectory(dir)=\"{0}\" targetDirectory=(dir)\"{1}\" isDir={2}",
+                        srcDirectory.isDirectory(),targetDirectory.isDirectory());
+
+            if (!srcDirectory.isDirectory() || (!targetDirectory.isDirectory() && !isDir)) {
                 throw new IOException("Error: This function only supports directory copies")
             }
             Path srcPath = Paths.get(srcDirectory.getAbsolutePath())

@@ -3,7 +3,12 @@
  */
 package org.devops.framework.core;
 
+import java.util.logging.Logger
+import java.util.logging.Level
+
 class Repository implements Serializable {
+
+    private static final Logger LOGGER = Logger.getLogger( Repository.class.getName() )
 
     /**
      * Utility to pull asset(s) from a repo
@@ -28,10 +33,22 @@ class Repository implements Serializable {
         if (repoType == null || srcAsset == null || targetAsset == null) {
             throw new IllegalArgumentException("Error: Invalid parameters specified")
         }
+
         File srcFile = new File(srcAsset)            
         File targetFile = new File(targetAsset)
+        boolean isDir = targetAsset.endsWith(File.separator)
+
+        LOGGER.log(Level.FINE, "pullAssetFromRepo src=\"{0}\" target=\"{1}\"",srcAsset,targetAsset);
+        LOGGER.log(Level.FINE, 
+            "pullAssetFromRepo srcFile=\"{0}\" targetFile=\"{1}\" srcFile(dir)=\"{2}\" targetFile(dir)=\"{3}\"",
+            srcFile.getAbsolutePath(),targetFile.getAbsolutePath(),
+            srcFile.isDirectory(),targetFile.isDirectory());
+        LOGGER.log(Level.FINE, 
+            "pullAssetFromRepo srcFileName=\"{0}\" targetFileName=\"{1}\"",
+            srcFile.getName(),targetFile.getName());
+
         return pullAssetFromRepo(repoType,srcFile,targetFile,
-                                userName,userPwd,outputStr)
+                                userName,userPwd,outputStr,isDir)
     }
 
     /**
@@ -43,6 +60,7 @@ class Repository implements Serializable {
      * @param final String - userName
      * @param final String - userPwd
      * @param StringBuffer - outputStr
+     * @param boolean - isDir     
      * @return boolean 
      * @throws IllegalArgumentException, FileNotFoundException, Exception
      */
@@ -51,12 +69,18 @@ class Repository implements Serializable {
                                         final File targetAsset,
                                         final String userName=null,
                                         final String userPwd=null,
-                                        StringBuffer outputStr=null)
+                                        StringBuffer outputStr=null,
+                                        boolean isDir=false)
         throws IllegalArgumentException, FileNotFoundException, Exception {
         
         if (repoType == null || srcAsset == null || targetAsset == null) {
             throw new IllegalArgumentException("Error: Invalid parameters specified")
         }
+
+        LOGGER.log(Level.FINER, "pullAssetFromRepo srcFile=\"{0}\" targetFile=\"{1}\"",srcAsset.getAbsolutePath(),
+                                                targetAsset.getAbsolutePath());
+        LOGGER.log(Level.FINER, "pullAssetFromRepo srcFile(dir)=\"{0}\" targetFile=(dir)\"{1}\"",srcAsset.isDirectory(),
+                                                targetAsset.isDirectory());
 
         RepoFactory repo = null
 
@@ -67,7 +91,8 @@ class Repository implements Serializable {
         }
 
         boolean retStat = repo.pullAssetFromRepo(srcAsset,targetAsset,
-                                                userName,userPwd,outputStr)
+                                                userName,userPwd,outputStr,
+                                                isDir)
 
         return retStat
     }
@@ -81,6 +106,7 @@ class Repository implements Serializable {
      * @param final String - userName
      * @param final String - userPwd
      * @param StringBuffer - outputStr
+     * @param boolean - isDir     
      * @return boolean 
      * @throws IllegalArgumentException, FileNotFoundException, Exception
      */
@@ -89,7 +115,8 @@ class Repository implements Serializable {
                                         final File targetAsset,
                                         final String userName=null,
                                         final String userPwd=null,
-                                        StringBuffer outputStr=null)
+                                        StringBuffer outputStr=null,
+                                        boolean isDir=false)
         throws IllegalArgumentException, FileNotFoundException, Exception {
         
         if (repoType == null || srcAsset == null || targetAsset == null) {
@@ -98,6 +125,9 @@ class Repository implements Serializable {
 
         RepoFactory repo = null
 
+        LOGGER.log(Level.FINER, "pullAssetFromRepo srcURI=\"{0}\" targetFile=\"{1}\"",srcAsset.toString(),
+                                                targetAsset.toString());
+
         if (repoType == ConfigPropertiesConstants.FILE) {
             repo = new FileRepoFactory()
         } else if (repoType == ConfigPropertiesConstants.ARTIFACTORY) {
@@ -105,7 +135,8 @@ class Repository implements Serializable {
         }
 
         boolean retStat = repo.pullAssetFromRepo(srcAsset,targetAsset,
-                                                userName,userPwd,outputStr)
+                                                userName,userPwd,outputStr,
+                                                isDir)
 
         return retStat
     }
@@ -133,10 +164,22 @@ class Repository implements Serializable {
         if (repoType == null || srcAsset == null || targetAsset == null) {
             throw new IllegalArgumentException("Error: Invalid parameters specified")
         }
+
         File srcFile = new File(srcAsset)            
         File targetFile = new File(targetAsset)
+        boolean isDir = targetAsset.endsWith(File.separator)
+
+        LOGGER.log(Level.FINE, "pushAssetToRepo src=\"{0}\" target=\"{1}\"",srcAsset,targetAsset);
+        LOGGER.log(Level.FINE, 
+            "pushAssetToRepo srcFile=\"{0}\" targetFile=\"{1}\" srcFile(dir)=\"{2}\" targetFile(dir)=\"{3}\"",
+                        srcFile.getAbsolutePath(),targetFile.getAbsolutePath(),
+                        srcFile.isDirectory(),targetFile.isDirectory());
+        LOGGER.log(Level.FINE, 
+            "pushAssetToRepo srcFileName=\"{0}\" targetFileName=\"{1}\"",
+            srcFile.getName(),targetFile.getName());
+
         return pushAssetToRepo(repoType,srcFile,targetFile,
-                               userName,userPwd,outputStr)
+                               userName,userPwd,outputStr,isDir)
     }
 
     /**
@@ -148,6 +191,7 @@ class Repository implements Serializable {
      * @param final String - userName
      * @param final String - userPwd
      * @param StringBuffer - outputStr
+     * @param boolean - isDir     
      * @return boolean 
      * @throws IllegalArgumentException, FileNotFoundException, Exception
      */
@@ -156,7 +200,8 @@ class Repository implements Serializable {
                                         final File targetRepo,
                                         final String userName=null,
                                         final String userPwd=null,
-                                        StringBuffer outputStr=null)
+                                        StringBuffer outputStr=null,
+                                        boolean isDir=false)
         throws IllegalArgumentException, FileNotFoundException, Exception {
         
         if (repoType == null || srcAsset == null || targetRepo == null) {
@@ -165,6 +210,11 @@ class Repository implements Serializable {
 
         RepoFactory repo = null
 
+        LOGGER.log(Level.FINER, "pushAssetToRepo srcFile=\"{0}\" targetFile=\"{1}\"",srcAsset.getAbsolutePath(),
+                                                targetRepo.getAbsolutePath());
+        LOGGER.log(Level.FINER, "pushAssetToRepo srcFile(dir)=\"{0}\" targetFile=(dir)\"{1}\"",srcAsset.isDirectory(),
+                                                targetRepo.isDirectory());
+
         if (repoType == ConfigPropertiesConstants.FILE) {
             repo = new FileRepoFactory()
         } else if (repoType == ConfigPropertiesConstants.ARTIFACTORY) {
@@ -172,7 +222,8 @@ class Repository implements Serializable {
         }
 
         boolean retStat = repo.pushAssetToRepo(srcAsset,targetRepo,
-                                            userName,userPwd,outputStr)
+                                            userName,userPwd,outputStr,
+                                            isDir)
 
         return retStat
     }
@@ -186,6 +237,7 @@ class Repository implements Serializable {
      * @param final String - userName
      * @param final String - userPwd
      * @param StringBuffer - outputStr
+     * @param boolean - isDir     
      * @return boolean 
      * @throws IllegalArgumentException, FileNotFoundException, Exception
      */
@@ -194,7 +246,8 @@ class Repository implements Serializable {
                                         final URI targetRepo,
                                         final String userName=null,
                                         final String userPwd=null,
-                                        StringBuffer outputStr=null)
+                                        StringBuffer outputStr=null,
+                                        boolean isDir=false)
         throws IllegalArgumentException, FileNotFoundException, Exception {
         
         if (repoType == null || srcAsset == null || targetRepo == null) {
@@ -203,6 +256,9 @@ class Repository implements Serializable {
 
         RepoFactory repo = null
 
+        LOGGER.log(Level.FINER, "pushAssetToRepo srcFile=\"{0}\" targetURI=\"{1}\"",srcAsset.getAbsolutePath(),
+                                                targetRepo.toString());
+
         if (repoType == ConfigPropertiesConstants.FILE) {
             repo = new FileRepoFactory()
         } else if (repoType == ConfigPropertiesConstants.ARTIFACTORY) {
@@ -210,7 +266,8 @@ class Repository implements Serializable {
         }
 
         boolean retStat = repo.pushAssetToRepo(srcAsset,targetRepo,
-                                            userName,userPwd,outputStr)
+                                            userName,userPwd,outputStr,
+                                            isDir)
 
         return retStat
     }

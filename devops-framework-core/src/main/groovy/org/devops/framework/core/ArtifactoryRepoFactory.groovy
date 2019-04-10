@@ -15,6 +15,7 @@ class ArtifactoryRepoFactory extends RepoFactory {
      * @param final String - userName
      * @param final String - userPwd     
      * @param StringBuffer - outputStr
+     * @param boolean - isDir     
      * @return boolean 
      * @throws IllegalArgumentException, FileNotFoundException, Exception
      */
@@ -22,7 +23,8 @@ class ArtifactoryRepoFactory extends RepoFactory {
                                         final File targetAsset,
                                         final String userName,
                                         final String userPwd,
-                                        StringBuffer outputStr=null)                                    
+                                        StringBuffer outputStr=null,
+                                        boolean isDir=false)                                    
         throws IllegalArgumentException, FileNotFoundException, Exception {
         
         if (srcRepo == null || targetAsset == null || userName == null || userPwd == null) {
@@ -93,6 +95,7 @@ class ArtifactoryRepoFactory extends RepoFactory {
      * @param final String - userName
      * @param final String - userPwd          
      * @param StringBuffer - outputStr
+     * @param boolean - isDir     
      * @return boolean 
      * @throws IllegalArgumentException, Exception
      */
@@ -100,7 +103,8 @@ class ArtifactoryRepoFactory extends RepoFactory {
                                         final URI targetRepo,
                                         final String userName,
                                         final String userPwd,
-                                        StringBuffer outputStr=null)
+                                        StringBuffer outputStr=null,
+                                        boolean isDir=false)                                    
         throws IllegalArgumentException, FileNotFoundException, Exception {
         
         if (srcAsset == null || targetRepo == null || userName == null || userPwd == null) {
