@@ -679,18 +679,18 @@ Plugin Syntax
 -------------
 The above steps have the following syntax: -
 
-**Building a container image**
+###### Building a container image
 
-Name: `devOpsFrameworkBuildContainerStep`
+**Name:** `devOpsFrameworkBuildContainerStep`
 
-Purpose: This step is for building a container image from a makefile
+**Purpose:** This step is for building a container image from a makefile
 
-Example:
+**Example:**
 
 	devOpsFrameworkBuildContainerStep buildDirectory: '/tmp', 
 		containerFile: '/tmp/Dockerfile', containerName: 'tomcat'
 
-Parameters:
+**Parameters:**
 
 | Parameter | Value | Description |
 | --------- | ----- | ----------- |
@@ -698,34 +698,34 @@ Parameters:
 | `containerFile` | `'<fileName>'` | Optional parameter to specify which build file to use. The default is Dockerfile |
 | `containerName` | `'<containerName>'` | Mandatory parameter to specify the container name to build |
 
-**Pulling a container image**
+###### Pulling a container image
 
-Name: `devOpsFrameworkPullContainerStep`
+**Name:** `devOpsFrameworkPullContainerStep`
 
-Purpose: This step is for pulling a container image from a repo
+**Purpose:** This step is for pulling a container image from a repo
 
-Example:
+**Example:**
 
 	devOpsFrameworkPullContainerStep containerName: 'tomcat'	
 
-Parameters:
+**Parameters:**
 
 | Parameter | Value | Description |
 | --------- | ----- | ----------- |
 | `containerName` | `'<containerName>'` | Mandatory parameter to specify the container name to pull |
 
 
-**Running a container image**
+###### Running a container image
 
-Name: `devOpsFrameworkRunContainerStep`
+**Name:** `devOpsFrameworkRunContainerStep`
 
-Purpose: This step is for running a container image with a command
+**Purpose:** This step is for running a container image with a command
 
-Example:
+**Example:**
 
 	devOpsFrameworkRunContainerStep cmdStr: 'df -H', containerName: 'tomcat'	
 
-Parameters: 
+**Parameters:** 
 
 | Parameter | Value | Description |
 | --------- | ----- | ----------- |
@@ -733,17 +733,17 @@ Parameters:
 | `cmdStr` | `'<commandString>'` | Mandatory parameter to specify the command string to run |
 
 
-**Removing a container image**
+###### Removing a container image
 
-Name: `devOpsFrameworkRmContainerStep`
+**Name:** `devOpsFrameworkRmContainerStep`
 
-Purpose: This step is for deleting a container image from the local repo
+**Purpose:** This step is for deleting a container image from the local repo
 
-Example:
+**Example:**
 
 	devOpsFrameworkRmContainerStep containerName: 'tomcat', force: true
 
-Parameters:
+**Parameters:**
 
 | Parameter | Value | Description |
 | --------- | ----- | ----------- |
@@ -751,17 +751,17 @@ Parameters:
 | `force` | `'<true|false>'` | Optional parameter to force the container to be removed |
 
 
-**Tagging a container image**
+###### Tagging a container image
 
-Name: `devOpsFrameworkTagContainerStep`
+**Name:** `devOpsFrameworkTagContainerStep`
 
-Purpose: This step is for tagging a container image 
+**Purpose:** This step is for tagging a container image 
 
-Example:
+**Example:**
 
 	devOpsFrameworkTagContainerStep containerName: 'tomcat', targetName: 'taggedTomcat'	
 
-Parameters:
+**Parameters:**
 
 | Parameter | Value | Description |
 | --------- | ----- | ----------- |
@@ -769,18 +769,18 @@ Parameters:
 | `targetName` | `'<targetName>'` | Mandatory parameter to specify the target tag |
 	
 
-**Clone SVN Repo**
+###### Clone SVN Repo
 
-Name: `devOpsFrameworkSvnCloneStep`
+**Name:** `devOpsFrameworkSvnCloneStep`
 
-Purpose: This step is for cloning the code from a SVN repository 
+**Purpose: **This step is for cloning the code from a SVN repository 
 
-Example:
+**Example:**
 
 	devOpsFrameworkSvnCloneStep repoName: 'http://svnrepo.net/mycode/', targetDir: '/tmp/', 
 		userName: 'user1', userPwd: 'user1Pwd'
 
-Parameters:
+**Parameters:**
 
 | Parameter | Value | Description |
 | --------- | ----- | ----------- |
@@ -790,18 +790,18 @@ Parameters:
 | `userPwd` | `'<password>'` | Optional parameter to specify a valid SCM user password |
 
 
-**Clone GIT Repo**
+###### Clone GIT Repo
 
-Name: `devOpsFrameworkGitCloneStep`
+**Name:** `devOpsFrameworkGitCloneStep`
 
-Purpose: This step is for cloning the code from a GIT repository 
+**Purpose:** This step is for cloning the code from a GIT repository 
 
-Example:
+**Example:**
 
 	devOpsFrameworkGitCloneStep repoName: 'https://github.com/myuser/myrepo.git', 
 		targetDir: '/tmp/', userName: 'user1', userPwd: 'user1Pwd'
 
-Parameters:
+**Parameters:**
 
 | Parameter | Value | Description |
 | --------- | ----- | ----------- |
