@@ -681,16 +681,16 @@ The above steps have the following syntax: -
 
 ###### Building a container image
 
-**Name:** `devOpsFrameworkBuildContainerStep`
+_ _Name:_ _ `devOpsFrameworkBuildContainerStep`
 
-**Purpose:** This step is for building a container image from a makefile
+_ _Purpose:_ _ This step is for building a container image from a makefile
 
-**Example:**
+_ _Example:_ _
 
 	devOpsFrameworkBuildContainerStep buildDirectory: '/tmp', 
 		containerFile: '/tmp/Dockerfile', containerName: 'tomcat'
 
-**Parameters:**
+_ _Parameters:_ _
 
 | Parameter | Value | Description |
 | --------- | ----- | ----------- |
@@ -700,15 +700,15 @@ The above steps have the following syntax: -
 
 ###### Pulling a container image
 
-**Name:** `devOpsFrameworkPullContainerStep`
+_ _Name:_ _ `devOpsFrameworkPullContainerStep`
 
-**Purpose:** This step is for pulling a container image from a repo
+_ _Purpose:_ _ This step is for pulling a container image from a repo
 
-**Example:**
+_ _Example:_ _
 
 	devOpsFrameworkPullContainerStep containerName: 'tomcat'	
 
-**Parameters:**
+_ _Parameters:_ _
 
 | Parameter | Value | Description |
 | --------- | ----- | ----------- |
@@ -717,15 +717,15 @@ The above steps have the following syntax: -
 
 ###### Running a container image
 
-**Name:** `devOpsFrameworkRunContainerStep`
+_ _Name:_ _ `devOpsFrameworkRunContainerStep`
 
-**Purpose:** This step is for running a container image with a command
+_ _Purpose:_ _ This step is for running a container image with a command
 
-**Example:**
+_ _Example:_ _
 
 	devOpsFrameworkRunContainerStep cmdStr: 'df -H', containerName: 'tomcat'	
 
-**Parameters:** 
+_ _Parameters:_ _ 
 
 | Parameter | Value | Description |
 | --------- | ----- | ----------- |
@@ -735,15 +735,15 @@ The above steps have the following syntax: -
 
 ###### Removing a container image
 
-**Name:** `devOpsFrameworkRmContainerStep`
+_ _Name:_ _ `devOpsFrameworkRmContainerStep`
 
-**Purpose:** This step is for deleting a container image from the local repo
+_ _Purpose:_ _ This step is for deleting a container image from the local repo
 
-**Example:**
+_ _Example:_ _
 
 	devOpsFrameworkRmContainerStep containerName: 'tomcat', force: true
 
-**Parameters:**
+_ _Parameters:_ _
 
 | Parameter | Value | Description |
 | --------- | ----- | ----------- |
@@ -753,15 +753,15 @@ The above steps have the following syntax: -
 
 ###### Tagging a container image
 
-**Name:** `devOpsFrameworkTagContainerStep`
+_ _Name:_ _ `devOpsFrameworkTagContainerStep`
 
-**Purpose:** This step is for tagging a container image 
+_ _Purpose:_ _ This step is for tagging a container image 
 
-**Example:**
+_ _Example:_ _
 
 	devOpsFrameworkTagContainerStep containerName: 'tomcat', targetName: 'taggedTomcat'	
 
-**Parameters:**
+_ _Parameters:_ _
 
 | Parameter | Value | Description |
 | --------- | ----- | ----------- |
@@ -771,16 +771,16 @@ The above steps have the following syntax: -
 
 ###### Clone SVN Repo
 
-**Name:** `devOpsFrameworkSvnCloneStep`
+_ _Name:_ _ `devOpsFrameworkSvnCloneStep`
 
-**Purpose: **This step is for cloning the code from a SVN repository 
+_ _Purpose:_ _ This step is for cloning the code from a SVN repository 
 
-**Example:**
+_ _Example:_ _
 
 	devOpsFrameworkSvnCloneStep repoName: 'http://svnrepo.net/mycode/', targetDir: '/tmp/', 
 		userName: 'user1', userPwd: 'user1Pwd'
 
-**Parameters:**
+_ _Parameters:_ _
 
 | Parameter | Value | Description |
 | --------- | ----- | ----------- |
@@ -792,16 +792,16 @@ The above steps have the following syntax: -
 
 ###### Clone GIT Repo
 
-**Name:** `devOpsFrameworkGitCloneStep`
+_ _Name:_ _ `devOpsFrameworkGitCloneStep`
 
-**Purpose:** This step is for cloning the code from a GIT repository 
+_ _Purpose:_ _ This step is for cloning the code from a GIT repository 
 
-**Example:**
+_ _Example:_ _
 
 	devOpsFrameworkGitCloneStep repoName: 'https://github.com/myuser/myrepo.git', 
 		targetDir: '/tmp/', userName: 'user1', userPwd: 'user1Pwd'
 
-**Parameters:**
+_ _Parameters:_ _
 
 | Parameter | Value | Description |
 | --------- | ----- | ----------- |
