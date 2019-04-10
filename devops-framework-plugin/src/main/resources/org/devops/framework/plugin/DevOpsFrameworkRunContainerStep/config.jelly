@@ -6,7 +6,7 @@
                 <f:textbox/>
             </f:entry>
             <f:entry field="cmdStr" title="${%Run Command}">
-                <f:textbox/>
+                <f:textarea/>
             </f:entry>
         </table>
     </f:block>
