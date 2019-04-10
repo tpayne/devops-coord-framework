@@ -1,5 +1,5 @@
 /**
- * Pipeline plugin extension
+ * Pipeline plugin extension for building containers
  */
 package org.devops.framework.plugin;
 
@@ -43,6 +43,13 @@ public class DevOpsFrameworkBuildContainerStep extends Step {
     private File   containerFile;
     private File   buildDirectory;
 
+    /**
+     * Default constructor
+     * 
+     * @param String - containerName
+     * @param String - containerFile
+     * @param String - buildDirectory
+     */
     @DataBoundConstructor
     public DevOpsFrameworkBuildContainerStep(String containerName,
                                 String containerFile,

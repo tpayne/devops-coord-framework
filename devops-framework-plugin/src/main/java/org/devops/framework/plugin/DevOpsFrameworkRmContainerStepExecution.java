@@ -1,5 +1,5 @@
 /**
- * Pipeline plugin extension
+ * Pipeline plugin extension for removing containers
  */
 package org.devops.framework.plugin;
 
@@ -53,11 +53,23 @@ public class DevOpsFrameworkRmContainerStepExecution extends SynchronousNonBlock
 
     private transient final DevOpsFrameworkRmContainerStep step;
 
+    /**
+     * Default constructor
+     * 
+     * @param DevOpsFrameworkRmContainerStep - step
+     * @param StepContext - context
+     */
     DevOpsFrameworkRmContainerStepExecution(DevOpsFrameworkRmContainerStep step, StepContext context) {
         super(context);
         this.step = step;
     }
 
+    /**
+     * Run function
+     * 
+     * @return Boolean
+     * @throws Exception
+     */
     @Override
     protected Boolean run() throws Exception {
         listener = getContext().get(TaskListener.class);

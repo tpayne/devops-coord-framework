@@ -1,5 +1,5 @@
 /**
- * Pipeline plugin extension
+ * Pipeline plugin extension for cloning repos
  */
 package org.devops.framework.plugin;
 

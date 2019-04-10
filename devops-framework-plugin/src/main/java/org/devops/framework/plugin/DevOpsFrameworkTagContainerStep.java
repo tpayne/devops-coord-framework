@@ -1,5 +1,5 @@
 /**
- * Pipeline plugin extension
+ * Pipeline plugin extension for tagging containers
  */
 package org.devops.framework.plugin;
 

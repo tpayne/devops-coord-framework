@@ -1,5 +1,5 @@
 /**
- * Pipeline plugin extension
+ * Pipeline plugin extension for pushing files to repos
  */
 package org.devops.framework.plugin;
 

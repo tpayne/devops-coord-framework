@@ -1,5 +1,5 @@
 /**
- * Pipeline plugin extension
+ * Pipeline plugin extension for pulling files from repos
  */
 package org.devops.framework.plugin;
 
@@ -42,6 +42,12 @@ public class DevOpsFrameworkFilePullStep extends Step {
     private String srcFile;
     private String targetFile;
 
+    /**
+     * Default constructor
+     * 
+     * @param String - srcFile
+     * @param String - targetFile
+     */
     @DataBoundConstructor
     public DevOpsFrameworkFilePullStep(String srcFile, String targetFile) {
         this.srcFile = srcFile;

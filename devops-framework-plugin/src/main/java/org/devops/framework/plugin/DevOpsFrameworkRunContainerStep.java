@@ -1,5 +1,5 @@
 /**
- * Pipeline plugin extension
+ * Pipeline plugin extension for running containers
  */
 package org.devops.framework.plugin;
 
