@@ -686,14 +686,14 @@ Name: `devOpsFrameworkBuildContainerStep`
 Purpose: This step is for building a container image from a makefile
 
 Example:
-	`devOpsFrameworkBuildContainerStep buildDirectory: '/tmp', containerFile: '/tmp/Dockerfile', containerName: 'tomcat'`
+`devOpsFrameworkBuildContainerStep buildDirectory: '/tmp', containerFile: '/tmp/Dockerfile', containerName: 'tomcat'`
 
 Parameters: 
-	| Parameter Name | Value | Description |
-	| -------------- | ----- | ----------- |
-	| `buildDirectory` | `'<someDirectory>'` | Mandatory parameter to specify which directory to run the build in |
-	| `containerFile` | `'<fileName>'` | Optional parameter to specify which build file to use. The default is Dockerfile |
-	| `containerName` | `'<containerName>'` | Mandatory parameter to specify the container name to build |
+| Parameter Name | Value | Description |
+| -------------- | ----- | ----------- |
+| `buildDirectory` | `'<someDirectory>'` | Mandatory parameter to specify which directory to run the build in |
+| `containerFile` | `'<fileName>'` | Optional parameter to specify which build file to use. The default is Dockerfile |
+| `containerName` | `'<containerName>'` | Mandatory parameter to specify the container name to build |
 	
 
 **Pulling a container image**
@@ -703,12 +703,12 @@ Name: `devOpsFrameworkPullContainerStep`
 Purpose: This step is for pulling a container image from a repo
 
 Example:
-	`devOpsFrameworkPullContainerStep containerName: 'tomcat'`	
+`devOpsFrameworkPullContainerStep containerName: 'tomcat'`	
 
 Parameters: 
-	| Parameter Name | Value | Description |
-	| -------------- | ----- | ----------- |
-	| `containerName` | `'<containerName>'` | Mandatory parameter to specify the container name to pull |
+| Parameter Name | Value | Description |
+| -------------- | ----- | ----------- |
+| `containerName` | `'<containerName>'` | Mandatory parameter to specify the container name to pull |
 
 
 **Running a container image**
@@ -718,13 +718,13 @@ Name: `devOpsFrameworkRunContainerStep`
 Purpose: This step is for running a container image with a command
 
 Example:
-	`devOpsFrameworkRunContainerStep cmdStr: 'df -H', containerName: 'tomcat'`	
+`devOpsFrameworkRunContainerStep cmdStr: 'df -H', containerName: 'tomcat'`	
 
 Parameters: 
-	| Parameter Name | Value | Description |
-	| -------------- | ----- | ----------- |
-	| `containerName` | `'<containerName>'` | Mandatory parameter to specify the container name to run |
-	| `cmdStr` | `'<commandString>'` | Mandatory parameter to specify the command string to run |
+| Parameter Name | Value | Description |
+| -------------- | ----- | ----------- |
+| `containerName` | `'<containerName>'` | Mandatory parameter to specify the container name to run |
+| `cmdStr` | `'<commandString>'` | Mandatory parameter to specify the command string to run |
 
 
 **Removing a container image**
@@ -734,13 +734,13 @@ Name: `devOpsFrameworkRmContainerStep`
 Purpose: This step is for deleting a container image from the local repo
 
 Example:
-	`devOpsFrameworkRmContainerStep containerName: 'tomcat', force: true`	
+`devOpsFrameworkRmContainerStep containerName: 'tomcat', force: true`	
 
 Parameters: 
-	| Parameter Name | Value | Description |
-	| -------------- | ----- | ----------- |
-	| `containerName` | `'<containerName>'` | Mandatory parameter to specify the container name to delete |
-	| `force` | `'<true|false>'` | Optional parameter to force the container to be removed |
+| Parameter Name | Value | Description |
+| -------------- | ----- | ----------- |
+| `containerName` | `'<containerName>'` | Mandatory parameter to specify the container name to delete |
+| `force` | `'<true|false>'` | Optional parameter to force the container to be removed |
 
 
 **Tagging a container image**
@@ -750,13 +750,13 @@ Name: `devOpsFrameworkTagContainerStep`
 Purpose: This step is for tagging a container image 
 
 Example:
-	`devOpsFrameworkTagContainerStep containerName: 'tomcat', targetName: 'taggedTomcat'`	
+`devOpsFrameworkTagContainerStep containerName: 'tomcat', targetName: 'taggedTomcat'`	
 
 Parameters: 
-	| Parameter Name | Value | Description |
-	| -------------- | ----- | ----------- |
-	| `containerName` | `'<containerName>'` | Mandatory parameter to specify the container name to tag |
-	| `targetName` | `'<targetName>'` | Mandatory parameter to specify the target tag |
+| Parameter Name | Value | Description |
+| -------------- | ----- | ----------- |
+| `containerName` | `'<containerName>'` | Mandatory parameter to specify the container name to tag |
+| `targetName` | `'<targetName>'` | Mandatory parameter to specify the target tag |
 	
 
 **Clone SVN Repo**
@@ -766,15 +766,15 @@ Name: `devOpsFrameworkSvnCloneStep`
 Purpose: This step is for cloning the code from a SVN repository 
 
 Example:
-	`devOpsFrameworkSvnCloneStep repoName: 'http://svnrepo.net/mycode/', targetDir: '/tmp/', userName: 'user1', userPwd: 'user1Pwd'`
+`devOpsFrameworkSvnCloneStep repoName: 'http://svnrepo.net/mycode/', targetDir: '/tmp/', userName: 'user1', userPwd: 'user1Pwd'`
 
 Parameters: 
-	| Parameter Name | Value | Description |
-	| -------------- | ----- | ----------- |
-	| `repoName` | `'<repoName>'` | Mandatory parameter to specify the repo to clone|
-	| `targetDir` | `'<someDirectory>'` | Optional parameter to specify the target directory to use |
-	| `userName` | `'<userName>'` | Optional parameter to specify a valid SCM username |
-	| `userPwd` | `'<password>'` | Optional parameter to specify a valid SCM user password |
+| Parameter Name | Value | Description |
+| -------------- | ----- | ----------- |
+| `repoName` | `'<repoName>'` | Mandatory parameter to specify the repo to clone|
+| `targetDir` | `'<someDirectory>'` | Optional parameter to specify the target directory to use |
+| `userName` | `'<userName>'` | Optional parameter to specify a valid SCM username |
+| `userPwd` | `'<password>'` | Optional parameter to specify a valid SCM user password |
 
 
 **Clone GIT Repo**
@@ -784,15 +784,15 @@ Name: `devOpsFrameworkGitCloneStep`
 Purpose: This step is for cloning the code from a GIT repository 
 
 Example:
-	`devOpsFrameworkGitCloneStep repoName: 'https://github.com/myuser/myrepo.git', targetDir: '/tmp/', userName: 'user1', userPwd: 'user1Pwd'`
+`devOpsFrameworkGitCloneStep repoName: 'https://github.com/myuser/myrepo.git', targetDir: '/tmp/', userName: 'user1', userPwd: 'user1Pwd'`
 
 Parameters: 
-	| Parameter Name | Value | Description |
-	| -------------- | ----- | ----------- |
-	| `repoName` | `'<repoName>'` | Mandatory parameter to specify the repo to clone|
-	| `targetDir` | `'<someDirectory>'` | Optional parameter to specify the target directory to use |
-	| `userName` | `'<userName>'` | Optional parameter to specify a valid SCM username |
-	| `userPwd` | `'<password>'` | Optional parameter to specify a valid SCM user password |
+| Parameter Name | Value | Description |
+| -------------- | ----- | ----------- |
+| `repoName` | `'<repoName>'` | Mandatory parameter to specify the repo to clone|
+| `targetDir` | `'<someDirectory>'` | Optional parameter to specify the target directory to use |
+| `userName` | `'<userName>'` | Optional parameter to specify a valid SCM username |
+| `userPwd` | `'<password>'` | Optional parameter to specify a valid SCM user password |
 
 Liability Warning
 =================
