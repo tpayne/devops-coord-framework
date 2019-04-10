@@ -681,16 +681,16 @@ The above steps have the following syntax: -
 
 ###### Building a container image
 
-_ _Name:_ _ `devOpsFrameworkBuildContainerStep`
+_Name:_ `devOpsFrameworkBuildContainerStep`
 
-_ _Purpose:_ _ This step is for building a container image from a makefile
+_Purpose:_ This step is for building a container image from a makefile
 
-_ _Example:_ _
+_Example:_
 
 	devOpsFrameworkBuildContainerStep buildDirectory: '/tmp', 
 		containerFile: '/tmp/Dockerfile', containerName: 'tomcat'
 
-_ _Parameters:_ _
+_Parameters:_
 
 | Parameter | Value | Description |
 | --------- | ----- | ----------- |
@@ -717,15 +717,15 @@ _Parameters:_
 
 ###### Running a container image
 
-_ _Name:_ _ `devOpsFrameworkRunContainerStep`
+_Name:_ `devOpsFrameworkRunContainerStep`
 
-_ _Purpose:_ _ This step is for running a container image with a command
+_Purpose:_ This step is for running a container image with a command
 
-_ _Example:_ _
+_Example:_
 
 	devOpsFrameworkRunContainerStep cmdStr: 'df -H', containerName: 'tomcat'	
 
-_ _Parameters:_ _ 
+_Parameters:_ 
 
 | Parameter | Value | Description |
 | --------- | ----- | ----------- |
@@ -735,15 +735,15 @@ _ _Parameters:_ _
 
 ###### Removing a container image
 
-_ _Name:_ _ `devOpsFrameworkRmContainerStep`
+_Name:_ `devOpsFrameworkRmContainerStep`
 
-_ _Purpose:_ _ This step is for deleting a container image from the local repo
+_Purpose:_ This step is for deleting a container image from the local repo
 
-_ _Example:_ _
+_Example:_
 
 	devOpsFrameworkRmContainerStep containerName: 'tomcat', force: true
 
-_ _Parameters:_ _
+_Parameters:_
 
 | Parameter | Value | Description |
 | --------- | ----- | ----------- |
@@ -753,15 +753,15 @@ _ _Parameters:_ _
 
 ###### Tagging a container image
 
-_ _Name:_ _ `devOpsFrameworkTagContainerStep`
+_Name:_ `devOpsFrameworkTagContainerStep`
 
-_ _Purpose:_ _ This step is for tagging a container image 
+_Purpose:_ This step is for tagging a container image 
 
-_ _Example:_ _
+_Example:_
 
 	devOpsFrameworkTagContainerStep containerName: 'tomcat', targetName: 'taggedTomcat'	
 
-_ _Parameters:_ _
+_Parameters:_
 
 | Parameter | Value | Description |
 | --------- | ----- | ----------- |
@@ -771,16 +771,16 @@ _ _Parameters:_ _
 
 ###### Clone SVN Repo
 
-_ _Name:_ _ `devOpsFrameworkSvnCloneStep`
+_Name:_ `devOpsFrameworkSvnCloneStep`
 
-_ _Purpose:_ _ This step is for cloning the code from a SVN repository 
+_Purpose:_ This step is for cloning the code from a SVN repository 
 
-_ _Example:_ _
+_Example:_
 
 	devOpsFrameworkSvnCloneStep repoName: 'http://svnrepo.net/mycode/', targetDir: '/tmp/', 
 		userName: 'user1', userPwd: 'user1Pwd'
 
-_ _Parameters:_ _
+_Parameters:_
 
 | Parameter | Value | Description |
 | --------- | ----- | ----------- |
@@ -792,16 +792,16 @@ _ _Parameters:_ _
 
 ###### Clone GIT Repo
 
-_ _Name:_ _ `devOpsFrameworkGitCloneStep`
+_Name:_ `devOpsFrameworkGitCloneStep`
 
-_ _Purpose:_ _ This step is for cloning the code from a GIT repository 
+_Purpose:_ This step is for cloning the code from a GIT repository 
 
-_ _Example:_ _
+_Example:_
 
 	devOpsFrameworkGitCloneStep repoName: 'https://github.com/myuser/myrepo.git', 
 		targetDir: '/tmp/', userName: 'user1', userPwd: 'user1Pwd'
 
-_ _Parameters:_ _
+_Parameters:_
 
 | Parameter | Value | Description |
 | --------- | ----- | ----------- |
