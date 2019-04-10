@@ -687,7 +687,8 @@ Purpose: This step is for building a container image from a makefile
 
 Example:
 
-	`devOpsFrameworkBuildContainerStep buildDirectory: '/tmp', containerFile: '/tmp/Dockerfile', containerName: 'tomcat'`
+	devOpsFrameworkBuildContainerStep buildDirectory: '/tmp', 
+		containerFile: '/tmp/Dockerfile', containerName: 'tomcat'
 
 Parameters:
 
@@ -705,7 +706,7 @@ Purpose: This step is for pulling a container image from a repo
 
 Example:
 
-	`devOpsFrameworkPullContainerStep containerName: 'tomcat'`	
+	devOpsFrameworkPullContainerStep containerName: 'tomcat'	
 
 Parameters:
 
@@ -721,11 +722,13 @@ Name: `devOpsFrameworkRunContainerStep`
 Purpose: This step is for running a container image with a command
 
 Example:
-`devOpsFrameworkRunContainerStep cmdStr: 'df -H', containerName: 'tomcat'`	
+
+	devOpsFrameworkRunContainerStep cmdStr: 'df -H', containerName: 'tomcat'	
 
 Parameters: 
-| Parameter Name | Value | Description |
-| -------------- | ----- | ----------- |
+
+| Parameter | Value | Description |
+| --------- | ----- | ----------- |
 | `containerName` | `'<containerName>'` | Mandatory parameter to specify the container name to run |
 | `cmdStr` | `'<commandString>'` | Mandatory parameter to specify the command string to run |
 
@@ -738,7 +741,7 @@ Purpose: This step is for deleting a container image from the local repo
 
 Example:
 
-	`devOpsFrameworkRmContainerStep containerName: 'tomcat', force: true`	
+	devOpsFrameworkRmContainerStep containerName: 'tomcat', force: true
 
 Parameters:
 
@@ -756,7 +759,7 @@ Purpose: This step is for tagging a container image
 
 Example:
 
-	`devOpsFrameworkTagContainerStep containerName: 'tomcat', targetName: 'taggedTomcat'`	
+	devOpsFrameworkTagContainerStep containerName: 'tomcat', targetName: 'taggedTomcat'	
 
 Parameters:
 
@@ -774,7 +777,8 @@ Purpose: This step is for cloning the code from a SVN repository
 
 Example:
 
-	`devOpsFrameworkSvnCloneStep repoName: 'http://svnrepo.net/mycode/', targetDir: '/tmp/', userName: 'user1', userPwd: 'user1Pwd'`
+	devOpsFrameworkSvnCloneStep repoName: 'http://svnrepo.net/mycode/', targetDir: '/tmp/', 
+		userName: 'user1', userPwd: 'user1Pwd'
 
 Parameters:
 
@@ -794,7 +798,8 @@ Purpose: This step is for cloning the code from a GIT repository
 
 Example:
 
-	`devOpsFrameworkGitCloneStep repoName: 'https://github.com/myuser/myrepo.git', targetDir: '/tmp/', userName: 'user1', userPwd: 'user1Pwd'`
+	devOpsFrameworkGitCloneStep repoName: 'https://github.com/myuser/myrepo.git', 
+		targetDir: '/tmp/', userName: 'user1', userPwd: 'user1Pwd'
 
 Parameters:
 
