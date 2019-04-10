@@ -700,15 +700,15 @@ _ _Parameters:_ _
 
 ###### Pulling a container image
 
-_ _Name:_ _ `devOpsFrameworkPullContainerStep`
+_Name:_ `devOpsFrameworkPullContainerStep`
 
-_ _Purpose:_ _ This step is for pulling a container image from a repo
+_Purpose:_ This step is for pulling a container image from a repo
 
-_ _Example:_ _
+_Example:_
 
 	devOpsFrameworkPullContainerStep containerName: 'tomcat'	
 
-_ _Parameters:_ _
+_Parameters:_
 
 | Parameter | Value | Description |
 | --------- | ----- | ----------- |
