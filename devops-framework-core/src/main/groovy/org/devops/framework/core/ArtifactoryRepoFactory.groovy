@@ -5,7 +5,12 @@ package org.devops.framework.core;
 
 import groovy.json.*
 
+import java.util.logging.Logger
+import java.util.logging.Level
+
 class ArtifactoryRepoFactory extends RepoFactory {
+
+    private static final Logger LOGGER = Logger.getLogger( ArtifactoryRepoFactory.class.getName() )
 
     /**
      * Utility to pull asset(s) from a repo
@@ -43,6 +48,9 @@ class ArtifactoryRepoFactory extends RepoFactory {
             throw new FileNotFoundException("Error: Curl has not been located")               
         }
 
+        LOGGER.log(Level.FINE, "pullAssetFromRepo src=\"{0}\" target=\"{1}\"",
+                    srcRepo.toURL().toString(),targetAsset.getAbsolutePath());
+
         def cmdStr = null
         cmdStr = "-u${userName}:${userPwd} -o \""+targetAsset.getAbsolutePath()+"\" -O \""+srcRepo.toURL().toString()+"\""
 
@@ -50,10 +58,13 @@ class ArtifactoryRepoFactory extends RepoFactory {
         def runCmd = exeRun.getAbsolutePath()+" "+cmdStr
         exeRun = null
         StringBuffer returnStr = new StringBuffer()
-        int retStat = Utilities.runCmd(runCmd,returnStr)
+
+        LOGGER.log(Level.FINE, "pullAssetFromRepo runCmd=\"{0}\"",runCmd);
+        int retStat = Utilities.runCmd(runCmd,returnStr,null,true)
         String returnOutput = returnStr.toString()
         returnOutput = returnOutput.trim()
         returnStr = null
+        LOGGER.log(Level.FINE, "pullAssetFromRepo output=\"{0}\"",returnOutput);
 
         if (outputStr!=null) {
             outputStr.append(returnOutput)
@@ -124,6 +135,9 @@ class ArtifactoryRepoFactory extends RepoFactory {
             throw new FileNotFoundException("Error: Curl has not been located")               
         }
 
+        LOGGER.log(Level.FINE, "pushAssetToRepo src=\"{0}\" target=\"{1}\"",
+                    srcAsset.getAbsolutePath(),targetRepo.toURL().toString());
+
         def cmdStr = null
         cmdStr = "-u${userName}:${userPwd} -T \""+srcAsset.getAbsolutePath()+"\" \""+targetRepo.toURL().toString()+"\""
 
@@ -132,10 +146,13 @@ class ArtifactoryRepoFactory extends RepoFactory {
         exeRun = null
         StringBuffer returnStr = new StringBuffer()
 
-        int retStat = Utilities.runCmd(runCmd,returnStr)
+        LOGGER.log(Level.FINE, "pushAssetToRepo runCmd=\"{0}\"",runCmd);
+        int retStat = Utilities.runCmd(runCmd,returnStr,null,true)
         String returnOutput = returnStr.toString()
         returnOutput = returnOutput.trim()
         returnStr = null
+        LOGGER.log(Level.FINE, "pushAssetToRepo output=\"{0}\"",returnOutput);
+
         if (retStat==0) {
             // Check the CURL command worked...
             if (returnOutput.contains("\"createdBy\"") && returnOutput.contains("\"downloadUri\"")) {

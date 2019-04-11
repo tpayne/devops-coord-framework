@@ -34,21 +34,39 @@ class Repository implements Serializable {
             throw new IllegalArgumentException("Error: Invalid parameters specified")
         }
 
-        File srcFile = new File(srcAsset)            
         File targetFile = new File(targetAsset)
-        boolean isDir = targetAsset.endsWith(File.separator)
-
+ 
         LOGGER.log(Level.FINE, "pullAssetFromRepo src=\"{0}\" target=\"{1}\"",srcAsset,targetAsset);
-        LOGGER.log(Level.FINE, 
-            "pullAssetFromRepo srcFile=\"{0}\" targetFile=\"{1}\" srcFile(dir)=\"{2}\" targetFile(dir)=\"{3}\"",
-            srcFile.getAbsolutePath(),targetFile.getAbsolutePath(),
-            srcFile.isDirectory(),targetFile.isDirectory());
-        LOGGER.log(Level.FINE, 
-            "pullAssetFromRepo srcFileName=\"{0}\" targetFileName=\"{1}\"",
-            srcFile.getName(),targetFile.getName());
+        boolean retStat = false
 
-        return pullAssetFromRepo(repoType,srcFile,targetFile,
+        if (repoType == ConfigPropertiesConstants.FILE) {
+            File srcFile = new File(srcAsset)            
+            boolean isDir = targetAsset.endsWith(File.separator)
+
+            LOGGER.log(Level.FINE, 
+                "pullAssetFromRepo srcFile=\"{0}\" targetFile=\"{1}\" srcFile(dir)=\"{2}\" targetFile(dir)=\"{3}\"",
+                srcFile.getAbsolutePath(),targetFile.getAbsolutePath(),
+                srcFile.isDirectory(),targetFile.isDirectory());
+            LOGGER.log(Level.FINE, 
+                "pullAssetFromRepo srcFileName=\"{0}\" targetFileName=\"{1}\"",
+                srcFile.getName(),targetFile.getName());
+
+            retStat = pullAssetFromRepo(repoType,srcFile,targetFile,
                                 userName,userPwd,outputStr,isDir)
+        } else if (repoType == ConfigPropertiesConstants.ARTIFACTORY) {
+            URI srcRepo = new URI(srcAsset)
+
+            LOGGER.log(Level.FINE, 
+                "pullAssetFromRepo srcRepo=\"{0}\" targetFile=\"{1}\" targetFile(dir)=\"{2}\"",
+                            srcRepo.toString(),targetFile.getAbsolutePath(),
+                            targetFile.isDirectory());
+
+            retStat = pullAssetFromRepo(repoType,srcRepo,targetFile,
+                                userName,userPwd,outputStr)
+        }        
+
+        return retStat
+
     }
 
     /**
@@ -165,21 +183,37 @@ class Repository implements Serializable {
             throw new IllegalArgumentException("Error: Invalid parameters specified")
         }
 
-        File srcFile = new File(srcAsset)            
-        File targetFile = new File(targetAsset)
-        boolean isDir = targetAsset.endsWith(File.separator)
-
         LOGGER.log(Level.FINE, "pushAssetToRepo src=\"{0}\" target=\"{1}\"",srcAsset,targetAsset);
-        LOGGER.log(Level.FINE, 
-            "pushAssetToRepo srcFile=\"{0}\" targetFile=\"{1}\" srcFile(dir)=\"{2}\" targetFile(dir)=\"{3}\"",
-                        srcFile.getAbsolutePath(),targetFile.getAbsolutePath(),
-                        srcFile.isDirectory(),targetFile.isDirectory());
-        LOGGER.log(Level.FINE, 
-            "pushAssetToRepo srcFileName=\"{0}\" targetFileName=\"{1}\"",
-            srcFile.getName(),targetFile.getName());
+        File srcFile = new File(srcAsset)            
+        boolean retStat = false
 
-        return pushAssetToRepo(repoType,srcFile,targetFile,
-                               userName,userPwd,outputStr,isDir)
+        if (repoType == ConfigPropertiesConstants.FILE) {
+            File targetFile = new File(targetAsset)
+            boolean isDir = targetAsset.endsWith(File.separator)
+
+            LOGGER.log(Level.FINE, 
+                "pushAssetToRepo srcFile=\"{0}\" targetFile=\"{1}\" srcFile(dir)=\"{2}\" targetFile(dir)=\"{3}\"",
+                            srcFile.getAbsolutePath(),targetFile.getAbsolutePath(),
+                            srcFile.isDirectory(),targetFile.isDirectory());
+            LOGGER.log(Level.FINE, 
+                "pushAssetToRepo srcFileName=\"{0}\" targetFileName=\"{1}\"",
+                srcFile.getName(),targetFile.getName());
+
+            retStat = pushAssetToRepo(repoType,srcFile,targetFile,
+                                   userName,userPwd,outputStr,isDir)
+        } else if (repoType == ConfigPropertiesConstants.ARTIFACTORY) {
+            URI targetRepo = new URI(targetAsset)
+
+            LOGGER.log(Level.FINE, 
+                "pushAssetToRepo srcFile=\"{0}\" targetRepo=\"{1}\" srcFile(dir)=\"{2}\"",
+                            srcFile.getAbsolutePath(),targetRepo.toString(),
+                            srcFile.isDirectory());
+
+            retStat = pushAssetToRepo(repoType,srcFile,targetRepo,
+                                   userName,userPwd,outputStr)
+        }        
+
+        return retStat
     }
 
     /**

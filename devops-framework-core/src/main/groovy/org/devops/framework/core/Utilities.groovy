@@ -90,12 +90,15 @@ class Utilities implements Serializable {
          * @param final String - Command to run
          * @param StringBuffer - return message
          * @param final File - workingDir
+         * @param final boolean - stripQuotes
          * @return int - Exit value
          */
-        static int CDRunner(final String cmdStr, StringBuffer returnStr, final File workingDir=null) {
+        static int CDRunner(final String cmdStr, StringBuffer returnStr, 
+                            final File workingDir=null,
+                            final boolean stripQuotes=false) {
             int retStatus = 0
 
-            List<String> args = Utilities.parseArgs(cmdStr)
+            List<String> args = Utilities.parseArgs(cmdStr,stripQuotes)
             File tempFile = File.createTempFile("devopsFramework", ".tmp")
             File tempFile1 = File.createTempFile("devopsFramework", ".tmp")
             FileOutputStream fos = new FileOutputStream(tempFile);
@@ -121,6 +124,7 @@ class Utilities implements Serializable {
                     i++;
                 }
             }
+            
             String outputStr = null
 
             try {
@@ -165,7 +169,7 @@ class Utilities implements Serializable {
             tempFile1.delete()
             Utilities.setOutput(null)
             Utilities.setOutput(outputStr)
-            LOGGER.log(Level.FINE, "Command output \"{0}\"",outputStr);
+            LOGGER.log(Level.FINEST, "Command output \"{0}\"",outputStr);
 
             outputStr = null
             if (retStatus > 0) {
@@ -218,7 +222,7 @@ class Utilities implements Serializable {
             tempFile.delete()
             Utilities.setOutput(null)
             Utilities.setOutput(outputStr)
-            LOGGER.log(Level.FINE, "Command output \"{0}\"",outputStr);
+            LOGGER.log(Level.FINEST, "Command output \"{0}\"",outputStr);
             outputStr = null
             // Enable this if need to debug commands. Not adding debug facility due
             // to password concerns
@@ -240,14 +244,17 @@ class Utilities implements Serializable {
      * @param final String - Command to run
      * @param StringBuffer - return message
      * @param final File - workingDir
+     * @param final File - stripQuotes
      * @return int - Exit value
      */
-    static int runCmd(final String cmdStr, StringBuffer returnStr, final File workingDir=null) {
+    static int runCmd(final String cmdStr, StringBuffer returnStr, 
+                      final File workingDir=null,
+                      final boolean stripQuotes=false) {
         final Jenkins jenkins = Jenkins.getInstance()
         boolean isJenkins = (jenkins!=null && jenkins.getRootDir() != null && !jenkins.getRootDir().getAbsolutePath().isEmpty())
         int retStatus = -1
         if (isJenkins) {
-            retStatus = cmdRunner.CDRunner(cmdStr,returnStr,workingDir)
+            retStatus = cmdRunner.CDRunner(cmdStr,returnStr,workingDir,stripQuotes)
         } else {
             retStatus = cmdRunner.OsRunner(cmdStr,returnStr,workingDir)
         }
@@ -313,9 +320,11 @@ class Utilities implements Serializable {
      /** 
      * Utility to parse command line into list
      * @param final String - cmdLine
+     * @param final boolean - stripQuotes
      * @return boolean
      */
-    static List<String> parseArgs(final String cmdLine) {
+    static List<String> parseArgs(final String cmdLine,
+                                  final boolean stripQuotes=false) {
         List<String> args = new ArrayList<String>()
 
         if (cmdLine.contains("'")) {
@@ -323,7 +332,13 @@ class Utilities implements Serializable {
         } else {
             Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(cmdLine)
             while (m.find()) {
-                args.add(m.group(1));
+                String mm = m.group(1)
+                if (stripQuotes && mm != null && !mm.isEmpty()) {
+                    if (mm.length() >= 2 && mm.charAt(0) == '"' && mm.charAt(mm.length() - 1) == '"') {
+                        mm = mm.substring(1, mm.length() - 1)
+                    }                
+                }
+                args.add(mm);
             }
         }
         return args
