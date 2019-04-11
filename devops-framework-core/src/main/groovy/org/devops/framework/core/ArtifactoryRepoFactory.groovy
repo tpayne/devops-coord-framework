@@ -59,7 +59,6 @@ class ArtifactoryRepoFactory extends RepoFactory {
         exeRun = null
         StringBuffer returnStr = new StringBuffer()
 
-        LOGGER.log(Level.FINE, "pullAssetFromRepo runCmd=\"{0}\"",runCmd);
         int retStat = Utilities.runCmd(runCmd,returnStr,null,true)
         String returnOutput = returnStr.toString()
         returnOutput = returnOutput.trim()
@@ -146,7 +145,6 @@ class ArtifactoryRepoFactory extends RepoFactory {
         exeRun = null
         StringBuffer returnStr = new StringBuffer()
 
-        LOGGER.log(Level.FINE, "pushAssetToRepo runCmd=\"{0}\"",runCmd);
         int retStat = Utilities.runCmd(runCmd,returnStr,null,true)
         String returnOutput = returnStr.toString()
         returnOutput = returnOutput.trim()
