@@ -883,7 +883,7 @@ _Example:_
 
     devOpsFrameworkNexusPushStep srcFile: '/Volumes/WorkArea/Compon_ASD/target/asd.war',
         targetFile: 'http://localhost:8081/nexus/sites/generic-local/comp/Asd.war',
-	userName: 'admin', userPwd: 'admin123'
+        userName: 'admin', userPwd: 'admin123'
 		
 _Parameters:_
 
