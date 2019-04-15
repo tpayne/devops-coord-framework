@@ -23,7 +23,7 @@ class NexusRepoFactory extends RepoFactory {
      * @param StringBuffer - outputStr
      * @param boolean - isDir     
      * @return boolean 
-     * @throws IllegalArgumentException, FileNotFoundException, Exception
+     * @throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception
      */
     static final boolean pullAssetFromRepo(final URI srcRepo,
                                         final File targetAsset,
@@ -31,7 +31,7 @@ class NexusRepoFactory extends RepoFactory {
                                         final String userPwd,
                                         StringBuffer outputStr=null,
                                         boolean isDir=false)                                    
-        throws IllegalArgumentException, FileNotFoundException, Exception {
+        throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception {
         
         if (srcRepo == null || targetAsset == null || userName == null || userPwd == null) {
             throw new IllegalArgumentException("Error: Invalid parameters specified")
@@ -76,6 +76,12 @@ class NexusRepoFactory extends RepoFactory {
             // Now we need to test the file to see if it is error message...
             if (returnOutput.contains("HTTP/1.1 404 Not Found") || returnOutput.contains("HTTP/1.1 401 Unauthorized")) {
                 targetAsset.delete()
+                if (returnOutput.contains("HTTP/1.1 404 Not Found")) {
+                    throw new FileNotFoundException("Error: Source file specified was not found on server") 
+                }
+                if (returnOutput.contains("HTTP/1.1 401 Unauthorized")) {
+                    throw new SecurityException("Error: Authorization failed for source") 
+                }
                 return false
             }
             return true
@@ -93,7 +99,7 @@ class NexusRepoFactory extends RepoFactory {
      * @param StringBuffer - outputStr
      * @param boolean - isDir     
      * @return boolean 
-     * @throws IllegalArgumentException, Exception
+     * @throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception
      */
     static final boolean pushAssetToRepo(final File srcAsset,
                                         final URI targetRepo,
@@ -101,14 +107,14 @@ class NexusRepoFactory extends RepoFactory {
                                         final String userPwd,
                                         StringBuffer outputStr=null,
                                         boolean isDir=false)                                    
-        throws IllegalArgumentException, FileNotFoundException, Exception {
+        throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception {
         
         if (srcAsset == null || targetRepo == null || userName == null || userPwd == null) {
             throw new IllegalArgumentException("Error: Invalid parameters specified")
         }
 
         if (!srcAsset.exists() || !srcAsset.canRead() || !srcAsset.isFile()) {
-            throw new FileNotFoundException("Error: Source file cannot be read")
+            throw new FileNotFoundException("Error: Source file '"+srcAsset.getAbsolutePath()+"' cannot be read")
         }
 
         File exeRun = null
@@ -139,7 +145,15 @@ class NexusRepoFactory extends RepoFactory {
 
         if (retStat==0) {
             // Check the CURL command worked...
-            if (returnOutput.contains("* We are completely uploaded and fine")) {
+            if (returnOutput.contains("HTTP/1.1 404 Not Found") || returnOutput.contains("HTTP/1.1 401 Unauthorized")) {
+                if (returnOutput.contains("HTTP/1.1 404 Not Found")) {
+                    throw new FileNotFoundException("Error: Target file specified was not found on server") 
+                }
+                if (returnOutput.contains("HTTP/1.1 401 Unauthorized")) {
+                    throw new SecurityException("Error: Authorization failed for target") 
+                }
+                return false
+            } else if (returnOutput.contains("* We are completely uploaded and fine")) {
             } else {
                 retStat=1
             }

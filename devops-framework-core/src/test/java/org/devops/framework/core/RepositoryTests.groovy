@@ -883,12 +883,8 @@ public class RepositoryTests extends GroovyTestCase {
          targetFile.delete()
          
          StringBuffer outputStr = new StringBuffer()
-         println "Pull "+srcRepo.toString()
-         println "To "+targetFile.getAbsolutePath()
          retStat = Repository.pullAssetFromRepo(ConfigPropertiesConstants.NEXUS,srcRepo,
                                                    targetFile,userName,userPwd,outputStr)
-         if (!retStat)
-            println "ERROR:<"+outputStr+">"
          outputStr = null
          if (retStat && targetFile.exists()) {
          } else {
@@ -1039,7 +1035,7 @@ public class RepositoryTests extends GroovyTestCase {
       File targetFile = new File(getTmpDir().getAbsolutePath()+File.separator+"utilTest-"+uid)
 
       URI srcRepo = new URI(map.get("nexus_repoURI")+"/unitTest/unitTest.properties")
-      URI invalidSrcRepo = new URI(map.get("nexus_repoURI")+"/unitTest/unitTest2.properties")      
+      URI invalidSrcRepo = new URI(map.get("nexus_repoURI")+"/unitTest/xnitTest2.properties")      
 
       String userName = map.get("nexus_repoUser")
       String userPwd = map.get("nexus_repoUserPwd")
@@ -1068,4 +1064,81 @@ public class RepositoryTests extends GroovyTestCase {
       }
       assertFalse(retStat)
    }
+
+   /**
+    * Authent error pull
+    */
+   void testPullAuthErrFromNexusStr() {
+      Random rand = new Random()
+      Long uid = rand.nextLong()
+
+      File srcFile = new File(propFile.getAbsolutePath())
+      File targetFile = new File(getTmpDir().getAbsolutePath()+File.separator+"utilTest-"+uid)
+
+      URI srcRepo = new URI(map.get("nexus_repoURI")+"/unitTest/unitTest.properties")
+
+      String userName = map.get("nexus_repoUser")
+      String userPwd = map.get("nexus_repoUserPwd")
+
+      boolean retStat = false
+
+      if (srcRepo != null && !srcRepo.toString().isEmpty() &&
+          userName != null && !userName.isEmpty()) {
+         retStat = Repository.pushAssetToRepo(ConfigPropertiesConstants.NEXUS,srcFile,
+                                                   srcRepo,userName,userPwd)
+         assertTrue(retStat)
+         targetFile.delete()
+         retStat = true
+         StringBuffer outputStr = new StringBuffer()
+
+         try {
+            retStat = Repository.pullAssetFromRepo(ConfigPropertiesConstants.NEXUS,srcRepo,
+                                                   targetFile,userName+"gifger",userPwd,outputStr)
+         } catch(SecurityException ex) {
+            retStat = false   
+         } catch(Exception ex) {
+            retStat = true
+         }
+         outputStr = null
+         targetFile.delete()
+      }
+      assertFalse(retStat)
+   }   
+
+   /**
+    * Authent error push
+    */
+   void testPushAuthErrFromNexusStr() {
+      Random rand = new Random()
+      Long uid = rand.nextLong()
+
+      File srcFile = new File(propFile.getAbsolutePath())
+      File targetFile = new File(getTmpDir().getAbsolutePath()+File.separator+"utilTest-"+uid)
+
+      URI srcRepo = new URI(map.get("nexus_repoURI")+"/unitTest/unitTest.properties")
+
+      String userName = map.get("nexus_repoUser")
+      String userPwd = map.get("nexus_repoUserPwd")
+
+      boolean retStat = false
+
+      if (srcRepo != null && !srcRepo.toString().isEmpty() &&
+          userName != null && !userName.isEmpty()) {
+         retStat = true
+         StringBuffer outputStr = new StringBuffer()
+
+         try {
+            retStat = Repository.pushAssetToRepo(ConfigPropertiesConstants.NEXUS,srcFile,
+                                                      srcRepo,userName+"fdfsd",userPwd)
+         } catch(SecurityException ex) {
+            retStat = false   
+         } catch(Exception ex) {
+            retStat = true
+         }
+         outputStr = null
+         targetFile.delete()
+      }
+      assertFalse(retStat)
+   }   
+
 }

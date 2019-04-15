@@ -20,7 +20,7 @@ class Repository implements Serializable {
      * @param final String - userPwd
      * @param StringBuffer - outputStr
      * @return boolean 
-     * @throws IllegalArgumentException, FileNotFoundException, Exception
+     * @throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception
      */
     static final boolean pullAssetFromRepo(final String repoType,
                                         final String srcAsset,
@@ -28,7 +28,7 @@ class Repository implements Serializable {
                                         final String userName=null,
                                         final String userPwd=null,
                                         StringBuffer outputStr=null)
-        throws IllegalArgumentException, FileNotFoundException, Exception {
+        throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception {
 
         if (repoType == null || srcAsset == null || targetAsset == null) {
             throw new IllegalArgumentException("Error: Invalid parameters specified")
@@ -81,7 +81,7 @@ class Repository implements Serializable {
      * @param StringBuffer - outputStr
      * @param boolean - isDir     
      * @return boolean 
-     * @throws IllegalArgumentException, FileNotFoundException, Exception
+     * @throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception
      */
     static final boolean pullAssetFromRepo(final String repoType,
                                         final File srcAsset,
@@ -90,7 +90,7 @@ class Repository implements Serializable {
                                         final String userPwd=null,
                                         StringBuffer outputStr=null,
                                         boolean isDir=false)
-        throws IllegalArgumentException, FileNotFoundException, Exception {
+        throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception {
         
         if (repoType == null || srcAsset == null || targetAsset == null) {
             throw new IllegalArgumentException("Error: Invalid parameters specified")
@@ -129,7 +129,7 @@ class Repository implements Serializable {
      * @param StringBuffer - outputStr
      * @param boolean - isDir     
      * @return boolean 
-     * @throws IllegalArgumentException, FileNotFoundException, Exception
+     * @throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception
      */
     static final boolean pullAssetFromRepo(final String repoType,
                                         final URI srcAsset,
@@ -138,7 +138,7 @@ class Repository implements Serializable {
                                         final String userPwd=null,
                                         StringBuffer outputStr=null,
                                         boolean isDir=false)
-        throws IllegalArgumentException, FileNotFoundException, Exception {
+        throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception {
         
         if (repoType == null || srcAsset == null || targetAsset == null) {
             throw new IllegalArgumentException("Error: Invalid parameters specified")
@@ -174,7 +174,7 @@ class Repository implements Serializable {
      * @param final String - userPwd
      * @param StringBuffer - outputStr
      * @return boolean 
-     * @throws IllegalArgumentException, FileNotFoundException, Exception
+     * @throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception
      */
     static final boolean pushAssetToRepo(final String repoType,
                                         final String srcAsset,
@@ -182,7 +182,7 @@ class Repository implements Serializable {
                                         final String userName=null,
                                         final String userPwd=null,
                                         StringBuffer outputStr=null)
-        throws IllegalArgumentException, FileNotFoundException, Exception {
+        throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception {
             
         if (repoType == null || srcAsset == null || targetAsset == null) {
             throw new IllegalArgumentException("Error: Invalid parameters specified")
@@ -233,7 +233,7 @@ class Repository implements Serializable {
      * @param StringBuffer - outputStr
      * @param boolean - isDir     
      * @return boolean 
-     * @throws IllegalArgumentException, FileNotFoundException, Exception
+     * @throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception
      */
     static boolean pushAssetToRepo(final String repoType,
                                         final File srcAsset,
@@ -242,7 +242,7 @@ class Repository implements Serializable {
                                         final String userPwd=null,
                                         StringBuffer outputStr=null,
                                         boolean isDir=false)
-        throws IllegalArgumentException, FileNotFoundException, Exception {
+        throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception {
         
         if (repoType == null || srcAsset == null || targetRepo == null) {
             throw new IllegalArgumentException("Error: Invalid parameters specified")
@@ -281,7 +281,7 @@ class Repository implements Serializable {
      * @param StringBuffer - outputStr
      * @param boolean - isDir     
      * @return boolean 
-     * @throws IllegalArgumentException, FileNotFoundException, Exception
+     * @throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception
      */
     static boolean pushAssetToRepo(final String repoType,
                                         final File srcAsset,
@@ -290,7 +290,7 @@ class Repository implements Serializable {
                                         final String userPwd=null,
                                         StringBuffer outputStr=null,
                                         boolean isDir=false)
-        throws IllegalArgumentException, FileNotFoundException, Exception {
+        throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception {
         
         if (repoType == null || srcAsset == null || targetRepo == null) {
             throw new IllegalArgumentException("Error: Invalid parameters specified")
@@ -308,7 +308,7 @@ class Repository implements Serializable {
         } else if (repoType == ConfigPropertiesConstants.NEXUS) {
             repo = new NexusRepoFactory()
         }
-        
+
         boolean retStat = repo.pushAssetToRepo(srcAsset,targetRepo,
                                             userName,userPwd,outputStr,
                                             isDir)

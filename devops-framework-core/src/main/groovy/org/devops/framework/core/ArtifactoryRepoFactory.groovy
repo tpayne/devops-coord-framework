@@ -22,7 +22,7 @@ class ArtifactoryRepoFactory extends RepoFactory {
      * @param StringBuffer - outputStr
      * @param boolean - isDir     
      * @return boolean 
-     * @throws IllegalArgumentException, FileNotFoundException, Exception
+     * @throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception
      */
     static final boolean pullAssetFromRepo(final URI srcRepo,
                                         final File targetAsset,
@@ -30,7 +30,7 @@ class ArtifactoryRepoFactory extends RepoFactory {
                                         final String userPwd,
                                         StringBuffer outputStr=null,
                                         boolean isDir=false)                                    
-        throws IllegalArgumentException, FileNotFoundException, Exception {
+        throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception {
         
         if (srcRepo == null || targetAsset == null || userName == null || userPwd == null) {
             throw new IllegalArgumentException("Error: Invalid parameters specified")
@@ -85,7 +85,7 @@ class ArtifactoryRepoFactory extends RepoFactory {
                     if (result.toString().contains("{errors=[{")) {
                         targetAsset.delete()
                         if (result.errors.status.toString().contains("[404]")) {
-                            throw new FileNotFoundException("Error: File specified was not found on server") 
+                            throw new FileNotFoundException("Error: Source file specified was not found on server") 
                         }
                         return false
                     }
@@ -107,7 +107,7 @@ class ArtifactoryRepoFactory extends RepoFactory {
      * @param StringBuffer - outputStr
      * @param boolean - isDir     
      * @return boolean 
-     * @throws IllegalArgumentException, Exception
+     * @throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception
      */
     static final boolean pushAssetToRepo(final File srcAsset,
                                         final URI targetRepo,
@@ -115,14 +115,14 @@ class ArtifactoryRepoFactory extends RepoFactory {
                                         final String userPwd,
                                         StringBuffer outputStr=null,
                                         boolean isDir=false)                                    
-        throws IllegalArgumentException, FileNotFoundException, Exception {
+        throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception {
         
         if (srcAsset == null || targetRepo == null || userName == null || userPwd == null) {
             throw new IllegalArgumentException("Error: Invalid parameters specified")
         }
 
         if (!srcAsset.exists() || !srcAsset.canRead() || !srcAsset.isFile()) {
-            throw new FileNotFoundException("Error: Source file cannot be read")
+            throw new FileNotFoundException("Error: Source file '"+srcAsset.getAbsolutePath()+"' cannot be read")
         }
 
         File exeRun = null

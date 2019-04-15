@@ -20,7 +20,7 @@ class FileRepoFactory extends RepoFactory {
      * @param StringBuffer - outputStr
      * @param boolean - isDir     
      * @return boolean 
-     * @throws IllegalArgumentException, FileNotFoundException, Exception
+     * @throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception
      */
     protected static final boolean pullAssetFromRepo(final URI srcAsset,
                                         final File targetAsset,
@@ -28,7 +28,7 @@ class FileRepoFactory extends RepoFactory {
                                         final String userPwd=null,
                                         StringBuffer outputStr=null,
                                         boolean isDir=false)
-        throws IllegalArgumentException, FileNotFoundException, Exception {
+        throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception {
 
         if (srcAsset == null || targetAsset == null) {
             throw new IllegalArgumentException("Error: Invalid parameters specified")
@@ -48,7 +48,7 @@ class FileRepoFactory extends RepoFactory {
      * @param StringBuffer - outputStr
      * @param boolean - isDir     
      * @return boolean 
-     * @throws IllegalArgumentException, FileNotFoundException, Exception
+     * @throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception
      */
     protected static final boolean pullAssetFromRepo(final File srcAsset,
                                         final File targetAsset,
@@ -56,7 +56,7 @@ class FileRepoFactory extends RepoFactory {
                                         final String userPwd=null,
                                         StringBuffer outputStr=null,
                                         boolean isDir=false)
-        throws IllegalArgumentException, FileNotFoundException, Exception {
+        throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception {
 
         if (srcAsset == null || targetAsset == null) {
             throw new IllegalArgumentException("Error: Invalid parameters specified")
@@ -104,7 +104,7 @@ class FileRepoFactory extends RepoFactory {
      * @param StringBuffer - outputStr
      * @param boolean - isDir     
      * @return boolean 
-     * @throws IllegalArgumentException, FileNotFoundException, Exception
+     * @throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception
      */
     protected static final boolean pushAssetToRepo(final File srcAsset,
                                         final URI targetRepo,
@@ -112,7 +112,7 @@ class FileRepoFactory extends RepoFactory {
                                         final String userPwd=null,
                                         StringBuffer outputStr=null,
                                         boolean isDir=false)
-        throws IllegalArgumentException, FileNotFoundException, Exception {
+        throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception {
 
         if (srcAsset == null || targetRepo == null) {
             throw new IllegalArgumentException("Error: Invalid parameters specified")
@@ -133,7 +133,7 @@ class FileRepoFactory extends RepoFactory {
      * @param StringBuffer - outputStr
      * @param boolean - isDir     
      * @return boolean 
-     * @throws IllegalArgumentException, FileNotFoundException, Exception
+     * @throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception
      */
     protected static final boolean pushAssetToRepo(final File srcAsset,
                                         final File targetRepo,
@@ -141,7 +141,7 @@ class FileRepoFactory extends RepoFactory {
                                         final String userPwd=null,
                                         StringBuffer outputStr=null,
                                         boolean isDir=false)
-        throws IllegalArgumentException, FileNotFoundException, Exception {
+        throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception {
         
         if (srcAsset == null || targetRepo == null) {
             throw new IllegalArgumentException("Error: Invalid parameters specified")
