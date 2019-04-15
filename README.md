@@ -882,8 +882,8 @@ _Purpose:_ This step is for pushing files to a Nexus-based repo
 _Example:_
 
     devOpsFrameworkNexusPushStep srcFile: '/Volumes/WorkArea/Compon_ASD/target/asd.war',
-	targetFile: 'http://localhost:8081/nexus/sites/generic-local/comp/Asd.war',
-        userName: 'admin', userPwd: 'admin123'
+        targetFile: 'http://localhost:8081/nexus/sites/generic-local/comp/Asd.war',
+	userName: 'admin', userPwd: 'admin123'
 		
 _Parameters:_
 
