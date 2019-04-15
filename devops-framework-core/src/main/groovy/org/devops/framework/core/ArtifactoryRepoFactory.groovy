@@ -86,7 +86,10 @@ class ArtifactoryRepoFactory extends RepoFactory {
                         targetAsset.delete()
                         if (result.errors.status.toString().contains("[404]")) {
                             throw new FileNotFoundException("Error: Source file specified was not found on server") 
+                        } else if (result.errors.status.toString().contains("[401]")) {
+                            throw new SecurityException("Error: Authorization failed for source") 
                         }
+
                         return false
                     }
                 }
@@ -152,11 +155,19 @@ class ArtifactoryRepoFactory extends RepoFactory {
         LOGGER.log(Level.FINE, "pushAssetToRepo output=\"{0}\"",returnOutput);
 
         if (retStat==0) {
-            // Check the CURL command worked...
-            if (returnOutput.contains("\"createdBy\"") && returnOutput.contains("\"downloadUri\"")) {
+            if (returnOutput.contains("\"errors\" : [ {")) {
+                if (returnOutput.contains("\"status\" : 404") ||
+                    returnOutput.contains("\"status\" : 403")) {
+                    throw new FileNotFoundException("Error: Target file specified was not found on server") 
+                } else if (returnOutput.contains("\"status\" : 401")) {
+                    throw new SecurityException("Error: Authorization failed for target") 
+                }
+                return false
+            } else if (returnOutput.contains("\"createdBy\"") && returnOutput.contains("\"downloadUri\"")) {
             } else {
                 retStat=1
-            }
+            } 
+
         }
         if (outputStr!=null) {
             outputStr.append(returnOutput)

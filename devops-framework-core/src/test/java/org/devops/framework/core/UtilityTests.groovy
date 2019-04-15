@@ -184,12 +184,12 @@ public class UtilityTests extends GroovyTestCase {
     * Unit test for MD5 chksumming
     */
    void testHashFile() {
-      File propFile = new File("."+"/src/test/resources/unitTest.properties")
+      File propFile = new File("."+"/src/test/resources/DockerFile.test")
 
       boolean retStat = true
       try {
          String hashCode = Utilities.calcFileMD5(propFile)  
-         assertEquals(hashCode,"2a982f722de866b68da475df4ad93a80")
+         assertEquals(hashCode,"458fd5e7b77ce70e98b3e33c9ac57721")
       } catch(FileNotFoundException e) {
          assert("File not found")
       } catch(Exception e) {
