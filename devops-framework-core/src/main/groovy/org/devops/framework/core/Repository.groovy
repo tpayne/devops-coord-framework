@@ -53,7 +53,8 @@ class Repository implements Serializable {
 
             retStat = pullAssetFromRepo(repoType,srcFile,targetFile,
                                 userName,userPwd,outputStr,isDir)
-        } else if (repoType == ConfigPropertiesConstants.ARTIFACTORY) {
+        } else if (repoType == ConfigPropertiesConstants.ARTIFACTORY ||
+                   repoType == ConfigPropertiesConstants.NEXUS) {
             URI srcRepo = new URI(srcAsset)
 
             LOGGER.log(Level.FINE, 
@@ -106,6 +107,8 @@ class Repository implements Serializable {
             repo = new FileRepoFactory()
         } else if (repoType == ConfigPropertiesConstants.ARTIFACTORY) {
             repo = new ArtifactoryRepoFactory()
+        } else if (repoType == ConfigPropertiesConstants.NEXUS) {
+            repo = new NexusRepoFactory()
         }
 
         boolean retStat = repo.pullAssetFromRepo(srcAsset,targetAsset,
@@ -150,6 +153,8 @@ class Repository implements Serializable {
             repo = new FileRepoFactory()
         } else if (repoType == ConfigPropertiesConstants.ARTIFACTORY) {
             repo = new ArtifactoryRepoFactory()
+        } else if (repoType == ConfigPropertiesConstants.NEXUS) {
+            repo = new NexusRepoFactory()
         }
 
         boolean retStat = repo.pullAssetFromRepo(srcAsset,targetAsset,
@@ -201,7 +206,8 @@ class Repository implements Serializable {
 
             retStat = pushAssetToRepo(repoType,srcFile,targetFile,
                                    userName,userPwd,outputStr,isDir)
-        } else if (repoType == ConfigPropertiesConstants.ARTIFACTORY) {
+        } else if (repoType == ConfigPropertiesConstants.ARTIFACTORY ||
+                   repoType == ConfigPropertiesConstants.NEXUS) {
             URI targetRepo = new URI(targetAsset)
 
             LOGGER.log(Level.FINE, 
@@ -253,6 +259,8 @@ class Repository implements Serializable {
             repo = new FileRepoFactory()
         } else if (repoType == ConfigPropertiesConstants.ARTIFACTORY) {
             repo = new ArtifactoryRepoFactory()
+        } else if (repoType == ConfigPropertiesConstants.NEXUS) {
+            repo = new NexusRepoFactory()
         }
 
         boolean retStat = repo.pushAssetToRepo(srcAsset,targetRepo,
@@ -297,8 +305,10 @@ class Repository implements Serializable {
             repo = new FileRepoFactory()
         } else if (repoType == ConfigPropertiesConstants.ARTIFACTORY) {
             repo = new ArtifactoryRepoFactory()
+        } else if (repoType == ConfigPropertiesConstants.NEXUS) {
+            repo = new NexusRepoFactory()
         }
-
+        
         boolean retStat = repo.pushAssetToRepo(srcAsset,targetRepo,
                                             userName,userPwd,outputStr,
                                             isDir)

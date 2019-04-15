@@ -21,5 +21,6 @@ public class ConfigPropertiesConstants implements Serializable {
 	// Repository constants...
 	public static final String FILE = "FILEREPO"
 	public static final String ARTIFACTORY = "ARTIFACTORYREPO"
+	public static final String NEXUS = "NEXUSREPO"
 }
 

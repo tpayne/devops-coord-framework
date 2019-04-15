@@ -189,7 +189,7 @@ public class UtilityTests extends GroovyTestCase {
       boolean retStat = true
       try {
          String hashCode = Utilities.calcFileMD5(propFile)  
-         assertEquals(hashCode,"05e17d440f997fab326f238bbcb090d5")
+         assertEquals(hashCode,"2a982f722de866b68da475df4ad93a80")
       } catch(FileNotFoundException e) {
          assert("File not found")
       } catch(Exception e) {
