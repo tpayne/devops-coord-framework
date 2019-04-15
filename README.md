@@ -129,7 +129,7 @@ easier to do by providing working services and utilities that are commonly requi
 >| `Notifications` | For email and [Slack](https://slack.com) IRC messaging | 
 >| `SCM` | For GIT and SVN SCM function(s) - currently only supporting cloning |
 >| `Container` | For various container management commands - currently only supporting [Docker](https://www.docker.com) |
->| `Repository` | For pushing and pulling files from repos - currently only file & [Artifactory](https://jfrog.com/artifactory/) is supported |
+>| `Repository` | For pushing and pulling files from repos - currently only file, [Artifactory](https://jfrog.com/artifactory/) and [Nexus OSS v2](https://www.sonatype.com/nexus-repository-oss) is supported |
 >| `ComponentManifest` | For maintaining your manifest of integrated components. This is the list of component names, versions, status and locations that you register with the manifest. These can then be accessed later on for usage in other testing or release processes |
 
 So, why have a DevOps framework
@@ -674,6 +674,12 @@ off the ground. These service steps are as follows.
 >| `devOpsFrameworkTagContainerStep` | This step provides a way of tagging container images (Docker) | 
 >| `devOpsFrameworkSvnCloneStep` | This step provides a way of cloning a branch from a SVN repo | 
 >| `devOpsFrameworkGitCloneStep` | This step provides a way of cloning a branch from a GIT repo | 
+>| `devOpsFrameworkFilePushStep` | This step provides a way of pushing an asset to a file-based repo | 
+>| `devOpsFrameworkFilePullStep` | This step provides a way of pulling an asset to a file-based repo | 
+>| `devOpsFrameworkNexusPushStep` | This step provides a way of pushing an asset to a Nexus-based repo | 
+>| `devOpsFrameworkNexusPullStep` | This step provides a way of pulling an asset to a Nexus-based repo | 
+>| `devOpsFrameworkArtifactoryPushStep` | This step provides a way of pushing an asset to a Artifactory-based repo | 
+>| `devOpsFrameworkArtifactoryPullStep` | This step provides a way of pulling an asset to a Artifactory-based repo | 
 
 Plugin Syntax
 -------------
@@ -805,10 +811,130 @@ _Parameters:_
 
 | Parameter | Value | Description |
 | --------- | ----- | ----------- |
-| `repoName` | `'<repoName>'` | Mandatory parameter to specify the repo to clone|
+| `repoName` | `'<repoName>'` | Mandatory parameter to specify the repo to clone |
 | `targetDir` | `'<someDirectory>'` | Optional parameter to specify the target directory to use |
 | `userName` | `'<userName>'` | Optional parameter to specify a valid SCM username |
 | `userPwd` | `'<password>'` | Optional parameter to specify a valid SCM user password |
+
+###### Pull File Repo
+
+_Name:_ `devOpsFrameworkFilePullStep`
+
+_Purpose:_ This step is for pulling files from a file-based repo 
+
+_Example:_
+
+	devOpsFrameworkFilePullStep srcFile: '/Volumes/FileRepo/ASD/Releases/latest/asd.hpi', 
+		targetFile: '/Volumes/WorkArea/Compon_ASD/target/'
+		
+_Parameters:_
+
+| Parameter | Value | Description |
+| --------- | ----- | ----------- |
+| `srcFile` | `'<fileName>'` | Mandatory parameter to specify a file or directory to pull |
+| `targetFile` | `'<fileName>'` | Mandatory parameter to specify the target |
+
+###### Push File Repo
+
+_Name:_ `devOpsFrameworkFilePushStep`
+
+_Purpose:_ This step is for pushing files to a file-based repo 
+
+_Example:_
+
+	devOpsFrameworkFilePushStep srcFile: '/Volumes/WorkArea/Compon_ASD/target/asd.hpi', 
+		targetFile: '/Volumes/FileRepo/ASD/Releases/latest/'
+		
+_Parameters:_
+
+| Parameter | Value | Description |
+| --------- | ----- | ----------- |
+| `srcFile` | `'<fileName>'` | Mandatory parameter to specify a file or directory to push |
+| `targetFile` | `'<fileName>'` | Mandatory parameter to specify the target |
+
+###### Pull Nexus Repo
+
+_Name:_ `devOpsFrameworkNexusPullStep`
+
+_Purpose:_ This step is for pulling files from a Nexus-based repo 
+
+_Example:_
+
+    devOpsFrameworkNexusPullStep srcFile: 'http://localhost:8081/nexus/sites/generic-local/comp/Asd.war', 
+        targetFile: '/Volumes/WorkDisk/deploy/ASD.war', 
+        userName: 'admin', userPwd: 'admin123'
+	
+_Parameters:_
+
+| Parameter | Value | Description |
+| --------- | ----- | ----------- |
+| `srcFile` | `'<fileName>'` | Mandatory parameter to specify a file to pull from Nexus |
+| `targetFile` | `'<fileName>'` | Mandatory parameter to specify the target |
+| `userName` | `'<userName>'` | Optional parameter to specify a valid repo username |
+| `userPwd` | `'<password>'` | Optional parameter to specify a valid repo user password |
+
+###### Push Nexus Repo
+
+_Name:_ `devOpsFrameworkNexusPushStep`
+
+_Purpose:_ This step is for pushing files to a Nexus-based repo 
+
+_Example:_
+
+    devOpsFrameworkNexusPushStep srcFile: '/Volumes/WorkArea/Compon_ASD/target/asd.war',
+	targetFile: 'http://localhost:8081/nexus/sites/generic-local/comp/Asd.war',
+        userName: 'admin', userPwd: 'admin123'
+		
+_Parameters:_
+
+| Parameter | Value | Description |
+| --------- | ----- | ----------- |
+| `srcFile` | `'<fileName>'` | Mandatory parameter to specify the file to push to Nexus |
+| `targetFile` | `'<fileName>'` | Mandatory parameter to specify the target |
+| `userName` | `'<userName>'` | Optional parameter to specify a valid repo username |
+| `userPwd` | `'<password>'` | Optional parameter to specify a valid repo user password |
+
+###### Pull Artifactory Repo
+
+_Name:_ `devOpsFrameworkArtifactoryPullStep`
+
+_Purpose:_ This step is for pulling files from a Artifactory-based repo 
+
+_Example:_
+
+    devOpsFrameworkArtifactoryPullStep srcFile: 'http://localhost:8081/artifactory/generic-local/comp/Asd.war', 
+        targetFile: '/Volumes/WorkDisk/deploy/ASD.war', 
+        userName: 'admin', userPwd: 'admin123'
+	
+_Parameters:_
+
+| Parameter | Value | Description |
+| --------- | ----- | ----------- |
+| `srcFile` | `'<fileName>'` | Mandatory parameter to specify a file to pull from Artifactory |
+| `targetFile` | `'<fileName>'` | Mandatory parameter to specify the target |
+| `userName` | `'<userName>'` | Optional parameter to specify a valid repo username |
+| `userPwd` | `'<password>'` | Optional parameter to specify a valid repo user password |
+
+###### Push Artifactory Repo
+
+_Name:_ `devOpsFrameworkArtifactoryPushStep`
+
+_Purpose:_ This step is for pushing files to a Artifactory-based repo 
+
+_Example:_
+
+    devOpsFrameworkArtifactoryPushStep srcFile: '/Volumes/WorkArea/Compon_ASD/target/asd.war',
+	targetFile: 'http://localhost:8081/artifactory/generic-local/comp/Asd.war',
+        userName: 'admin', userPwd: 'admin123'
+		
+_Parameters:_
+
+| Parameter | Value | Description |
+| --------- | ----- | ----------- |
+| `srcFile` | `'<fileName>'` | Mandatory parameter to specify the file to push to Artifactory |
+| `targetFile` | `'<fileName>'` | Mandatory parameter to specify the target |
+| `userName` | `'<userName>'` | Optional parameter to specify a valid repo username |
+| `userPwd` | `'<password>'` | Optional parameter to specify a valid repo user password |
 
 Liability Warning
 =================
