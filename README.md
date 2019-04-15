@@ -924,7 +924,7 @@ _Purpose:_ This step is for pushing files to a Artifactory-based repo
 _Example:_
 
     devOpsFrameworkArtifactoryPushStep srcFile: '/Volumes/WorkArea/Compon_ASD/target/asd.war',
-	targetFile: 'http://localhost:8081/artifactory/generic-local/comp/Asd.war',
+        targetFile: 'http://localhost:8081/artifactory/generic-local/comp/Asd.war',
         userName: 'admin', userPwd: 'admin123'
 		
 _Parameters:_
