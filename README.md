@@ -35,6 +35,7 @@ Contents
 	* [Container](#container)
 	* [Repository](#repository)
 	* [ComponentManifest](#componentmanifest)
+	* [Provision](#provision)
 * [How to Use](#how-to-use)
 * [Framework Documentation](#framework-documentation)
 * [Class Usage Examples and Running Unit-tests](#class-usage-examples-and-running-unit-tests)
@@ -131,6 +132,7 @@ easier to do by providing working services and utilities that are commonly requi
 >| `Container` | For various container management commands - currently only supporting [Docker](https://www.docker.com) |
 >| `Repository` | For pushing and pulling files from repos - currently only file, [Artifactory](https://jfrog.com/artifactory/) and [Nexus OSS v2](https://www.sonatype.com/nexus-repository-oss) is supported |
 >| `ComponentManifest` | For maintaining your manifest of integrated components. This is the list of component names, versions, status and locations that you register with the manifest. These can then be accessed later on for usage in other testing or release processes |
+>| `Provision` | For running provisioning scripts |
 
 So, why have a DevOps framework
 ===============================
@@ -526,6 +528,14 @@ you use are up to you.
 
 Further keys can be added like MD5 checksum by modifying the `ComponentManifest.groovy` file as needed.
 
+Provision
+----------
+This class provides provisioning related functionality and has the following methods: -
+
+>| Method | Description | 
+>| ------ | ----------- |
+>| `runPlaybook()` | Used to run a play/runbook (Ansible only) |
+
 How to Use
 ==========
 The shared library works by providing controller classes that you can use in a pipeline job. As such, you need 
@@ -680,6 +690,7 @@ off the ground. These service steps are as follows.
 >| `devOpsFrameworkNexusPullStep` | This step provides a way of pulling an asset to a Nexus-based repo | 
 >| `devOpsFrameworkArtifactoryPushStep` | This step provides a way of pushing an asset to a Artifactory-based repo | 
 >| `devOpsFrameworkArtifactoryPullStep` | This step provides a way of pulling an asset to a Artifactory-based repo | 
+>| `devOpsFrameworkAnsibleRunbookStep` | This step provides a way of running an Ansible playbook |
 
 Plugin Syntax
 -------------
@@ -720,7 +731,6 @@ _Parameters:_
 | --------- | ----- | ----------- |
 | `containerName` | `'<containerName>'` | Mandatory parameter to specify the container name to pull |
 
-
 ###### Running a container image
 
 _Name:_ `devOpsFrameworkRunContainerStep`
@@ -756,7 +766,6 @@ _Parameters:_
 | `containerName` | `'<containerName>'` | Mandatory parameter to specify the container name to delete |
 | `force` | `'<true|false>'` | Optional parameter to force the container to be removed |
 
-
 ###### Tagging a container image
 
 _Name:_ `devOpsFrameworkTagContainerStep`
@@ -774,7 +783,6 @@ _Parameters:_
 | `containerName` | `'<containerName>'` | Mandatory parameter to specify the container name to tag |
 | `targetName` | `'<targetName>'` | Mandatory parameter to specify the target tag |
 	
-
 ###### Clone SVN Repo
 
 _Name:_ `devOpsFrameworkSvnCloneStep`
@@ -794,7 +802,6 @@ _Parameters:_
 | `targetDir` | `'<someDirectory>'` | Optional parameter to specify the target directory to use |
 | `userName` | `'<userName>'` | Optional parameter to specify a valid SCM username |
 | `userPwd` | `'<password>'` | Optional parameter to specify a valid SCM user password |
-
 
 ###### Clone GIT Repo
 
@@ -936,6 +943,26 @@ _Parameters:_
 | `userName` | `'<userName>'` | Optional parameter to specify a valid repo username |
 | `userPwd` | `'<password>'` | Optional parameter to specify a valid repo user password |
 
+###### Run an Ansible Playbook
+
+_Name:_ `devOpsFrameworkAnsibleRunbookStep`
+
+_Purpose:_ This step is for running an Ansible playbook
+
+_Example:_
+
+    devOpsFrameworkAnsibleRunbookStep hostFile: '/Volumes/WorkDisk/resources/ansible_hosts',
+        workingDir: '/Volumes/WorkDisk/tmp/',
+        runFile: '/Volumes/WorkDisk/resources/ansible_playbook.yml'
+		
+_Parameters:_
+
+| Parameter | Value | Description |
+| --------- | ----- | ----------- |
+| `hostFile` | `'<fileName>'` | Mandatory parameter to specify the hosts file to use |
+| `runFile` | `'<fileName>'` | Mandatory parameter to specify the playbook to use |
+| `workingDir` | `'<userName>'` | Optional parameter to specify a valid repo username |
+	
 Liability Warning
 =================
 The contents of this repository (documents and examples) are provided “as-is” with no warrantee implied 
