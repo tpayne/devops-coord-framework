@@ -1,0 +1,14 @@
+# Simple example playbook - Run commands on localhost only
+---
+- name: Run something
+  hosts: localhost
+
+  tasks:
+  - name: Do something highly complex
+    command: chdir=/tmp ls /
+    register: outputStr
+  - debug: msg="{{outputStr}}"
+  - name: Who am i really
+    command: who am i
+    register: outputStr
+  - debug: msg="{{outputStr}}"
