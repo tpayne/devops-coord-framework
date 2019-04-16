@@ -25,6 +25,10 @@ public class ConfigPropertiesConstants implements Serializable {
 
 	// Provisioning constants...
 	public static final String ANSIBLE = "ANSIBLE"
+	//
+	// Puppet and Chef require root access which is too dangerous for this framework.
+	// As of now, they will not be supported, unless a great need is required.
+	//
 	public static final String CHEF = "CHEF"
 	public static final String PUPPET = "PUPPET"
 

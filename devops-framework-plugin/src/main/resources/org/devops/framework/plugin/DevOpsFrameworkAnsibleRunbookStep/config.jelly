@@ -1,0 +1,33 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
+    <f:block>
+        <table width="100%" style="border:solid">
+            <f:entry field="hostFile" title="${%Ansible Hosts File}">
+                <f:textbox/>
+            </f:entry>
+            <f:entry field="runFile" title="${%Playbook File}">
+                <f:textbox/>
+            </f:entry>
+             <f:entry field="workingDir" title="${%Working Directory}">
+                <f:textbox/>
+            </f:entry>
+           <f:advanced>
+                <f:entry>
+                    <p>
+                    The user details provided below are used to run Ansible
+                    as another OS user when/if required.
+
+                    Remember, passwords are stored in clear text in the job
+                    so it might be a security concern to specify them.
+                    </p>
+                </f:entry>            
+                <f:entry field="userName" title="${%OS User}">
+                    <f:textbox/>
+                </f:entry>        
+                <f:entry title="OS User Password">
+                    <input type="password" class="setting-input" name="userPwd"/>
+                </f:entry> 
+            </f:advanced>     
+        </table>
+    </f:block>
+</j:jelly>

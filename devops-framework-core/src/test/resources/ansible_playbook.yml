@@ -12,3 +12,4 @@
     command: who am i
     register: outputStr
   - debug: msg="{{outputStr}}"
+  - debug: msg="{{ansible_user_id}}"

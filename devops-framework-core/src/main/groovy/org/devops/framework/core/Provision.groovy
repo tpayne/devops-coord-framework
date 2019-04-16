@@ -180,11 +180,12 @@ class Provision implements Serializable {
         // This parameter could be nullable in the future, but for now make
         // it mandatory to ensure target...
         //
-
         if (targetWorkArea == null || targetWorkArea.getName().isEmpty()) {
         }
         else if (targetWorkArea.exists() && targetWorkArea.canWrite() &&
                  targetWorkArea.isDirectory()) {
+            LOGGER.log(Level.FINER, "runPlaybook wd=\"{0}\"",targetWorkArea.getAbsolutePath());
+
         } else {
             throw new FileNotFoundException("Error: The target workarea '"+
                                             targetWorkArea.getAbsolutePath()+
@@ -204,10 +205,11 @@ class Provision implements Serializable {
             throw new FileNotFoundException("Error: The host file '"+
                                             hostFile.getAbsolutePath()+
                                             "' either does not exist or is not readable")
+
         } else if (!playbookFile.exists() || !playbookFile.canRead()) {
             throw new FileNotFoundException("Error: The playbook file '"+
                                             playbookFile.getAbsolutePath()+
-                                            "' either does not exist or is not readable")
+                                            "' either does not exist or is not readable")                
         }
 
         // Test that the specified provisioning engine exists...
@@ -215,8 +217,10 @@ class Provision implements Serializable {
         if (toolType == ConfigPropertiesConstants.ANSIBLE) {
             provExeName = "ansible-playbook"
         } else if (toolType == ConfigPropertiesConstants.CHEF) {
+            // Not supported...
             provExeName = "chef-client"
         } else if (toolType == ConfigPropertiesConstants.PUPPET) {
+            // Not supported...
             provExeName = "puppet"
         } else {
             throw new IllegalArgumentException("Error: The tool type specified is not supported")
@@ -241,10 +245,15 @@ class Provision implements Serializable {
             cmdStr += " -i "+hostFile.getAbsolutePath()
             cmdStr += " "+playbookFile.getAbsolutePath()
         } else {
+            //
+            // Puppet and Chef require root access which is too dangerous for this framework.
+            // As of now, they will not be supported, unless a great need is required.
+            //
             throw new IllegalArgumentException("Error: The tool type specified is not currently supported")
         }
 
         StringBuffer returnStr = new StringBuffer()
+
         int retStat = Utilities.runCmd(cmdStr,returnStr,targetWorkArea)
         String returnOutput = returnStr.toString()
         returnOutput = returnOutput.trim()
