@@ -74,21 +74,15 @@ public class DevOpsFrameworkAnsibleRunbookStepExecution extends SynchronousNonBl
     protected Boolean run() throws Exception {
         listener = getContext().get(TaskListener.class);
         StringBuffer outputStr = new StringBuffer();
-        if (step.getUserName() != null && !step.getUserName().isEmpty()) {
-           listener.getLogger().println("Running playbook '"+
-                step.getRunFile()+"' using '"+
-                step.getHostFile()+"' as "+
-                step.getUserName()); 
-        } else {
-           listener.getLogger().println("Running playbook '"+
-                step.getRunFile()+"' using '"+
-                step.getHostFile()+"'");
-        }
+
+        listener.getLogger().println("Running playbook '"+
+            step.getRunFile()+"' using '"+
+            step.getHostFile()+"'");
+        
         boolean retStat = Provision.runPlaybook(ConfigPropertiesConstants.ANSIBLE,
                                 step.getHostFile(),
                                 step.getRunFile(),
-                                (step.getUserName() == null || step.getUserName().isEmpty() ? null : step.getUserName()),
-                                (step.getUserPwd() == null || step.getUserPwd().isEmpty() ? null : step.getUserPwd()),
+                                null,null,
                                 (step.getWorkingDir() == null || step.getWorkingDir().isEmpty() ? null : step.getWorkingDir()),
                                 outputStr);
         String output = outputStr.toString();

@@ -10,24 +10,7 @@
             </f:entry>
              <f:entry field="workingDir" title="${%Working Directory}">
                 <f:textbox/>
-            </f:entry>
-           <f:advanced>
-                <f:entry>
-                    <p>
-                    The user details provided below are used to run Ansible
-                    as another OS user when/if required.
-
-                    Remember, passwords are stored in clear text in the job
-                    so it might be a security concern to specify them.
-                    </p>
-                </f:entry>            
-                <f:entry field="userName" title="${%OS User}">
-                    <f:textbox/>
-                </f:entry>        
-                <f:entry title="OS User Password">
-                    <input type="password" class="setting-input" name="userPwd"/>
-                </f:entry> 
-            </f:advanced>     
+            </f:entry> 
         </table>
     </f:block>
 </j:jelly>

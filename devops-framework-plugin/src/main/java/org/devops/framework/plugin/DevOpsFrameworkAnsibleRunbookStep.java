@@ -42,25 +42,19 @@ public class DevOpsFrameworkAnsibleRunbookStep extends Step {
     private String hostFile;
     private String runFile;
     private String workingDir;
-    private String userName;
-    private String userPwd;
 
     /**
      * Default constructor
      * 
-     * @param String - srcFile
-     * @param String - targetFile
-     * @param String - userName
-     * @param String - userPwd
+     * @param String - hostFile
+     * @param String - runFile
+     * @param String - workingDir
      */
     @DataBoundConstructor
-    public DevOpsFrameworkAnsibleRunbookStep(String hostFile, String runFile, String workingDir,
-                                              String userName, String userPwd) {
+    public DevOpsFrameworkAnsibleRunbookStep(String hostFile, String runFile, String workingDir) {
         this.hostFile = hostFile;
         this.runFile = runFile;
         this.workingDir = workingDir;
-        this.userName = userName;
-        this.userPwd = userPwd;
     }
 
     public String getHostFile() {
@@ -88,24 +82,6 @@ public class DevOpsFrameworkAnsibleRunbookStep extends Step {
     @DataBoundSetter 
     public void setWorkingDir(final String workingDir) {
         this.workingDir = workingDir.trim();
-    }
-
-    public String getUserName() {
-        return this.userName;
-    }
-
-    @DataBoundSetter 
-    public void setUserName(final String userName) {
-        this.userName = Util.fixEmptyAndTrim(userName);
-    }
-
-    public String getUserPwd() {
-        return this.userPwd;
-    }
-
-    @DataBoundSetter 
-    public void setUserPwd(final String userPwd) {
-        this.userPwd = Util.fixEmptyAndTrim(userPwd);
     }
     
     @Override
