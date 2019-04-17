@@ -380,6 +380,13 @@ To install this [Jenkins share library](https://jenkins.io/doc/book/pipeline/sha
 	5) Unzip devops-framework-pipeline-dsl-pack.zip into a working directory
 	6) Use the instructions in the Jenkins Wiki (https://jenkins.io/doc/book/pipeline/shared-libraries/#global-shared-libraries) to install the shared library into your Jenkins system
 
+You will need to configure the unit-tests as discussed below and install/configure `Docker` and `Ansible` as they are used
+during the test process. If you want to just build the packages without doing any unit-tests, then you can do this via...
+
+	mvn clean package -Dmaven.test.skip=true
+	
+This will build the packages only.
+
 Service Classes
 ===============
 The following are the main service classes and the methods that they have.
