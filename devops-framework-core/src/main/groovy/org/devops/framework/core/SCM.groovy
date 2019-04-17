@@ -3,7 +3,12 @@
  */
 package org.devops.framework.core;
 
+import java.util.logging.Logger
+import java.util.logging.Level
+
 class SCM implements Serializable {
+
+   private static final Logger LOGGER = Logger.getLogger( SCM.class.getName() )
 
     /**
      * Utility routine to clone code into a workarea
@@ -11,17 +16,19 @@ class SCM implements Serializable {
      * @param final String - scmType
      * @param final String - scmURI
      * @param StringBuffer - outputStr
+     * @param final boolean - verbose     
      * @return boolean 
      * @throws FileNotFoundException, IllegalArgumentException, Exception
      */
     static final boolean scmClone(final String scmType,
                                 final String scmURI,
-                                StringBuffer outputStr=null)
+                                StringBuffer outputStr=null,
+                                final boolean verbose=false)
         throws FileNotFoundException, IllegalArgumentException, Exception {
         //
         // SCM clone using no user or password...
         //
-        return scmClone(scmType,scmURI,null,null,"",outputStr)
+        return scmClone(scmType,scmURI,null,null,"",outputStr,verbose)
     }
 
     /**
@@ -32,6 +39,7 @@ class SCM implements Serializable {
      * @param final String - scmUser
      * @param final String - scmPwd
      * @param StringBuffer - outputStr
+     * @param final boolean - verbose     
      * @return boolean 
      * @throws FileNotFoundException, IllegalArgumentException, Exception
      */
@@ -39,12 +47,13 @@ class SCM implements Serializable {
                                 final String scmURI,
                                 final String scmUser,
                                 final String scmPwd,
-                                StringBuffer outputStr=null)
+                                StringBuffer outputStr=null,
+                                final boolean verbose=false)
         throws FileNotFoundException, IllegalArgumentException, Exception {
         //
         // SCM clone using user and passwd...
         //
-        return scmClone(scmType,scmURI,scmUser,scmPwd,"",outputStr)
+        return scmClone(scmType,scmURI,scmUser,scmPwd,"",outputStr,verbose)
     }
 
     /**
@@ -54,18 +63,20 @@ class SCM implements Serializable {
      * @param final String - scmURI
      * @param final File - targetWorkArea
      * @param StringBuffer - outputStr
+     * @param final boolean - verbose     
      * @return boolean 
      * @throws FileNotFoundException, IllegalArgumentException, Exception
      */
     static final boolean scmClone(final String scmType,
                                 final String scmURI,
                                 final File targetWorkArea,
-                                StringBuffer outputStr=null)
+                                StringBuffer outputStr=null,
+                                final boolean verbose=false)
         throws FileNotFoundException, IllegalArgumentException, Exception {
         //
         // SCM clone using workarea...
         //
-        return scmClone(scmType,scmURI,null,null,targetWorkArea,outputStr)
+        return scmClone(scmType,scmURI,null,null,targetWorkArea,outputStr,verbose)
     }
 
     /**
@@ -77,6 +88,7 @@ class SCM implements Serializable {
      * @param final String - scmPwd
      * @param final String - targetWorkArea
      * @param StringBuffer - outputStr
+     * @param final boolean - verbose     
      * @return boolean 
      * @throws FileNotFoundException, IllegalArgumentException, Exception
      */
@@ -85,13 +97,15 @@ class SCM implements Serializable {
                                 final String scmUser,
                                 final String scmPwd,
                                 final String targetWorkArea,
-                                StringBuffer outputStr=null)
+                                StringBuffer outputStr=null,
+                                final boolean verbose=false)
         throws FileNotFoundException, IllegalArgumentException, Exception {
         //
         // SCM clone using workarea...
         //
         File targetWorkAreaFile = null
         if (targetWorkArea != null && !targetWorkArea.isEmpty()) {
+            LOGGER.log(Level.FINE, "scmClone wd=\"{0}\"",targetWorkArea);
             targetWorkAreaFile = new File(targetWorkArea)
         } else {
             targetWorkAreaFile = new File("")
@@ -108,6 +122,7 @@ class SCM implements Serializable {
      * @param final String - scmPwd
      * @param final File - targetWorkArea
      * @param StringBuffer - outputStr
+     * @param final boolean - verbose     
      * @return boolean 
      * @throws FileNotFoundException, IllegalArgumentException, Exception
      */
@@ -116,7 +131,8 @@ class SCM implements Serializable {
                                 final String scmUser,
                                 final String scmPwd,
                                 final File targetWorkArea,
-                                StringBuffer outputStr=null)
+                                StringBuffer outputStr=null,
+                                final boolean verbose=false)
         throws FileNotFoundException, IllegalArgumentException, Exception {
         //
         // Test that the target directory specified exists & is readable...
@@ -132,6 +148,9 @@ class SCM implements Serializable {
                                             targetWorkArea.getAbsolutePath()+
                                             "' either does not exist or is not writable")
         }
+
+        LOGGER.log(Level.FINER, "scmClone wd=\"{0}\"",targetWorkArea.getAbsolutePath());
+        LOGGER.log(Level.FINER, "scmClone scmURI=\"{0}\"",scmURI);
 
         if (scmType == null || scmURI == null) {
             throw new IllegalArgumentException("Error: Invalud parameters specified")
@@ -168,7 +187,9 @@ class SCM implements Serializable {
             if (targetWorkArea != null && !targetWorkArea.getName().isEmpty()) {
                 cmdStr += " "+targetWorkArea.getAbsolutePath()
             }
-            cmdStr += " --quiet"
+            if (!verbose) {
+                cmdStr += " --quiet"
+            }
         }
         else if (scmType == ConfigPropertiesConstants.SCMSVN) {
             cmdStr += " co "
@@ -180,7 +201,9 @@ class SCM implements Serializable {
             if (targetWorkArea != null && !targetWorkArea.getName().isEmpty()) {
                 cmdStr += " "+targetWorkArea.getAbsolutePath()
             }
-            cmdStr += " --quiet"
+            if (!verbose) {
+                cmdStr += " --quiet"
+            }
         }
 
         StringBuffer returnStr = new StringBuffer()
@@ -188,6 +211,8 @@ class SCM implements Serializable {
         int retStat = Utilities.runCmd(cmdStr,returnStr)
         String returnOutput = returnStr.toString()
         returnOutput = returnOutput.trim()
+        LOGGER.log(Level.FINER, "scmClone output=\"{0}\"",returnOutput);
+
         returnStr = null    
         if (outputStr!=null) {
             outputStr.append(returnOutput)
