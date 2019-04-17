@@ -189,6 +189,8 @@ class SCM implements Serializable {
             }
             if (!verbose) {
                 cmdStr += " --quiet"
+            } else {
+                cmdStr += " --verbose"
             }
         }
         else if (scmType == ConfigPropertiesConstants.SCMSVN) {

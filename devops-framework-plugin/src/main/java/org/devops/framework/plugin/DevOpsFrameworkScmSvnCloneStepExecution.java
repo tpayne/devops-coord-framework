@@ -75,6 +75,9 @@ public class DevOpsFrameworkScmSvnCloneStepExecution extends SynchronousNonBlock
         listener = getContext().get(TaskListener.class);
         StringBuffer outputStr = new StringBuffer();
         listener.getLogger().println("Cloning repo "+step.getRepoName());
+        if (step.getTargetDir() != null || !step.getTargetDir().isEmpty()) {
+           listener.getLogger().println("Using target directory "+step.getTargetDir()); 
+        }
         boolean retStat = SCM.scmClone(ConfigPropertiesConstants.SCMSVN,
                                 step.getRepoName(),
                                 (step.getUserName() == null || step.getUserName().isEmpty() ? null : step.getUserName()),
