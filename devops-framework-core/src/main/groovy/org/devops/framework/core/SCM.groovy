@@ -143,13 +143,13 @@ class SCM implements Serializable {
         }
         else if (targetWorkArea.exists() && targetWorkArea.canWrite() &&
                  targetWorkArea.isDirectory()) {
+            LOGGER.log(Level.FINER, "scmClone wd=\"{0}\"",targetWorkArea.getAbsolutePath());
         } else {
             throw new FileNotFoundException("Error: The target workarea '"+
                                             targetWorkArea.getAbsolutePath()+
                                             "' either does not exist or is not writable")
         }
 
-        LOGGER.log(Level.FINER, "scmClone wd=\"{0}\"",targetWorkArea.getAbsolutePath());
         LOGGER.log(Level.FINER, "scmClone scmURI=\"{0}\"",scmURI);
 
         if (scmType == null || scmURI == null) {
@@ -213,7 +213,13 @@ class SCM implements Serializable {
         int retStat = Utilities.runCmd(cmdStr,returnStr)
         String returnOutput = returnStr.toString()
         returnOutput = returnOutput.trim()
+
         LOGGER.log(Level.FINER, "scmClone output=\"{0}\"",returnOutput);
+        LOGGER.log(Level.FINER, "scmClone host=\"{0}\"",Utilities.getHostName());
+        LOGGER.log(Level.FINER, "scmClone osuser=\"{0}\"",Utilities.getOSUser());
+        if (targetWorkArea != null && !targetWorkArea.getName().isEmpty()) {
+            LOGGER.log(Level.FINER, "scmClone file count=\"{0}\"",Utilities.countFiles(targetWorkArea));        
+        }
 
         returnStr = null    
         if (outputStr!=null) {

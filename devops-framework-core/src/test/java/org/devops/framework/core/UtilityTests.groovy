@@ -3,6 +3,9 @@ package org.devops.framework.core;
 import groovy.util.GroovyTestCase;
 import junit.framework.*;
 import junit.textui.TestRunner;
+import java.nio.file.Path
+import java.nio.file.Paths
+import java.nio.file.Files
 
 /**
  * Unit Utility tests for Utility class.
@@ -201,9 +204,33 @@ public class UtilityTests extends GroovyTestCase {
    /**
     * Unit test for getting file extentions
     */
-   void testgetFileExt() {
-      File propFile = new File("."+"/src/test/resources/unitTest.properties")
-      String fileExt = Utilities.getFileExt(propFile)
-      assertEquals("properties",fileExt)
-   }   
+  void testgetFileExt() {
+    File propFile = new File("."+"/src/test/resources/unitTest.properties")
+    String fileExt = Utilities.getFileExt(propFile)
+    assertEquals("properties",fileExt)
+  }  
+
+   /**
+    * Unit test for getting hostname
+    */
+  void testgetHostName() {
+    String hostName = Utilities.getHostName()
+    assertTrue(hostName!=null && !hostName.isEmpty())
+  }  
+
+   /**
+    * Unit test for getting os user
+    */
+  void testgetUserName() {
+    String user = Utilities.getOSUser()
+    assertTrue(user!=null && !user.isEmpty())   
+  }  
+
+   /**
+    * Unit test for counting files
+    */
+  void testCountFiles() {
+    long count = Utilities.countFiles(getTmpDir())
+    assertTrue(count>0)   
+  }   
 }

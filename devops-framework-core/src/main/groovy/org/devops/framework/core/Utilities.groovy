@@ -13,6 +13,7 @@ import java.nio.file.attribute.FileTime
 import java.nio.file.CopyOption
 import java.nio.file.SimpleFileVisitor
 import java.security.MessageDigest
+import java.net.InetAddress;
 
 import java.io.File
 import java.io.FileWriter;
@@ -533,6 +534,25 @@ class Utilities implements Serializable {
     }
 
     /**
+     * Utility routine to count files in a directory
+     * 
+     * @param final File - Directory to count
+     * @param long - counter     
+     */   
+    static long countFiles(final File dir) { 
+        File[] files = dir.listFiles();
+        long count = 0;
+        for (File f : files) {
+            if (f.isDirectory()) {
+                count += countFiles(f);
+            } else {
+                count++;
+            }
+        }
+        return count;    
+    }
+
+    /**
      * Utility routine to emulate rm -fr
      * 
      * @param final File - Directory to delete
@@ -683,5 +703,28 @@ class Utilities implements Serializable {
         hash = null
         return hashcode
     }
+
+    /**
+     * Get a Machine Details
+     * @return final String
+     */ 
+    static final String getHostName() {
+        try {
+            InetAddress netAddr = InetAddress.getLocalHost();
+            // Get hostname and compare.
+            String hostName = netAddr.getHostName()
+            return hostName
+        } catch (UnknownHostException e) {    
+            return ""
+        }
+    }
+
+    /**
+     * Get a Login Details
+     * @return final String
+     */ 
+    static final String getOSUser() {
+        return(System.getProperty("user.name"))
+    }    
 }
 
