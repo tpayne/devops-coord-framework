@@ -6,6 +6,9 @@ package org.devops.framework.core;
 import java.util.logging.Logger
 import java.util.logging.Level
 
+import hudson.Launcher
+import hudson.FilePath
+
 class SCM implements Serializable {
 
    private static final Logger LOGGER = Logger.getLogger( SCM.class.getName() )
@@ -89,6 +92,8 @@ class SCM implements Serializable {
      * @param final String - targetWorkArea
      * @param StringBuffer - outputStr
      * @param final boolean - verbose     
+     * @param final Launcher - launcher     
+     * @param final FilePath - remoteArea          
      * @return boolean 
      * @throws FileNotFoundException, IllegalArgumentException, Exception
      */
@@ -98,7 +103,9 @@ class SCM implements Serializable {
                                 final String scmPwd,
                                 final String targetWorkArea,
                                 StringBuffer outputStr=null,
-                                final boolean verbose=false)
+                                final boolean verbose=false,
+                                final Launcher launcher=null,
+                                final FilePath remoteArea=null)
         throws FileNotFoundException, IllegalArgumentException, Exception {
         //
         // SCM clone using workarea...
@@ -110,7 +117,8 @@ class SCM implements Serializable {
         } else {
             targetWorkAreaFile = new File("")
         }
-        return scmClone(scmType,scmURI,scmUser,scmPwd,targetWorkAreaFile,outputStr)
+        return scmClone(scmType,scmURI,scmUser,scmPwd,targetWorkAreaFile,
+                        outputStr,verbose,launcher,remoteArea)
     }
 
     /**
@@ -123,6 +131,8 @@ class SCM implements Serializable {
      * @param final File - targetWorkArea
      * @param StringBuffer - outputStr
      * @param final boolean - verbose     
+     * @param final Launcher - launcher  
+     * @param final FilePath - remoteArea          
      * @return boolean 
      * @throws FileNotFoundException, IllegalArgumentException, Exception
      */
@@ -132,24 +142,40 @@ class SCM implements Serializable {
                                 final String scmPwd,
                                 final File targetWorkArea,
                                 StringBuffer outputStr=null,
-                                final boolean verbose=false)
+                                final boolean verbose=false,
+                                final Launcher launcher=null,
+                                final FilePath remoteArea=null)
         throws FileNotFoundException, IllegalArgumentException, Exception {
         //
         // Test that the target directory specified exists & is readable...
         // This parameter could be nullable in the future, but for now make
         // it mandatory to ensure target...
         //
-        if (targetWorkArea == null || targetWorkArea.getName().isEmpty()) {
-        }
-        else if (targetWorkArea.exists() && targetWorkArea.canWrite() &&
-                 targetWorkArea.isDirectory()) {
-            LOGGER.log(Level.FINER, "scmClone wd=\"{0}\"",targetWorkArea.getAbsolutePath());
+        if (remoteArea == null) {
+            if (targetWorkArea == null || targetWorkArea.getName().isEmpty()) {
+            }
+            else if (targetWorkArea.exists() && targetWorkArea.canWrite() &&
+                     targetWorkArea.isDirectory()) {
+                LOGGER.log(Level.FINER, "scmClone wd=\"{0}\"",targetWorkArea.getAbsolutePath());
+            } else {
+                throw new FileNotFoundException("Error: The target workarea '"+
+                                                targetWorkArea.getAbsolutePath()+
+                                                "' either does not exist or is not writable")
+            }
         } else {
-            throw new FileNotFoundException("Error: The target workarea '"+
-                                            targetWorkArea.getAbsolutePath()+
-                                            "' either does not exist or is not writable")
-        }
-
+            if (targetWorkArea == null || targetWorkArea.getName().isEmpty()) {
+            } else {
+                FilePath area = new FilePath(remoteArea.getChannel(),targetWorkArea.getAbsolutePath())
+                if (area.exists() && area.isDirectory()) {
+                    LOGGER.log(Level.FINER, "scmClone wd=\"{0}\"",area.getRemote());
+                } else {
+                    throw new FileNotFoundException("Error: The target workarea '"+
+                                                targetWorkArea.getAbsolutePath()+
+                                                "' either does not exist or is not writable")
+                }
+            }
+        }            
+        
         LOGGER.log(Level.FINER, "scmClone scmURI=\"{0}\"",scmURI);
 
         if (scmType == null || scmURI == null) {
@@ -165,7 +191,12 @@ class SCM implements Serializable {
             throw new IllegalArgumentException("Error: The SCM type specified is not supported")
         }
 
-        File scmFile = Utilities.getExecutable(scmExeName)
+        File scmFile = null
+        if (remoteArea == null) {
+            scmFile = Utilities.getExecutable(scmExeName)
+        } else {
+            scmFile = Utilities.getExecutable(scmExeName,remoteArea)
+        }
 
         // Construct the required command...
         String cmdStr = scmFile.getAbsolutePath()+" "
@@ -210,17 +241,18 @@ class SCM implements Serializable {
 
         StringBuffer returnStr = new StringBuffer()
 
-        int retStat = Utilities.runCmd(cmdStr,returnStr)
+        int retStat = Utilities.runCmd(cmdStr,returnStr,null,launcher)
         String returnOutput = returnStr.toString()
         returnOutput = returnOutput.trim()
 
         LOGGER.log(Level.FINER, "scmClone output=\"{0}\"",returnOutput);
         LOGGER.log(Level.FINER, "scmClone host=\"{0}\"",Utilities.getHostName());
         LOGGER.log(Level.FINER, "scmClone osuser=\"{0}\"",Utilities.getOSUser());
-        if (targetWorkArea != null && !targetWorkArea.getName().isEmpty()) {
-            LOGGER.log(Level.FINER, "scmClone file count=\"{0}\"",Utilities.countFiles(targetWorkArea));        
+        if (remoteArea == null) {
+            if (targetWorkArea != null && !targetWorkArea.getName().isEmpty()) {
+                LOGGER.log(Level.FINER, "scmClone file count=\"{0}\"",Utilities.countFiles(targetWorkArea));        
+            }
         }
-
         returnStr = null    
         if (outputStr!=null) {
             outputStr.append(returnOutput)

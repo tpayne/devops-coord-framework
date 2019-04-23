@@ -3,9 +3,6 @@
  */
 package org.devops.framework.plugin;
 
-import org.devops.framework.core.ConfigPropertiesConstants;
-import org.devops.framework.core.SCM;
-
 import java.io.File;
 
 import hudson.Extension;
@@ -40,6 +37,8 @@ import jenkins.util.BuildListenerAdapter;
 import javax.annotation.Nonnull;
 import java.util.Set;
 
+import org.devops.framework.core.ConfigPropertiesConstants;
+
 public class DevOpsFrameworkScmGitCloneStepExecution extends SynchronousNonBlockingStepExecution<Boolean> {
 
     @StepContextParameter
@@ -50,6 +49,9 @@ public class DevOpsFrameworkScmGitCloneStepExecution extends SynchronousNonBlock
 
     @StepContextParameter
     private transient Launcher launcher;
+
+    @StepContextParameter
+    private transient FilePath workspace;
 
     private transient final DevOpsFrameworkScmGitCloneStep step;
 
@@ -73,24 +75,22 @@ public class DevOpsFrameworkScmGitCloneStepExecution extends SynchronousNonBlock
     @Override
     protected Boolean run() throws Exception {
         listener = getContext().get(TaskListener.class);
-        StringBuffer outputStr = new StringBuffer();
-        listener.getLogger().println("Cloning repo "+step.getRepoName());
-        if (step.getTargetDir() != null || !step.getTargetDir().isEmpty()) {
-           listener.getLogger().println("Using target directory "+step.getTargetDir()); 
-        }
-        boolean retStat = SCM.scmClone(ConfigPropertiesConstants.SCMGIT,
-                                step.getRepoName(),
-                                (step.getUserName() == null || step.getUserName().isEmpty() ? null : step.getUserName()),
-                                (step.getUserPwd() == null || step.getUserPwd().isEmpty() ? null : step.getUserPwd()),
-                                (step.getTargetDir() == null || step.getTargetDir().isEmpty() ? "" : step.getTargetDir()),
-                                outputStr);
-        String output = outputStr.toString();
-        if (retStat) {
-            listener.getLogger().println(output);
-        } else {
-            listener.error(output);
-        }
-        outputStr = null;
+        build = getContext().get(Run.class);
+        workspace = getContext().get(FilePath.class);
+        launcher = getContext().get(Launcher.class);
+
+        listener.getLogger().println("Running clone task...");
+  
+        ScmCloneCmdTask runTask = new ScmCloneCmdTask(ConfigPropertiesConstants.SCMGIT,
+                                            workspace,
+                                            listener,
+                                            build,
+                                            launcher,
+                                            step.getRepoName(),
+                                            step.getUserName(),
+                                            step.getUserPwd(),
+                                            step.getTargetDir());
+        boolean retStat = runTask.invoke();
         return retStat;
     }
 

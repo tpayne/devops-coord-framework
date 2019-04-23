@@ -38,6 +38,8 @@ import hudson.Launcher.LocalLauncher;
 import hudson.model.StreamBuildListener;
 import hudson.model.TaskListener;
 import hudson.util.StreamTaskListener
+import hudson.EnvVars;
+import hudson.model.Computer;
 
 import jenkins.model.Jenkins
 
@@ -91,11 +93,13 @@ class Utilities implements Serializable {
          * @param final String - Command to run
          * @param StringBuffer - return message
          * @param final File - workingDir
+         * @param final Launcher - launcher
          * @param final boolean - stripQuotes
          * @return int - Exit value
          */
         static int CDRunner(final String cmdStr, StringBuffer returnStr, 
                             final File workingDir=null,
+                            final Launcher procLauncher=null,
                             final boolean stripQuotes=false) {
             int retStatus = 0
 
@@ -109,7 +113,7 @@ class Utilities implements Serializable {
             // This stream will be ignored, but is needed for the interface...
             FileOutputStream fos1 = new FileOutputStream(tempFile1);
             StreamTaskListener listener = new StreamTaskListener(fos1)            
-            Launcher launcher = new LocalLauncher(listener)
+            Launcher launcher = ((procLauncher!=null) ? procLauncher : new LocalLauncher(listener))
 
             int i = 0;
             if (args.size() > 1) {
@@ -245,17 +249,19 @@ class Utilities implements Serializable {
      * @param final String - Command to run
      * @param StringBuffer - return message
      * @param final File - workingDir
-     * @param final File - stripQuotes
+     * @param final Launcher - launcher
+     * @param final boolean - stripQuotes
      * @return int - Exit value
      */
     static int runCmd(final String cmdStr, StringBuffer returnStr, 
                       final File workingDir=null,
+                      final Launcher launcher=null,
                       final boolean stripQuotes=false) {
         final Jenkins jenkins = Jenkins.getInstance()
         boolean isJenkins = (jenkins!=null && jenkins.getRootDir() != null && !jenkins.getRootDir().getAbsolutePath().isEmpty())
         int retStatus = -1
-        if (isJenkins) {
-            retStatus = cmdRunner.CDRunner(cmdStr,returnStr,workingDir,stripQuotes)
+        if (isJenkins || launcher!=null) {
+            retStatus = cmdRunner.CDRunner(cmdStr,returnStr,workingDir,launcher,stripQuotes)
         } else {
             retStatus = cmdRunner.OsRunner(cmdStr,returnStr,workingDir)
         }
@@ -514,6 +520,54 @@ class Utilities implements Serializable {
         for (String pathDir : pathDirs) {
             File file = new File(pathDir, exec);
             if (file.isFile()) {
+                exe = file;
+                break;
+            }
+        }
+        if (exe == null) {
+            throw new FileNotFoundException(exec + ": could not be found in the path '"+path+"'");
+        }
+        return exe;
+    }
+
+    /**
+     * Find a executable in the path
+     * @param final String - exeName
+     * @param final FilePath - remoteArea
+     * @return File - Location
+     * @throws FileNotFoundException
+     */
+    static File getExecutable(final String exeName, final FilePath remoteArea) 
+        throws FileNotFoundException {
+        
+        // Get the path environment.
+        String exec = exeName;
+        if (Utilities.isWindows()) {
+            exec += ".exe";
+        }
+
+        EnvVars env = remoteArea.toComputer().getEnvironment();
+
+        String path = env.get("PATH");
+        if (path == null) {
+            path = env.get("path");
+        }
+        if (path == null) {
+            path = env.get("Path");
+        }
+        if (path == null) {
+            throw new FileNotFoundException(exec + ": could not be found in the path");
+        }
+
+        // Split it into directories.
+        String[] pathDirs = path.split(File.pathSeparator);
+
+        // Hunt through the directories to find the file I want.
+        File exe = null;
+        for (String pathDir : pathDirs) {
+            File file = new File(pathDir, exec);
+            FilePath remoteFile = new FilePath(remoteArea.getChannel(),file.getAbsolutePath())
+            if (remoteFile.exists()) {
                 exe = file;
                 break;
             }

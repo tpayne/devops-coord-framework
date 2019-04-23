@@ -51,6 +51,9 @@ public class DevOpsFrameworkScmSvnCloneStepExecution extends SynchronousNonBlock
     @StepContextParameter
     private transient Launcher launcher;
 
+    @StepContextParameter
+    private transient FilePath workspace;
+
     private transient final DevOpsFrameworkScmSvnCloneStep step;
 
     /**
@@ -73,24 +76,22 @@ public class DevOpsFrameworkScmSvnCloneStepExecution extends SynchronousNonBlock
     @Override
     protected Boolean run() throws Exception {
         listener = getContext().get(TaskListener.class);
-        StringBuffer outputStr = new StringBuffer();
-        listener.getLogger().println("Cloning repo "+step.getRepoName());
-        if (step.getTargetDir() != null || !step.getTargetDir().isEmpty()) {
-           listener.getLogger().println("Using target directory "+step.getTargetDir()); 
-        }
-        boolean retStat = SCM.scmClone(ConfigPropertiesConstants.SCMSVN,
-                                step.getRepoName(),
-                                (step.getUserName() == null || step.getUserName().isEmpty() ? null : step.getUserName()),
-                                (step.getUserPwd() == null || step.getUserPwd().isEmpty() ? null : step.getUserPwd()),
-                                (step.getTargetDir() == null || step.getTargetDir().isEmpty() ? "" : step.getTargetDir()),
-                                outputStr);
-        String output = outputStr.toString();
-        if (retStat) {
-            listener.getLogger().println(output);
-        } else {
-            listener.error(output);
-        }
-        outputStr = null;
+        build = getContext().get(Run.class);
+        workspace = getContext().get(FilePath.class);
+        launcher = getContext().get(Launcher.class);
+
+        listener.getLogger().println("Running clone task...");
+  
+        ScmCloneCmdTask runTask = new ScmCloneCmdTask(ConfigPropertiesConstants.SCMSVN,
+                                            workspace,
+                                            listener,
+                                            build,
+                                            launcher,
+                                            step.getRepoName(),
+                                            step.getUserName(),
+                                            step.getUserPwd(),
+                                            step.getTargetDir());
+        boolean retStat = runTask.invoke();
         return retStat;
     }
 

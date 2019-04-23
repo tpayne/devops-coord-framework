@@ -59,7 +59,7 @@ class NexusRepoFactory extends RepoFactory {
         def runCmd = exeRun.getAbsolutePath()+" "+cmdStr
         exeRun = null
         StringBuffer returnStr = new StringBuffer()
-        int retStat = Utilities.runCmd(runCmd,returnStr,null,true)
+        int retStat = Utilities.runCmd(runCmd,returnStr,null,null,true)
         String returnOutput = returnStr.toString()
         returnOutput = returnOutput.trim()
         returnStr = null
@@ -137,7 +137,7 @@ class NexusRepoFactory extends RepoFactory {
         exeRun = null
         StringBuffer returnStr = new StringBuffer()
 
-        int retStat = Utilities.runCmd(runCmd,returnStr,null,true)
+        int retStat = Utilities.runCmd(runCmd,returnStr,null,null,true)
         String returnOutput = returnStr.toString()
         returnOutput = returnOutput.trim()
         returnStr = null

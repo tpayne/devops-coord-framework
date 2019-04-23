@@ -10,6 +10,7 @@ import hudson.Util;
 import hudson.FilePath;
 import hudson.Launcher;
 import hudson.Util;
+import hudson.EnvVars;
 import hudson.model.Run;
 import hudson.model.TaskListener;
 import hudson.remoting.VirtualChannel;
@@ -37,7 +38,12 @@ import jenkins.util.BuildListenerAdapter;
 import javax.annotation.Nonnull;
 import java.util.Set;
 
+import java.util.logging.Logger;
+import java.util.logging.Level;
+
 public class DevOpsFrameworkScmGitCloneStep extends Step {
+
+    private static final Logger LOGGER = Logger.getLogger( DevOpsFrameworkScmGitCloneStep.class.getName() );
 
     private String repoName;
     private String userName;
@@ -114,4 +120,3 @@ public class DevOpsFrameworkScmGitCloneStep extends Step {
         }        
     }
 }
-
