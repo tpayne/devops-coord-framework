@@ -51,6 +51,9 @@ public class DevOpsFrameworkRmContainerStepExecution extends SynchronousNonBlock
     @StepContextParameter
     private transient Launcher launcher;
 
+    @StepContextParameter
+    private transient FilePath workspace;
+
     private transient final DevOpsFrameworkRmContainerStep step;
 
     /**
@@ -73,19 +76,25 @@ public class DevOpsFrameworkRmContainerStepExecution extends SynchronousNonBlock
     @Override
     protected Boolean run() throws Exception {
         listener = getContext().get(TaskListener.class);
-        StringBuffer outputStr = new StringBuffer();
-        listener.getLogger().println("Deleting container "+step.getContainerName());
-        boolean retStat = Container.deleteContainerImage(ConfigPropertiesConstants.DOCKER,
-                                                   step.getContainerName(),
-                                                   step.getForce(),
-                                                   outputStr);
-        String output = outputStr.toString();
-        if (retStat) {
-            listener.getLogger().println(output);
-        } else {
-            listener.error(output);
-        }
-        outputStr = null;
+        build = getContext().get(Run.class);
+        workspace = getContext().get(FilePath.class);
+        launcher = getContext().get(Launcher.class);
+
+        listener.getLogger().println("Running container delete task...");
+  
+        ContainerCmdTask runTask = new ContainerCmdTask(ConfigPropertiesConstants.DOCKER,
+                                            "DELETE",
+                                            workspace,
+                                            listener,
+                                            build,
+                                            launcher,
+                                            step.getContainerName(),
+                                            null,
+                                            step.getForce(),
+                                            null,
+                                            null,
+                                            null);
+        boolean retStat = runTask.invoke();
         return retStat;
     }
 

@@ -1,5 +1,5 @@
 /**
- * Pipeline plugin extension for pulling containers
+ * Pipeline plugin extension for pushing containers
  */
 package org.devops.framework.plugin;
 
@@ -40,7 +40,7 @@ import jenkins.util.BuildListenerAdapter;
 import javax.annotation.Nonnull;
 import java.util.Set;
 
-public class DevOpsFrameworkPullContainerStepExecution extends SynchronousNonBlockingStepExecution<Boolean> {
+public class DevOpsFrameworkPushContainerStepExecution extends SynchronousNonBlockingStepExecution<Boolean> {
 
     @StepContextParameter
     private transient TaskListener listener;
@@ -54,15 +54,15 @@ public class DevOpsFrameworkPullContainerStepExecution extends SynchronousNonBlo
     @StepContextParameter
     private transient FilePath workspace;
 
-    private transient final DevOpsFrameworkPullContainerStep step;
+    private transient final DevOpsFrameworkPushContainerStep step;
 
     /**
      * Default constructor
      * 
-     * @param DevOpsFrameworkPullContainerStep - step
+     * @param DevOpsFrameworkPushContainerStep - step
      * @param StepContext - context
      */
-    DevOpsFrameworkPullContainerStepExecution(DevOpsFrameworkPullContainerStep step, StepContext context) {
+    DevOpsFrameworkPushContainerStepExecution(DevOpsFrameworkPushContainerStep step, StepContext context) {
         super(context);
         this.step = step;
     }
@@ -79,15 +79,15 @@ public class DevOpsFrameworkPullContainerStepExecution extends SynchronousNonBlo
         workspace = getContext().get(FilePath.class);
         launcher = getContext().get(Launcher.class);
 
-        listener.getLogger().println("Running container pull task...");
+        listener.getLogger().println("Running container push task...");
   
         ContainerCmdTask runTask = new ContainerCmdTask(ConfigPropertiesConstants.DOCKER,
-                                            "PULL",
+                                            "PUSH",
                                             workspace,
                                             listener,
                                             build,
                                             launcher,
-                                            step.getContainerName(),
+                                            step.getImageName(),
                                             null,
                                             false,
                                             null,

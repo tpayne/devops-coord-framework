@@ -61,9 +61,12 @@ abstract class GenericCmdTask implements Serializable {
             if (hostName != null &&
                 !hostName.isEmpty()) {
                 isMaster = Utilities.getHostName().equalsIgnoreCase(hostName);
+            } else if (hostName == null) {
+                isMaster = true;
             } else {
                 isMaster = false;
             }
+
             if (isMaster) {
                 listener.getLogger().println("Running on master");
                 retStatus = executeMaster();

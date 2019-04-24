@@ -51,6 +51,10 @@ public class DevOpsFrameworkBuildContainerStepExecution extends SynchronousNonBl
     @StepContextParameter
     private transient Launcher launcher;
 
+    @StepContextParameter
+    private transient FilePath workspace;
+
+
     private transient final DevOpsFrameworkBuildContainerStep step;
 
     /**
@@ -73,20 +77,25 @@ public class DevOpsFrameworkBuildContainerStepExecution extends SynchronousNonBl
     @Override
     protected Boolean run() throws Exception {
         listener = getContext().get(TaskListener.class);
-        StringBuffer outputStr = new StringBuffer();
-        listener.getLogger().println("Building container "+step.getContainerName());
-        boolean retStat = Container.buildContainer(ConfigPropertiesConstants.DOCKER,
-                                                   step.getContainerName(),
-                                                   step.getBuildDirectory(),
-                                                   step.getContainerFile(),
-                                                   outputStr);
-        String output = outputStr.toString();
-        if (retStat) {
-            listener.getLogger().println(output);
-        } else {
-            listener.error(output);
-        }
-        outputStr = null;
+        build = getContext().get(Run.class);
+        workspace = getContext().get(FilePath.class);
+        launcher = getContext().get(Launcher.class);
+
+        listener.getLogger().println("Running container build task...");
+  
+        ContainerCmdTask runTask = new ContainerCmdTask(ConfigPropertiesConstants.DOCKER,
+                                            "BUILD",
+                                            workspace,
+                                            listener,
+                                            build,
+                                            launcher,
+                                            step.getContainerName(),
+                                            null,
+                                            false,
+                                            null,
+                                            step.getBuildDirectory(),
+                                            step.getContainerFile());
+        boolean retStat = runTask.invoke();
         return retStat;
     }
 

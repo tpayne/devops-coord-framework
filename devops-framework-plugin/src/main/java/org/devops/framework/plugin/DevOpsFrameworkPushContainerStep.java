@@ -1,5 +1,5 @@
 /**
- * Pipeline plugin extension for building containers
+ * Pipeline plugin extension for pushing containers
  */
 package org.devops.framework.plugin;
 
@@ -37,58 +37,28 @@ import jenkins.util.BuildListenerAdapter;
 import javax.annotation.Nonnull;
 import java.util.Set;
 
-public class DevOpsFrameworkBuildContainerStep extends Step {
+public class DevOpsFrameworkPushContainerStep extends Step {
 
-    private String containerName;
-    private String containerFile;
-    private String buildDirectory;
+    private String imageName;
 
-    /**
-     * Default constructor
-     * 
-     * @param String - containerName
-     * @param String - containerFile
-     * @param String - buildDirectory
-     */
     @DataBoundConstructor
-    public DevOpsFrameworkBuildContainerStep(String containerName,
-                                String containerFile,
-                                String buildDirectory) {
-        this.containerName = containerName;
-        this.containerFile = containerFile;
-        this.buildDirectory = buildDirectory;
+    public DevOpsFrameworkPushContainerStep(String imageName) {
+        this.imageName = imageName;
     }
 
-    public String getContainerName() {
-        return this.containerName;
+    public String getImageName() {
+        return this.imageName;
     }
 
     @DataBoundSetter 
-    public void setContainerName(final String containerName) {
-        this.containerName = Util.fixEmptyAndTrim(containerName);
+    public void setImageName(final String imageName) {
+        this.imageName = Util.fixEmptyAndTrim(imageName);
     }
 
-    public String getContainerFile() {
-        return this.containerFile;
-    }
-
-    @DataBoundSetter 
-    public void setContainerFile(final String containerFile) {
-        this.containerFile = Util.fixEmptyAndTrim(containerFile);
-    }
-
-    public String getBuildDirectory() {
-        return this.buildDirectory;
-    }
-
-    @DataBoundSetter 
-    public void setBuildDirectory(final String buildDirectory) {
-        this.buildDirectory = Util.fixEmptyAndTrim(buildDirectory);
-    }
 
     @Override
     public StepExecution start(StepContext context) throws Exception {
-        return new DevOpsFrameworkBuildContainerStepExecution(this, context);
+        return new DevOpsFrameworkPushContainerStepExecution(this, context);
     }
 
     @Extension
@@ -96,13 +66,13 @@ public class DevOpsFrameworkBuildContainerStep extends Step {
 
         @Override
         public String getFunctionName() {
-            return "devOpsFrameworkBuildContainerStep";
+            return "devOpsFrameworkPushContainerStep";
         }
 
         @Nonnull
         @Override
         public String getDisplayName() {
-            return "Build Container step";
+            return "Push Container step";
         }
 
         @Override

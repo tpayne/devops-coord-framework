@@ -3,6 +3,9 @@
  */
 package org.devops.framework.core;
 
+import hudson.Launcher
+import hudson.FilePath
+
 class Container implements Serializable {
 
     /**
@@ -83,12 +86,16 @@ class Container implements Serializable {
      * @param final String - containerType
      * @param final String - imageName
      * @param StringBuffer - outputStr
+     * @param final Launcher - launcher  
+     * @param final FilePath - remoteArea          
      * @return boolean 
      * @throws IllegalArgumentException, Exception
      */
     static final boolean pushContainer(final String containerType,
                                       final String imageName,
-                                      StringBuffer outputStr=null)
+                                      StringBuffer outputStr=null,
+                                      final Launcher launcher=null,
+                                      final FilePath remoteArea=null)
         throws IllegalArgumentException, Exception {
         
         if (containerType == null || imageName == null) {
@@ -102,7 +109,12 @@ class Container implements Serializable {
             throw new IllegalArgumentException("Error: The container type specified is not supported")
         }
 
-        File containerFile = Utilities.getExecutable(containerExeName)
+        File containerFile = null
+        if (remoteArea == null) {
+            containerFile = Utilities.getExecutable(containerExeName)
+        } else {
+            containerFile = Utilities.getExecutable(containerExeName,remoteArea)
+        }
         if (containerFile == null) {
             throw new Exception("Error: Container engine "+containerExeName+" has not been located")
         }
@@ -117,7 +129,7 @@ class Container implements Serializable {
 
         StringBuffer returnStr = new StringBuffer()
 
-        int retStat = Utilities.runCmd(cmdStr,returnStr)
+        int retStat = Utilities.runCmd(cmdStr,returnStr,null,launcher)
         String returnOutput = returnStr.toString()
         returnOutput = returnOutput.trim()
         if (outputStr!=null) {
@@ -135,13 +147,17 @@ class Container implements Serializable {
      * @param final String - srcImageName
      * @param final String - trgImageName
      * @param StringBuffer - outputStr
+     * @param final Launcher - launcher  
+     * @param final FilePath - remoteArea          
      * @return boolean 
      * @throws IllegalArgumentException, Exception
      */
     static final boolean tagContainer(final String containerType,
                                       final String srcImageName,
                                       final String trgImageName,
-                                      StringBuffer outputStr=null)
+                                      StringBuffer outputStr=null,
+                                      final Launcher launcher=null,
+                                      final FilePath remoteArea=null)
         throws IllegalArgumentException, Exception {
         
         if (containerType == null || srcImageName == null || trgImageName == null) {
@@ -155,7 +171,12 @@ class Container implements Serializable {
             throw new IllegalArgumentException("Error: The container type specified is not supported")
         }
 
-        File containerFile = Utilities.getExecutable(containerExeName)
+        File containerFile = null
+        if (remoteArea == null) {
+            containerFile = Utilities.getExecutable(containerExeName)
+        } else {
+            containerFile = Utilities.getExecutable(containerExeName,remoteArea)
+        }
         if (containerFile == null) {
             throw new Exception("Error: Container engine "+containerExeName+" has not been located")
         }
@@ -171,7 +192,7 @@ class Container implements Serializable {
 
         StringBuffer returnStr = new StringBuffer()
 
-        int retStat = Utilities.runCmd(cmdStr,returnStr)
+        int retStat = Utilities.runCmd(cmdStr,returnStr,null,launcher)
         String returnOutput = returnStr.toString()
         returnOutput = returnOutput.trim()
         if (outputStr!=null) {
@@ -263,12 +284,16 @@ class Container implements Serializable {
      * @param final String - containerType
      * @param final String - imageName
      * @param StringBuffer - outputStr
+     * @param final Launcher - launcher  
+     * @param final FilePath - remoteArea          
      * @return boolean 
      * @throws IllegalArgumentException, Exception
      */
     static final boolean pullContainerImage(final String containerType,
                                             final String imageName,
-                                            StringBuffer outputStr=null)
+                                            StringBuffer outputStr=null,
+                                            final Launcher launcher=null,
+                                            final FilePath remoteArea=null)
         throws IllegalArgumentException, Exception {
         
         if (containerType == null || imageName == null) {
@@ -282,7 +307,12 @@ class Container implements Serializable {
             throw new IllegalArgumentException("Error: The container type specified is not supported")
         }
 
-        File containerFile = Utilities.getExecutable(containerExeName)
+        File containerFile = null
+        if (remoteArea == null) {
+            containerFile = Utilities.getExecutable(containerExeName)
+        } else {
+            containerFile = Utilities.getExecutable(containerExeName,remoteArea)
+        }
         if (containerFile == null) {
             throw new Exception("Error: Container engine "+containerExeName+" has not been located")
         }
@@ -297,7 +327,7 @@ class Container implements Serializable {
 
         StringBuffer returnStr = new StringBuffer()
 
-        int retStat = Utilities.runCmd(cmdStr,returnStr)
+        int retStat = Utilities.runCmd(cmdStr,returnStr,null,launcher)
         String returnOutput = returnStr.toString()
         returnOutput = returnOutput.trim()
         if (outputStr!=null) {
@@ -316,6 +346,8 @@ class Container implements Serializable {
      * @param final boolean - force
      * @param StringBuffer - outputStr
      * @param final Map    - vararg list
+     * @param final Launcher - launcher  
+     * @param final FilePath - remoteArea          
      * @return boolean 
      * @throws IllegalArgumentException, Exception
      */
@@ -323,7 +355,9 @@ class Container implements Serializable {
                                       final String containerName,
                                       final boolean force=false,
                                       StringBuffer outputStr=null,
-                                      final Map    args = [:])
+                                      final Map    args = [:],
+                                      final Launcher launcher=null,
+                                      final FilePath remoteArea=null)
         throws IllegalArgumentException, Exception {
         
         if (containerType == null || containerName == null) {
@@ -337,7 +371,12 @@ class Container implements Serializable {
             throw new IllegalArgumentException("Error: The container type specified is not supported")
         }
 
-        File containerFile = Utilities.getExecutable(containerExeName)
+        File containerFile = null
+        if (remoteArea == null) {
+            containerFile = Utilities.getExecutable(containerExeName)
+        } else {
+            containerFile = Utilities.getExecutable(containerExeName,remoteArea)
+        }
         if (containerFile == null) {
             throw new Exception("Error: Container engine "+containerExeName+" has not been located")
         }
@@ -365,7 +404,7 @@ class Container implements Serializable {
 
         StringBuffer returnStr = new StringBuffer()
 
-        int retStat = Utilities.runCmd(cmdStr,returnStr)
+        int retStat = Utilities.runCmd(cmdStr,returnStr,null,launcher)
         String returnOutput = returnStr.toString()
         returnOutput = returnOutput.trim()
         if (outputStr!=null) {
@@ -384,6 +423,8 @@ class Container implements Serializable {
      * @param final String - command
      * @param StringBuffer - outputStr
      * @param final Map    - vararg list
+     * @param final Launcher - launcher  
+     * @param final FilePath - remoteArea          
      * @return boolean 
      * @throws IllegalArgumentException, Exception
      */
@@ -391,7 +432,9 @@ class Container implements Serializable {
                                       final String containerName,
                                       final String commandStr=null,
                                       StringBuffer outputStr=null,
-                                      final Map    args = [:])
+                                      final Map    args = [:],
+                                      final Launcher launcher=null,
+                                      final FilePath remoteArea=null)
         throws IllegalArgumentException, Exception {
         
         if (containerType == null || containerName == null) {
@@ -405,7 +448,12 @@ class Container implements Serializable {
             throw new IllegalArgumentException("Error: The container type specified is not supported")
         }
 
-        File containerFile = Utilities.getExecutable(containerExeName)
+        File containerFile = null
+        if (remoteArea == null) {
+            containerFile = Utilities.getExecutable(containerExeName)
+        } else {
+            containerFile = Utilities.getExecutable(containerExeName,remoteArea)
+        }
         if (containerFile == null) {
             throw new Exception("Error: Container engine "+containerExeName+" has not been located")
         }
@@ -433,7 +481,7 @@ class Container implements Serializable {
 
         StringBuffer returnStr = new StringBuffer()
 
-        int retStat = Utilities.runCmd(cmdStr,returnStr)
+        int retStat = Utilities.runCmd(cmdStr,returnStr,null,launcher)
         String returnOutput = returnStr.toString()
         returnOutput = returnOutput.trim()
         if (outputStr!=null) {
@@ -453,6 +501,8 @@ class Container implements Serializable {
      * @param final String - build file
      * @param StringBuffer - outputStr
      * @param final Map    - vararg list
+     * @param final Launcher - launcher  
+     * @param final FilePath - remoteArea          
      * @return boolean 
      * @throws FileNotFoundException, IllegalArgumentException, Exception
      */
@@ -461,7 +511,9 @@ class Container implements Serializable {
                                       final String buildDirectoryStr,
                                       final String containerFileStr=null,
                                       StringBuffer outputStr=null,
-                                      final Map    args = [:])
+                                      final Map    args = [:],
+                                      final Launcher launcher=null,
+                                      final FilePath remoteArea=null)
         throws FileNotFoundException, IllegalArgumentException, Exception {
 
           File buildDirectory = new File(buildDirectoryStr);
@@ -474,7 +526,9 @@ class Container implements Serializable {
                                       buildDirectory,
                                       containerFile,
                                       outputStr,
-                                      args);
+                                      args,
+                                      launcher,
+                                      remoteArea);
           } catch(Exception ex) {
             buildDirectory = null;
             containerFile = null;
@@ -504,25 +558,43 @@ class Container implements Serializable {
                                       final File buildDirectory,
                                       final File containerFile=null,
                                       StringBuffer outputStr=null,
-                                      final Map    args = [:])
+                                      final Map    args = [:],
+                                      final Launcher launcher=null,
+                                      final FilePath remoteArea=null)
         throws FileNotFoundException, IllegalArgumentException, Exception {
         
         if (containerType == null || containerName == null || buildDirectory == null) {
             throw new IllegalArgumentException("Error: Invalid parameters specified")
         }
 
-        // Test build directory exists...
-        if (!buildDirectory.exists() || !buildDirectory.canWrite()) {
-            throw new FileNotFoundException("Error: Build directory specified is invalid")          
-        }
+        if (remoteArea == null) {
+          // Test build directory exists...
+          if (!buildDirectory.exists() || !buildDirectory.canWrite()) {
+              throw new FileNotFoundException("Error: Build directory specified is invalid")          
+          }
 
-        // Test containerFile is valid...
-        if (containerFile != null) {
-            if (!containerFile.exists() || !containerFile.exists()) {
+          // Test containerFile is valid...
+          if (containerFile != null) {
+              if (!containerFile.exists() || !containerFile.canRead()) {
+                throw new FileNotFoundException("Error: Container file specified is invalid")          
+              }
+          }
+        } else {
+          FilePath area = new FilePath(remoteArea.getChannel(),buildDirectory.getAbsolutePath())
+          // Test build directory exists...
+          if (!area.exists() || !area.isDirectory()) {
+              throw new FileNotFoundException("Error: Build directory specified is invalid")          
+          }
+          area = null
+          if (containerFile != null) {
+            area = new FilePath(remoteArea.getChannel(),containerFile.getAbsolutePath())
+            // Test containerFile is valid...
+            if (!area.exists()) {
               throw new FileNotFoundException("Error: Container file specified is invalid")          
             }
+          }          
         }
-
+        
         // Test that the specified container engine exists...
         String containerExeName = null
         if (containerType == ConfigPropertiesConstants.DOCKER) {
@@ -531,7 +603,12 @@ class Container implements Serializable {
             throw new IllegalArgumentException("Error: The container type specified is not supported")
         }
 
-        File containerExeFile = Utilities.getExecutable(containerExeName)
+        File containerExeFile = null
+        if (remoteArea == null) {
+            containerExeFile = Utilities.getExecutable(containerExeName)
+        } else {
+            containerExeFile = Utilities.getExecutable(containerExeName,remoteArea)
+        }
         if (containerExeFile == null) {
             throw new Exception("Error: Container engine "+containerExeName+" has not been located")
         }
@@ -561,7 +638,7 @@ class Container implements Serializable {
 
         StringBuffer returnStr = new StringBuffer()
 
-        int retStat = Utilities.runCmd(cmdStr,returnStr)
+        int retStat = Utilities.runCmd(cmdStr,returnStr,null,launcher)
         String returnOutput = returnStr.toString()
         returnOutput = returnOutput.trim()
         if (outputStr!=null) {
