@@ -6,6 +6,9 @@ package org.devops.framework.core;
 import java.util.logging.Logger
 import java.util.logging.Level
 
+import hudson.Launcher
+import hudson.FilePath
+
 class Provision implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger( Provision.class.getName() )
@@ -87,6 +90,8 @@ class Provision implements Serializable {
      * @param final String - userName
      * @param final String - password
      * @param StringBuffer - outputStr
+     * @param final Launcher - launcher  
+     * @param final FilePath - remoteArea          
      * @return boolean 
      * @throws FileNotFoundException, IllegalArgumentException, Exception
      */
@@ -95,7 +100,9 @@ class Provision implements Serializable {
                                 final String playbookFile,
                                 final String userName,
                                 final String password,
-                                StringBuffer outputStr)
+                                StringBuffer outputStr,
+                                final Launcher launcher=null,
+                                final FilePath remoteArea=null)
         throws FileNotFoundException, IllegalArgumentException, Exception {
         //
         // Invoke file version...
@@ -109,7 +116,9 @@ class Provision implements Serializable {
         File hFile = new File(hostFile)
         File playFile = new File(playbookFile)
 
-        return runPlaybook(toolType,hFile,playFile,userName,password,null,outputStr)
+        return runPlaybook(toolType,hFile,playFile,userName,password,
+                           null,outputStr,
+                           launcher,remoteArea)
     }    
 
 
@@ -123,6 +132,8 @@ class Provision implements Serializable {
      * @param final String - password
      * @param final String - targetWorkArea
      * @param StringBuffer - outputStr
+     * @param final Launcher - launcher  
+     * @param final FilePath - remoteArea          
      * @return boolean 
      * @throws FileNotFoundException, IllegalArgumentException, Exception
      */
@@ -132,7 +143,9 @@ class Provision implements Serializable {
                                 final String userName=null,
                                 final String password=null,
                                 final String targetWorkArea=null,
-                                StringBuffer outputStr=null)
+                                StringBuffer outputStr=null,
+                                final Launcher launcher=null,
+                                final FilePath remoteArea=null)
         throws FileNotFoundException, IllegalArgumentException, Exception {
         //
         // Invoke file version...
@@ -151,7 +164,8 @@ class Provision implements Serializable {
             workArea = new File(targetWorkArea)
         }
 
-        return runPlaybook(toolType,hFile,playFile,userName,password,workArea,outputStr)
+        return runPlaybook(toolType,hFile,playFile,userName,password,
+                           workArea,outputStr,launcher,remoteArea)
     }
 
     /**
@@ -164,6 +178,8 @@ class Provision implements Serializable {
      * @param final String - password
      * @param final File - targetWorkArea
      * @param StringBuffer - outputStr
+     * @param final Launcher - launcher  
+     * @param final FilePath - remoteArea          
      * @return boolean 
      * @throws FileNotFoundException, IllegalArgumentException, Exception
      */
@@ -173,24 +189,41 @@ class Provision implements Serializable {
                                 final String userName=null,
                                 final String password=null,
                                 final File targetWorkArea=null,
-                                StringBuffer outputStr=null)
+                                StringBuffer outputStr=null,
+                                final Launcher launcher=null,
+                                final FilePath remoteArea=null)
         throws FileNotFoundException, IllegalArgumentException, Exception {
         //
         // Test that the target directory specified exists & is readable...
         // This parameter could be nullable in the future, but for now make
         // it mandatory to ensure target...
         //
-        if (targetWorkArea == null || targetWorkArea.getName().isEmpty()) {
-        }
-        else if (targetWorkArea.exists() && targetWorkArea.canWrite() &&
-                 targetWorkArea.isDirectory()) {
-            LOGGER.log(Level.FINER, "runPlaybook wd=\"{0}\"",targetWorkArea.getAbsolutePath());
-
+        if (remoteArea == null) {
+            LOGGER.log(Level.FINER, "runPlaybook local mode");
+            if (targetWorkArea == null || targetWorkArea.getName().isEmpty()) {
+            }
+            else if (targetWorkArea.exists() && targetWorkArea.canWrite() &&
+                     targetWorkArea.isDirectory()) {
+                LOGGER.log(Level.FINER, "runPlaybook wd=\"{0}\"",targetWorkArea.getAbsolutePath());
+            } else {
+                throw new FileNotFoundException("Error: The target workarea '"+
+                                                targetWorkArea.getAbsolutePath()+
+                                                "' either does not exist or is not writable")
+            }
         } else {
-            throw new FileNotFoundException("Error: The target workarea '"+
-                                            targetWorkArea.getAbsolutePath()+
-                                            "' either does not exist or is not writable")
-        }
+            LOGGER.log(Level.FINER, "runPlaybook remote mode");
+            if (targetWorkArea == null || targetWorkArea.getName().isEmpty()) {
+            } else {
+                FilePath area = new FilePath(remoteArea.getChannel(),targetWorkArea.getAbsolutePath())
+                if (area.exists() && area.isDirectory()) {
+                    LOGGER.log(Level.FINER, "runPlaybook wd=\"{0}\"",area.getRemote());
+                } else {
+                    throw new FileNotFoundException("Error: The target workarea '"+
+                                                targetWorkArea.getAbsolutePath()+
+                                                "' either does not exist or is not a directory")
+                }
+            }
+        }            
 
         if (toolType == null || toolType.isEmpty() ||
             hostFile == null || hostFile.getName().isEmpty() ||
@@ -201,15 +234,30 @@ class Provision implements Serializable {
         LOGGER.log(Level.FINE, "runPlaybook \"{0}\"",toolType);
 
         // Test the files...
-        if (!hostFile.exists() || !hostFile.canRead()) {
-            throw new FileNotFoundException("Error: The host file '"+
-                                            hostFile.getAbsolutePath()+
-                                            "' either does not exist or is not readable")
-
-        } else if (!playbookFile.exists() || !playbookFile.canRead()) {
-            throw new FileNotFoundException("Error: The playbook file '"+
-                                            playbookFile.getAbsolutePath()+
-                                            "' either does not exist or is not readable")                
+        if (remoteArea == null) {
+            if (!hostFile.exists() || !hostFile.canRead()) {
+                throw new FileNotFoundException("Error: The host file '"+
+                                                hostFile.getAbsolutePath()+
+                                                "' either does not exist or is not readable")
+            } else if (!playbookFile.exists() || !playbookFile.canRead()) {
+                throw new FileNotFoundException("Error: The playbook file '"+
+                                                playbookFile.getAbsolutePath()+
+                                                "' either does not exist or is not readable")                
+            }
+        } else {
+            FilePath area = new FilePath(remoteArea.getChannel(),hostFile.getAbsolutePath())
+            FilePath play = new FilePath(remoteArea.getChannel(),playbookFile.getAbsolutePath())
+            if (!area.exists()) {
+                throw new FileNotFoundException("Error: The host file '"+
+                                                hostFile.getAbsolutePath()+
+                                                "' does not exist")
+            } else if (!play.exists()) {
+                throw new FileNotFoundException("Error: The playbook file '"+
+                                                playbookFile.getAbsolutePath()+
+                                                "' does not exist")                
+            }
+            area = null
+            play = null
         }
 
         // Test that the specified provisioning engine exists...
@@ -226,7 +274,15 @@ class Provision implements Serializable {
             throw new IllegalArgumentException("Error: The tool type specified is not supported")
         }
 
-        File provFile = Utilities.getExecutable(provExeName)
+        File provFile = null
+        if (remoteArea == null) {
+            provFile = Utilities.getExecutable(provExeName)
+        } else {
+            provFile = Utilities.getExecutable(provExeName,remoteArea)
+        }
+        if (provFile == null) {
+            throw new Exception("Error: Container engine "+provExeName+" has not been located")
+        }
 
         // Construct the required command...
         String cmdStr = provFile.getAbsolutePath()+" "
@@ -254,7 +310,7 @@ class Provision implements Serializable {
 
         StringBuffer returnStr = new StringBuffer()
 
-        int retStat = Utilities.runCmd(cmdStr,returnStr,targetWorkArea)
+        int retStat = Utilities.runCmd(cmdStr,returnStr,targetWorkArea,launcher)
         String returnOutput = returnStr.toString()
         returnOutput = returnOutput.trim()
 

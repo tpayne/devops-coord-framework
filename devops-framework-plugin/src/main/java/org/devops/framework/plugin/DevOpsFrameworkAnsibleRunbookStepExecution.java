@@ -51,6 +51,9 @@ public class DevOpsFrameworkAnsibleRunbookStepExecution extends SynchronousNonBl
     @StepContextParameter
     private transient Launcher launcher;
 
+    @StepContextParameter
+    private transient FilePath workspace;
+
     private transient final DevOpsFrameworkAnsibleRunbookStep step;
 
     /**
@@ -73,25 +76,23 @@ public class DevOpsFrameworkAnsibleRunbookStepExecution extends SynchronousNonBl
     @Override
     protected Boolean run() throws Exception {
         listener = getContext().get(TaskListener.class);
-        StringBuffer outputStr = new StringBuffer();
+        build = getContext().get(Run.class);
+        workspace = getContext().get(FilePath.class);
+        launcher = getContext().get(Launcher.class);
 
         listener.getLogger().println("Running playbook '"+
             step.getRunFile()+"' using '"+
             step.getHostFile()+"'");
-        
-        boolean retStat = Provision.runPlaybook(ConfigPropertiesConstants.ANSIBLE,
-                                step.getHostFile(),
-                                step.getRunFile(),
-                                null,null,
-                                (step.getWorkingDir() == null || step.getWorkingDir().isEmpty() ? null : step.getWorkingDir()),
-                                outputStr);
-        String output = outputStr.toString();
-        if (retStat) {
-            listener.getLogger().println(output);
-        } else {
-            listener.error(output);
-        }
-        outputStr = null;
+  
+        RunbookCmdTask runTask = new RunbookCmdTask(ConfigPropertiesConstants.ANSIBLE,
+                                            workspace,
+                                            listener,
+                                            build,
+                                            launcher,
+                                            step.getHostFile(),
+                                            step.getRunFile(),
+                                            step.getWorkingDir());
+        boolean retStat = runTask.invoke();
         return retStat;
     }
 
