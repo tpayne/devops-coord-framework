@@ -35,17 +35,21 @@ class ContainerCmdTask extends GenericCmdTask {
     /**
      * Default constructor
      * 
+     * @param final String - containerType
+     * @param final String - cmd
      * @param FilePath - workspace
      * @param TaskListener - listener
      * @param Run - build
      * @param Launcher - launcher  
-     * @param final String - repoName
-     * @param final String - userName
-     * @param final String - userPwd
-     * @param final String - targetDir          
+     * @param final String - containerName
+     * @param final String - cmdStr
+     * @param final boolean - force
+     * @param final String - targetName
+     * @param final String - buildDir
+     * @param final String - containerFile          
      */
-    public ContainerCmdTask(String containerType, 
-            String cmd,
+    public ContainerCmdTask(final String containerType, 
+            final String cmd,
             FilePath workspace, 
             TaskListener listener, 
             Run build, 

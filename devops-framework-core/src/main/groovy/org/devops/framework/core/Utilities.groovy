@@ -20,7 +20,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.regex.Matcher
-import java.util.regex.Pattern 
+import java.util.regex.Pattern
 import java.io.Serializable;
 import java.io.FileOutputStream;
 
@@ -68,7 +68,7 @@ class Utilities implements Serializable {
 
     /**
      * This class detects if an operating system is Windows or UNIX
-     */ 
+     */
     private static class OsDetector {
         private static String OS = System.getProperty("os.name").toLowerCase(ConfigPropertiesConstants.ROOT_LOCALE);
 
@@ -77,7 +77,7 @@ class Utilities implements Serializable {
         }
 
         private static boolean isUnix() {
-            return (OS.indexOf("mac") >= 0 || OS.indexOf("nix") >= 0 || 
+            return (OS.indexOf("mac") >= 0 || OS.indexOf("nix") >= 0 ||
                     OS.indexOf("nux") >= 0 || OS.indexOf("aix") >= 0 ||
                     OS.indexOf("sunos") >= 0)
         }
@@ -86,10 +86,10 @@ class Utilities implements Serializable {
     /**
      * This class runs commands
      */
-    private static class cmdRunner {   
+    private static class cmdRunner {
         /**
          * Utility routine to run a shell command
-         * 
+         *
          * @param final String - Command to run
          * @param StringBuffer - return message
          * @param final File - workingDir
@@ -97,7 +97,7 @@ class Utilities implements Serializable {
          * @param final boolean - stripQuotes
          * @return int - Exit value
          */
-        static int CDRunner(final String cmdStr, StringBuffer returnStr, 
+        static int CDRunner(final String cmdStr, StringBuffer returnStr,
                             final File workingDir=null,
                             final Launcher procLauncher=null,
                             final boolean stripQuotes=false) {
@@ -112,8 +112,9 @@ class Utilities implements Serializable {
 
             // This stream will be ignored, but is needed for the interface...
             FileOutputStream fos1 = new FileOutputStream(tempFile1);
-            StreamTaskListener listener = new StreamTaskListener(fos1)            
+            StreamTaskListener listener = new StreamTaskListener(fos1)
             Launcher launcher = ((procLauncher!=null) ? procLauncher : new LocalLauncher(listener))
+            boolean secret = false
 
             int i = 0;
             if (args.size() > 1) {
@@ -121,16 +122,23 @@ class Utilities implements Serializable {
                     if (astr.contains("--username") || astr.contains("--password")) {
                         masks[i] = true;
                         masks[i + 1] = true;
+                        secret = true
                     } else if (astr.contains("//") && astr.contains(":") && astr.contains("@")) {
                         masks[i] = true;
+                        secret = true
                     } else if (astr.contains("-u") && astr.contains(":")) {
                         masks[i] = true
+                        secret = true
                     }
                     i++;
                 }
             }
-            
+
             String outputStr = null
+
+            if (!secret) {
+                LOGGER.log(Level.FINEST, "cmd=\"{0}\"",cmdStr)
+            }
 
             try {
                 Launcher.ProcStarter ps = launcher.launch();
@@ -183,11 +191,11 @@ class Utilities implements Serializable {
                 return -1
             }
             return retStatus
-        }     
+        }
 
         /**
          * Utility routine to run a shell command
-         * 
+         *
          * @param final String - Command to run
          * @param StringBuffer - return message
          * @param final File - workingDir
@@ -209,7 +217,7 @@ class Utilities implements Serializable {
 
             if (workingDir != null) {
                 if (workingDir.exists() && workingDir.canWrite()) {
-                    ph.directory(workingDir)                
+                    ph.directory(workingDir)
                 }
             }
             ph.redirectErrorStream(true);
@@ -232,7 +240,7 @@ class Utilities implements Serializable {
             // Enable this if need to debug commands. Not adding debug facility due
             // to password concerns
             //println "[DEBUG] "+returnStr.toString()
-            
+
             int retStatus = shell.exitValue()
             if (retStatus > 0) {
                 return 1
@@ -240,12 +248,12 @@ class Utilities implements Serializable {
                 return -1
             }
             return retStatus
-        }                
+        }
     }
 
     /**
      * Utility routine to run a shell command
-     * 
+     *
      * @param final String - Command to run
      * @param StringBuffer - return message
      * @param final File - workingDir
@@ -253,7 +261,8 @@ class Utilities implements Serializable {
      * @param final boolean - stripQuotes
      * @return int - Exit value
      */
-    static int runCmd(final String cmdStr, StringBuffer returnStr, 
+    static int runCmd(final String cmdStr,
+                      StringBuffer returnStr,
                       final File workingDir=null,
                       final Launcher launcher=null,
                       final boolean stripQuotes=false) {
@@ -284,7 +293,7 @@ class Utilities implements Serializable {
         }
 
         @Override
-        public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) 
+        public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
             throws IOException {
             Path targetPath = toDir.resolve(fromDir.relativize(dir));
             if( !Files.exists(targetPath) ) {
@@ -308,23 +317,23 @@ class Utilities implements Serializable {
         }
     }
 
-    /** 
+    /**
      * Utility to detect if unix
      * @return boolean
      */
     static boolean isUnix() {
-        return (OsDetector.isUnix()) 
+        return (OsDetector.isUnix())
     }
 
-     /** 
+     /**
      * Utility to detect if windows
      * @return boolean
      */
     static boolean isWindows() {
-        return (OsDetector.isWindows()) 
+        return (OsDetector.isWindows())
     }
 
-     /** 
+     /**
      * Utility to parse command line into list
      * @param final String - cmdLine
      * @param final boolean - stripQuotes
@@ -343,7 +352,7 @@ class Utilities implements Serializable {
                 if (stripQuotes && mm != null && !mm.isEmpty()) {
                     if (mm.length() >= 2 && mm.charAt(0) == '"' && mm.charAt(mm.length() - 1) == '"') {
                         mm = mm.substring(1, mm.length() - 1)
-                    }                
+                    }
                 }
                 args.add(mm);
             }
@@ -351,7 +360,7 @@ class Utilities implements Serializable {
         return args
     }
 
-    /** 
+    /**
      * Utility to read property file and convert to a map
      * @param final File - propFile
      * @return Map - Mapped properties
@@ -367,8 +376,8 @@ class Utilities implements Serializable {
         // Read properties from file, put into a map and sort...
         def props = new Properties()
         def mapProp = [:]
-        new File(propFile.getAbsolutePath()).withInputStream { 
-            stream -> props.load(stream) 
+        new File(propFile.getAbsolutePath()).withInputStream {
+            stream -> props.load(stream)
         }
         props.each {
             mapProp.put(it.key,it.value)
@@ -377,7 +386,7 @@ class Utilities implements Serializable {
         return mapProp
     }
 
-    /** 
+    /**
      * Utility to read default property file and convert to a map
      * @return Map - Mapped properties
      */
@@ -402,7 +411,7 @@ class Utilities implements Serializable {
      * @param final String - encoding
      * @throws IOException
      */
-    static final void writeFile(final File file, final String contents, 
+    static final void writeFile(final File file, final String contents,
                                 final String encoding="UTF-8") throws IOException {
         try {
             PrintWriter writer = new PrintWriter(file, encoding);
@@ -419,12 +428,12 @@ class Utilities implements Serializable {
      * @param final byte[] - contents
      * @throws IOException
      */
-    static final void writeFile(final File file, final byte[] contents) 
+    static final void writeFile(final File file, final byte[] contents)
         throws IOException {
         try {
             FileOutputStream out = new FileOutputStream(file);
             out.write(contents);
-            out.close()        
+            out.close()
         } catch(Exception ex) {
             throw new IOException(ex.getMessage())
         }
@@ -456,6 +465,18 @@ class Utilities implements Serializable {
             bis.close();
         }
         return bytes;
+    }
+
+    /**
+     * Utility routine to convert stacktrace to string
+     * @param inal Throwable throwable
+     * @return String
+     */
+    static String getStackTraceAsString(final Throwable throwable) {
+        final StringWriter sw = new StringWriter();
+        final PrintWriter pw = new PrintWriter(sw, true);
+        throwable.printStackTrace(pw);
+        return sw.getBuffer().toString();
     }
 
     /**
@@ -492,9 +513,9 @@ class Utilities implements Serializable {
      * @return File - Location
      * @throws FileNotFoundException
      */
-    static File getExecutable(final String exeName) 
+    static File getExecutable(final String exeName)
         throws FileNotFoundException {
-        
+
         // Get the path environment.
         String exec = exeName;
         if (Utilities.isWindows()) {
@@ -537,9 +558,9 @@ class Utilities implements Serializable {
      * @return File - Location
      * @throws FileNotFoundException
      */
-    static File getExecutable(final String exeName, final FilePath remoteArea) 
+    static File getExecutable(final String exeName, final FilePath remoteArea)
         throws FileNotFoundException {
-        
+
         // Get the path environment.
         String exec = exeName;
         if (Utilities.isWindows()) {
@@ -580,20 +601,20 @@ class Utilities implements Serializable {
 
     /**
      * Utility routine to get a temporary directory
-     * 
+     *
      * @return File - Temp directory
-     */   
+     */
     static File getTmpDir() {
         return new File(System.getProperty("java.io.tmpdir"))
     }
 
     /**
      * Utility routine to count files in a directory
-     * 
+     *
      * @param final File - Directory to count
-     * @param long - counter     
-     */   
-    static long countFiles(final File dir) { 
+     * @param long - counter
+     */
+    static long countFiles(final File dir) {
         File[] files = dir.listFiles();
         long count = 0;
         for (File f : files) {
@@ -603,15 +624,15 @@ class Utilities implements Serializable {
                 count++;
             }
         }
-        return count;    
+        return count;
     }
 
     /**
      * Utility routine to emulate rm -fr
-     * 
+     *
      * @param final File - Directory to delete
      * @throws FileNotFoundException
-     */   
+     */
      static void deleteDirs(final File f) throws FileNotFoundException {
         if (f.isDirectory()) {
             for (File c : f.listFiles()) {
@@ -624,13 +645,13 @@ class Utilities implements Serializable {
         }
     }
 
-    /** 
+    /**
      * Utility to copy files around. Does not work with directories
      * @param final File - srcFile
      * @return final File - targetFile
      * @throws IOException
-     */    
-     static void copyFile(final File srcFile, final File targetFile) 
+     */
+     static void copyFile(final File srcFile, final File targetFile)
         throws IOException {
             Path srcPath = Paths.get(srcFile.getAbsolutePath())
             Path targetPath = Paths.get(targetFile.getAbsolutePath())
@@ -649,15 +670,15 @@ class Utilities implements Serializable {
                     StandardCopyOption.REPLACE_EXISTING)
     }
 
-    /** 
+    /**
      * Utility to copy directories around
      * @param final File - srcDirectory
      * @param final File - targetDirectory
-     * @param final boolean - isDir     
+     * @param final boolean - isDir
      * @throws IOException
-     */    
+     */
      static void copyDirectories(final File srcDirectory, final File targetDirectory,
-                                final boolean isDir=false) 
+                                final boolean isDir=false)
         throws IOException {
 
             LOGGER.log(Level.FINE, "srcDirectory=\"{0}\" targetDirectory=\"{1}\"",
@@ -672,32 +693,32 @@ class Utilities implements Serializable {
             Path srcPath = Paths.get(srcDirectory.getAbsolutePath())
             Path targetPath = Paths.get(targetDirectory.getAbsolutePath())
 
-            Files.walkFileTree(srcPath, 
-                            new CopyDirs(srcPath, targetPath, 
+            Files.walkFileTree(srcPath,
+                            new CopyDirs(srcPath, targetPath,
                                          StandardCopyOption.REPLACE_EXISTING))
-    } 
+    }
 
-    /** 
+    /**
      * Utility to get file extension
      * @param final File - fileToCheck
-     * @return String 
-     */     
+     * @return String
+     */
     static String getFileExt(final File fileToCheck) {
         String fileExt = ""
         if (fileToCheck != null) {
             int i = fileToCheck.getAbsolutePath().lastIndexOf('.');
             if (i > 0) {
                 fileExt = fileToCheck.getAbsolutePath().substring(i+1);
-            }                 
+            }
         }
         return fileExt
     }
 
-    /** 
+    /**
      * Utility to detect if input string is XML or JSON
      * @param final File - fileToCheck
      * @return String - XML or JSON
-     */     
+     */
     static String getMarkUpType(final File fileToCheck) {
         String msgToCheck = new String(readAllBytes(fileToCheck))
         String msgType = getMarkUpType(msgToCheck)
@@ -705,11 +726,11 @@ class Utilities implements Serializable {
         return(msgType)
     }
 
-     /** 
+     /**
      * Utility to detect if input string is XML or JSON
      * @param final String - msgToCheck
      * @return String - XML or JSON
-     */   
+     */
     static String getMarkUpType(final String msgToCheck) {
         try {
             def slurper = new JsonSlurper()
@@ -720,7 +741,7 @@ class Utilities implements Serializable {
 
         try {
             def slurper = new XmlSlurper()
-            def output = slurper.parseText(msgToCheck)            
+            def output = slurper.parseText(msgToCheck)
             return ConfigPropertiesConstants.XML;
         } catch (Exception e) {
         }
@@ -730,18 +751,18 @@ class Utilities implements Serializable {
     /**
      * Get a Map in JSON format
      * @return final String
-     */ 
+     */
     static final String convertMapToJSON(final Map conv) {
         def builder = new JsonBuilder(conv)
         return builder.toString()
     }
 
-     /** 
+     /**
      * Utility to calculate the hash of a file
      * @param final File - fileToCheck
      * @return String - hashcode
      * @throws FileNotFoundException
-     */   
+     */
     static String calcFileMD5(final File fileToCheck) {
         if (fileToCheck == null || !fileToCheck.exists() || !fileToCheck.canRead()) {
             throw new FileNotFoundException("Error: Specified file does not exist or cannot be read")
@@ -761,14 +782,14 @@ class Utilities implements Serializable {
     /**
      * Get a Machine Details
      * @return final String
-     */ 
+     */
     static final String getHostName() {
         try {
             InetAddress netAddr = InetAddress.getLocalHost();
             // Get hostname and compare.
             String hostName = netAddr.getHostName()
             return hostName
-        } catch (UnknownHostException e) {    
+        } catch (UnknownHostException e) {
             return ""
         }
     }
@@ -776,9 +797,9 @@ class Utilities implements Serializable {
     /**
      * Get a Login Details
      * @return final String
-     */ 
+     */
     static final String getOSUser() {
         return(System.getProperty("user.name"))
-    }    
+    }
 }
 

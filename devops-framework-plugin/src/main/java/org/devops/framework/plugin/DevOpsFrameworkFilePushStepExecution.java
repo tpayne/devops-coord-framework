@@ -53,11 +53,14 @@ public class DevOpsFrameworkFilePushStepExecution extends SynchronousNonBlocking
     @StepContextParameter
     private transient Launcher launcher;
 
+    @StepContextParameter
+    private transient FilePath workspace;
+
     private transient final DevOpsFrameworkFilePushStep step;
 
     /**
      * Default constructor
-     * 
+     *
      * @param DevOpsFrameworkFilePushStep - step
      * @param StepContext - context
      */
@@ -68,22 +71,30 @@ public class DevOpsFrameworkFilePushStepExecution extends SynchronousNonBlocking
 
     /**
      * Run function
-     * 
+     *
      * @return Boolean
      * @throws Exception
      */
     @Override
     protected Boolean run() throws Exception {
         listener = getContext().get(TaskListener.class);
-        StringBuffer outputStr = new StringBuffer();
+        build = getContext().get(Run.class);
+        workspace = getContext().get(FilePath.class);
+        launcher = getContext().get(Launcher.class);
+
         listener.getLogger().println("Push file '"+step.getSrcFile()+"' to '"+step.getTargetFile()+"'");
-        boolean retStat = Repository.pushAssetToRepo(ConfigPropertiesConstants.FILE,
-                                step.getSrcFile(),
-                                step.getTargetFile());
-        if (retStat) {
-        } else {
-            listener.error("File could not be pushed");
-        }
+        RepoCmdTask runTask = new RepoCmdTask(ConfigPropertiesConstants.FILE,
+                                            "PUSH",
+                                            workspace,
+                                            listener,
+                                            build,
+                                            launcher,
+                                            step.getSrcFile(),
+                                            step.getTargetFile(),
+                                            null,
+                                            null,
+                                            false);
+        boolean retStat = runTask.invoke();
         return retStat;
     }
 

@@ -52,11 +52,14 @@ public class DevOpsFrameworkFilePullStepExecution extends SynchronousNonBlocking
     @StepContextParameter
     private transient Launcher launcher;
 
+    @StepContextParameter
+    private transient FilePath workspace;
+
     private transient final DevOpsFrameworkFilePullStep step;
 
     /**
      * Default constructor
-     * 
+     *
      * @param DevOpsFrameworkFilePullStep - step
      * @param StepContext - context
      */
@@ -67,22 +70,30 @@ public class DevOpsFrameworkFilePullStepExecution extends SynchronousNonBlocking
 
     /**
      * Run function
-     * 
+     *
      * @return Boolean
      * @throws Exception
      */
     @Override
     protected Boolean run() throws Exception {
         listener = getContext().get(TaskListener.class);
-        StringBuffer outputStr = new StringBuffer();
+        build = getContext().get(Run.class);
+        workspace = getContext().get(FilePath.class);
+        launcher = getContext().get(Launcher.class);
+
         listener.getLogger().println("Pull file '"+step.getSrcFile()+"' to '"+step.getTargetFile()+"'");
-        boolean retStat = Repository.pullAssetFromRepo(ConfigPropertiesConstants.FILE,
-                                step.getSrcFile(),
-                                step.getTargetFile());
-        if (retStat) {
-        } else {
-            listener.error("File could not be pulled");
-        }
+        RepoCmdTask runTask = new RepoCmdTask(ConfigPropertiesConstants.FILE,
+                                            "PULL",
+                                            workspace,
+                                            listener,
+                                            build,
+                                            launcher,
+                                            step.getSrcFile(),
+                                            step.getTargetFile(),
+                                            null,
+                                            null,
+                                            false);
+        boolean retStat = runTask.invoke();
         return retStat;
     }
 

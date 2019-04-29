@@ -52,11 +52,14 @@ public class DevOpsFrameworkArtifactoryPullStepExecution extends SynchronousNonB
     @StepContextParameter
     private transient Launcher launcher;
 
+    @StepContextParameter
+    private transient FilePath workspace;
+
     private transient final DevOpsFrameworkArtifactoryPullStep step;
 
     /**
      * Default constructor
-     * 
+     *
      * @param DevOpsFrameworkArtifactoryPullStep - step
      * @param StepContext - context
      */
@@ -67,29 +70,31 @@ public class DevOpsFrameworkArtifactoryPullStepExecution extends SynchronousNonB
 
     /**
      * Run function
-     * 
+     *
      * @return Boolean
      * @throws Exception
      */
     @Override
     protected Boolean run() throws Exception {
         listener = getContext().get(TaskListener.class);
-        StringBuffer outputStr = new StringBuffer();
+        build = getContext().get(Run.class);
+        workspace = getContext().get(FilePath.class);
+        launcher = getContext().get(Launcher.class);
+
         listener.getLogger().println("Pull file '"+step.getSrcFile()+"' to '"+step.getTargetFile()+"'");
-        boolean retStat = Repository.pullAssetFromRepo(ConfigPropertiesConstants.ARTIFACTORY,
-                                step.getSrcFile(),
-                                step.getTargetFile(),
-                                (step.getUserName() == null || step.getUserName().isEmpty() ? null : step.getUserName()),
-                                (step.getUserPwd() == null || step.getUserPwd().isEmpty() ? null : step.getUserPwd()),
-                                outputStr);
-        String output = outputStr.toString();
-        if (retStat) {
-            // Too much output...
-            //listener.getLogger().println(output);
-        } else {
-            listener.error(output);
-        }
-        outputStr = null;
+
+        RepoCmdTask runTask = new RepoCmdTask(ConfigPropertiesConstants.ARTIFACTORY,
+                                            "PULL",
+                                            workspace,
+                                            listener,
+                                            build,
+                                            launcher,
+                                            step.getSrcFile(),
+                                            step.getTargetFile(),
+                                            step.getUserName(),
+                                            step.getUserPwd(),
+                                            false);
+        boolean retStat = runTask.invoke();
         return retStat;
     }
 

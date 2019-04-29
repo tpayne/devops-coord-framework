@@ -6,6 +6,9 @@ package org.devops.framework.core;
 import java.util.logging.Logger
 import java.util.logging.Level
 
+import hudson.Launcher
+import hudson.FilePath
+
 class Repository implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger( Repository.class.getName() )
@@ -19,6 +22,8 @@ class Repository implements Serializable {
      * @param final String - userName
      * @param final String - userPwd
      * @param StringBuffer - outputStr
+     * @param final Launcher - launcher     
+     * @param final FilePath - remoteArea          
      * @return boolean 
      * @throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception
      */
@@ -27,7 +32,9 @@ class Repository implements Serializable {
                                         final String targetAsset,
                                         final String userName=null,
                                         final String userPwd=null,
-                                        StringBuffer outputStr=null)
+                                        StringBuffer outputStr=null,
+                                        final Launcher launcher=null,
+                                        final FilePath remoteArea=null)
         throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception {
 
         if (repoType == null || srcAsset == null || targetAsset == null) {
@@ -52,7 +59,8 @@ class Repository implements Serializable {
                 srcFile.getName(),targetFile.getName());
 
             retStat = pullAssetFromRepo(repoType,srcFile,targetFile,
-                                userName,userPwd,outputStr,isDir)
+                                userName,userPwd,outputStr,isDir,
+                                launcher,remoteArea)
         } else if (repoType == ConfigPropertiesConstants.ARTIFACTORY ||
                    repoType == ConfigPropertiesConstants.NEXUS) {
             URI srcRepo = new URI(srcAsset)
@@ -63,7 +71,8 @@ class Repository implements Serializable {
                             targetFile.isDirectory());
 
             retStat = pullAssetFromRepo(repoType,srcRepo,targetFile,
-                                userName,userPwd,outputStr)
+                                userName,userPwd,outputStr,false,
+                                launcher,remoteArea)
         }        
 
         return retStat
@@ -80,6 +89,8 @@ class Repository implements Serializable {
      * @param final String - userPwd
      * @param StringBuffer - outputStr
      * @param boolean - isDir     
+     * @param final Launcher - launcher     
+     * @param final FilePath - remoteArea          
      * @return boolean 
      * @throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception
      */
@@ -89,7 +100,9 @@ class Repository implements Serializable {
                                         final String userName=null,
                                         final String userPwd=null,
                                         StringBuffer outputStr=null,
-                                        boolean isDir=false)
+                                        boolean isDir=false,
+                                        final Launcher launcher=null,
+                                        final FilePath remoteArea=null)
         throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception {
         
         if (repoType == null || srcAsset == null || targetAsset == null) {
@@ -113,7 +126,7 @@ class Repository implements Serializable {
 
         boolean retStat = repo.pullAssetFromRepo(srcAsset,targetAsset,
                                                 userName,userPwd,outputStr,
-                                                isDir)
+                                                isDir,launcher,remoteArea)
 
         return retStat
     }
@@ -128,6 +141,8 @@ class Repository implements Serializable {
      * @param final String - userPwd
      * @param StringBuffer - outputStr
      * @param boolean - isDir     
+     * @param final Launcher - launcher     
+     * @param final FilePath - remoteArea          
      * @return boolean 
      * @throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception
      */
@@ -137,7 +152,9 @@ class Repository implements Serializable {
                                         final String userName=null,
                                         final String userPwd=null,
                                         StringBuffer outputStr=null,
-                                        boolean isDir=false)
+                                        boolean isDir=false,
+                                        final Launcher launcher=null,
+                                        final FilePath remoteArea=null)
         throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception {
         
         if (repoType == null || srcAsset == null || targetAsset == null) {
@@ -159,7 +176,7 @@ class Repository implements Serializable {
 
         boolean retStat = repo.pullAssetFromRepo(srcAsset,targetAsset,
                                                 userName,userPwd,outputStr,
-                                                isDir)
+                                                isDir,launcher,remoteArea)
 
         return retStat
     }
@@ -173,6 +190,8 @@ class Repository implements Serializable {
      * @param final String - userName
      * @param final String - userPwd
      * @param StringBuffer - outputStr
+     * @param final Launcher - launcher     
+     * @param final FilePath - remoteArea          
      * @return boolean 
      * @throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception
      */
@@ -181,7 +200,9 @@ class Repository implements Serializable {
                                         final String targetAsset,
                                         final String userName=null,
                                         final String userPwd=null,
-                                        StringBuffer outputStr=null)
+                                        StringBuffer outputStr=null,
+                                        final Launcher launcher=null,
+                                        final FilePath remoteArea=null)
         throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception {
             
         if (repoType == null || srcAsset == null || targetAsset == null) {
@@ -205,7 +226,8 @@ class Repository implements Serializable {
                 srcFile.getName(),targetFile.getName());
 
             retStat = pushAssetToRepo(repoType,srcFile,targetFile,
-                                   userName,userPwd,outputStr,isDir)
+                                   userName,userPwd,outputStr,isDir,
+                                   launcher,remoteArea)
         } else if (repoType == ConfigPropertiesConstants.ARTIFACTORY ||
                    repoType == ConfigPropertiesConstants.NEXUS) {
             URI targetRepo = new URI(targetAsset)
@@ -216,7 +238,8 @@ class Repository implements Serializable {
                             srcFile.isDirectory());
 
             retStat = pushAssetToRepo(repoType,srcFile,targetRepo,
-                                   userName,userPwd,outputStr)
+                                   userName,userPwd,outputStr,false,
+                                   launcher,remoteArea)
         }        
 
         return retStat
@@ -231,6 +254,8 @@ class Repository implements Serializable {
      * @param final String - userName
      * @param final String - userPwd
      * @param StringBuffer - outputStr
+     * @param final Launcher - launcher     
+     * @param final FilePath - remoteArea          
      * @param boolean - isDir     
      * @return boolean 
      * @throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception
@@ -241,7 +266,9 @@ class Repository implements Serializable {
                                         final String userName=null,
                                         final String userPwd=null,
                                         StringBuffer outputStr=null,
-                                        boolean isDir=false)
+                                        boolean isDir=false,
+                                        final Launcher launcher=null,
+                                        final FilePath remoteArea=null)
         throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception {
         
         if (repoType == null || srcAsset == null || targetRepo == null) {
@@ -265,7 +292,7 @@ class Repository implements Serializable {
 
         boolean retStat = repo.pushAssetToRepo(srcAsset,targetRepo,
                                             userName,userPwd,outputStr,
-                                            isDir)
+                                            isDir,launcher,remoteArea)
 
         return retStat
     }
@@ -280,6 +307,8 @@ class Repository implements Serializable {
      * @param final String - userPwd
      * @param StringBuffer - outputStr
      * @param boolean - isDir     
+     * @param final Launcher - launcher     
+     * @param final FilePath - remoteArea          
      * @return boolean 
      * @throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception
      */
@@ -289,7 +318,9 @@ class Repository implements Serializable {
                                         final String userName=null,
                                         final String userPwd=null,
                                         StringBuffer outputStr=null,
-                                        boolean isDir=false)
+                                        boolean isDir=false,
+                                        final Launcher launcher=null,
+                                        final FilePath remoteArea=null)
         throws IllegalArgumentException, FileNotFoundException, SecurityException, Exception {
         
         if (repoType == null || srcAsset == null || targetRepo == null) {
@@ -311,7 +342,8 @@ class Repository implements Serializable {
 
         boolean retStat = repo.pushAssetToRepo(srcAsset,targetRepo,
                                             userName,userPwd,outputStr,
-                                            isDir)
+                                            isDir,
+                                            launcher,remoteArea)
 
         return retStat
     }
