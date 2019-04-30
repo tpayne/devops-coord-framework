@@ -76,7 +76,7 @@ public class UtilityTests extends GroovyTestCase {
    void testShellCmdFailure() {
       def cmdStr
       StringBuffer returnStr = new StringBuffer()
-      
+
       cmdStr = "lsdx"
       int retStat = Utilities.runCmd(cmdStr,returnStr)
       String returnOutput = returnStr.toString()
@@ -84,6 +84,35 @@ public class UtilityTests extends GroovyTestCase {
       assertTrue(retStat>0)
       assertTrue(returnOutput.contains("lsdx: command not found") ||
                  returnOutput.contains("\"lsdx\": error=2, No such file or directory"))
+   }
+
+   /**
+    * Unit test for running command files
+    */
+   void testShellCmdFile() {
+      def cmdStr
+      StringBuffer returnStr = new StringBuffer()
+      File cmdFile = new File("."+"/src/test/resources/testScript.sh")
+
+      int retStat = Utilities.runCmd(cmdFile,returnStr)
+      String returnOutput = returnStr.toString()
+      returnOutput = returnOutput.trim()
+      assertTrue(retStat==0)
+      assertTrue(returnOutput.contains("This is a test script"))
+   }
+
+   /**
+    * Unit test for running command files and failure
+    */
+   void testShellCmdFileFailure() {
+      def cmdStr
+      StringBuffer returnStr = new StringBuffer()
+      File cmdFile = new File("."+"/src/test/resources/testScriptX.sh")
+
+      int retStat = Utilities.runCmd(cmdFile,returnStr)
+      String returnOutput = returnStr.toString()
+      returnOutput = returnOutput.trim()
+      assertTrue(retStat!=0)
    }
 
    /**
@@ -106,7 +135,7 @@ public class UtilityTests extends GroovyTestCase {
       boolean retStat = targetFile.exists()
       targetFile.delete()
       assertTrue(retStat)
-   }  
+   }
 
    /**
     * Unit test for directory copying
@@ -122,7 +151,7 @@ public class UtilityTests extends GroovyTestCase {
       boolean retStat = propFile.exists()
       propFile.delete()
       assertTrue(retStat)
-   }  
+   }
 
    /**
     * Unit test for directory copying
@@ -134,13 +163,13 @@ public class UtilityTests extends GroovyTestCase {
       boolean retStat = false
 
       try {
-         Utilities.copyFile(propFile,targetFile)   
+         Utilities.copyFile(propFile,targetFile)
       } catch(IOException e) {
          retStat=true
       } catch(Exception e) {
-      }    
+      }
       assertTrue(retStat)
-   }  
+   }
 
    /**
     * Unit test for directory copying
@@ -153,17 +182,17 @@ public class UtilityTests extends GroovyTestCase {
       File targetDir = new File(getTmpDir().getAbsolutePath()+File.separator+"utilTest-"+uid)
 
       targetDir.mkdirs()
-      Utilities.copyDirectories(srcDir,targetDir)  
+      Utilities.copyDirectories(srcDir,targetDir)
       int i = 0
       // Count dirs in target...
       for(File c : targetDir.listFiles()) {
          if (c.isDirectory()) {
             i++
-         }   
+         }
       }
       Utilities.deleteDirs(targetDir)
       assertTrue(i==3)
-   } 
+   }
 
    /**
     * Unit test for directory/file copying
@@ -175,13 +204,13 @@ public class UtilityTests extends GroovyTestCase {
       boolean retStat = false
 
       try {
-         Utilities.copyDirectories(propFile,targetFile)   
+         Utilities.copyDirectories(propFile,targetFile)
       } catch(IOException e) {
          retStat=true
       } catch(Exception e) {
-      }    
+      }
       assertTrue(retStat)
-   }         
+   }
 
    /**
     * Unit test for MD5 chksumming
@@ -191,15 +220,15 @@ public class UtilityTests extends GroovyTestCase {
 
       boolean retStat = true
       try {
-         String hashCode = Utilities.calcFileMD5(propFile)  
+         String hashCode = Utilities.calcFileMD5(propFile)
          assertEquals(hashCode,"458fd5e7b77ce70e98b3e33c9ac57721")
       } catch(FileNotFoundException e) {
          assert("File not found")
       } catch(Exception e) {
          retStat = false
-      }    
+      }
       assertTrue(retStat)
-   }    
+   }
 
    /**
     * Unit test for getting file extentions
@@ -208,7 +237,7 @@ public class UtilityTests extends GroovyTestCase {
     File propFile = new File("."+"/src/test/resources/unitTest.properties")
     String fileExt = Utilities.getFileExt(propFile)
     assertEquals("properties",fileExt)
-  }  
+  }
 
    /**
     * Unit test for getting hostname
@@ -216,21 +245,21 @@ public class UtilityTests extends GroovyTestCase {
   void testgetHostName() {
     String hostName = Utilities.getHostName()
     assertTrue(hostName!=null && !hostName.isEmpty())
-  }  
+  }
 
    /**
     * Unit test for getting os user
     */
   void testgetUserName() {
     String user = Utilities.getOSUser()
-    assertTrue(user!=null && !user.isEmpty())   
-  }  
+    assertTrue(user!=null && !user.isEmpty())
+  }
 
    /**
     * Unit test for counting files
     */
   void testCountFiles() {
     long count = Utilities.countFiles(getTmpDir())
-    assertTrue(count>0)   
-  }   
+    assertTrue(count>0)
+  }
 }

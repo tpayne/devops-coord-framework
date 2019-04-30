@@ -87,6 +87,38 @@ class Utilities implements Serializable {
      * This class runs commands
      */
     private static class cmdRunner {
+	   /**
+		 * Utility routine to run a shell command
+		 *
+		 * @param final String - Command to run
+		 * @param StringBuffer - return message
+		 * @param final File - workingDir
+		 * @param final Launcher - launcher
+		 * @param final boolean - stripQuotes
+		 * @param final boolean - isFile
+		 * @return int - Exit value
+		 */
+		static int runCmd(final String cmdStr,
+						  StringBuffer returnStr,
+						  final File workingDir,
+						  final Launcher launcher,
+						  final boolean stripQuotes,
+						  final boolean isFile) {
+			final Jenkins jenkins = Jenkins.getInstance()
+			boolean isJenkins = (jenkins!=null && jenkins.getRootDir() != null && !jenkins.getRootDir().getAbsolutePath().isEmpty())
+			int retStatus = -1
+			if (isJenkins || launcher!=null) {
+				retStatus = cmdRunner.CDRunner(cmdStr,returnStr,
+				                               workingDir,launcher,
+				                               stripQuotes,isFile)
+			} else {
+				retStatus = cmdRunner.OsRunner(cmdStr,returnStr,
+				                               workingDir,isFile)
+			}
+			return retStatus
+		}
+
+
         /**
          * Utility routine to run a shell command
          *
@@ -95,15 +127,26 @@ class Utilities implements Serializable {
          * @param final File - workingDir
          * @param final Launcher - launcher
          * @param final boolean - stripQuotes
+         * @param final boolean - isFile
          * @return int - Exit value
          */
-        static int CDRunner(final String cmdStr, StringBuffer returnStr,
-                            final File workingDir=null,
-                            final Launcher procLauncher=null,
-                            final boolean stripQuotes=false) {
+        static int CDRunner(final String cmdStr,
+                            StringBuffer returnStr,
+                            final File workingDir,
+                            final Launcher procLauncher,
+                            final boolean stripQuotes,
+                            final boolean isFile) {
             int retStatus = 0
 
-            List<String> args = Utilities.parseArgs(cmdStr,stripQuotes)
+            List<String> args = null
+
+            if (!isFile) {
+            	args = Utilities.parseArgs(cmdStr,stripQuotes)
+			} else {
+				args = new ArrayList<String>()
+				args.add(cmdStr)
+			}
+
             File tempFile = File.createTempFile("devopsFramework", ".tmp")
             File tempFile1 = File.createTempFile("devopsFramework", ".tmp")
             FileOutputStream fos = new FileOutputStream(tempFile);
@@ -116,23 +159,25 @@ class Utilities implements Serializable {
             Launcher launcher = ((procLauncher!=null) ? procLauncher : new LocalLauncher(listener))
             boolean secret = false
 
-            int i = 0;
-            if (args.size() > 1) {
-                for (String astr : args) {
-                    if (astr.contains("--username") || astr.contains("--password")) {
-                        masks[i] = true;
-                        masks[i + 1] = true;
-                        secret = true
-                    } else if (astr.contains("//") && astr.contains(":") && astr.contains("@")) {
-                        masks[i] = true;
-                        secret = true
-                    } else if (astr.contains("-u") && astr.contains(":")) {
-                        masks[i] = true
-                        secret = true
-                    }
-                    i++;
-                }
-            }
+			if (!isFile) {
+				int i = 0;
+				if (args.size() > 1) {
+					for (String astr : args) {
+						if (astr.contains("--username") || astr.contains("--password")) {
+							masks[i] = true;
+							masks[i + 1] = true;
+							secret = true
+						} else if (astr.contains("//") && astr.contains(":") && astr.contains("@")) {
+							masks[i] = true;
+							secret = true
+						} else if (astr.contains("-u") && astr.contains(":")) {
+							masks[i] = true
+							secret = true
+						}
+						i++;
+					}
+				}
+			}
 
             String outputStr = null
 
@@ -157,7 +202,6 @@ class Utilities implements Serializable {
                 }
                 Proc p = ps.start()
                 retStatus = p.join()
-                //retStatus = ps.join();
             } catch(IOException ex) {
                 retStatus = 1
                 outputStr = ex.getMessage()
@@ -176,7 +220,6 @@ class Utilities implements Serializable {
             }
 
             outputStr = outputStr.trim()
-            //returnStr.append(shell.text.toString())
             returnStr.append(outputStr)
             tempFile.delete()
             tempFile1.delete()
@@ -199,20 +242,35 @@ class Utilities implements Serializable {
          * @param final String - Command to run
          * @param StringBuffer - return message
          * @param final File - workingDir
+         * @param final boolean - isFile
          * @return int - Exit value
          */
-        static int OsRunner(final String cmdStr, StringBuffer returnStr, final File workingDir=null) {
-            //
-            // Enable this if need to debug commands. Not adding debug facility due
-            // to password concerns
-            //
-            //println "[DEBUG] "+cmdStr
+        static int OsRunner(final String cmdStr,
+        					StringBuffer returnStr,
+        					final File workingDir,
+        					final boolean isFile) {
+
+			if (isFile) {
+				File ck = new File(cmdStr)
+				if (!ck.exists() && !ck.canRead()) {
+					return -1
+				}
+			}
+
             File tempFile = File.createTempFile("devopsFramework", ".tmp")
             ProcessBuilder ph = null
             if (isUnix()) {
-                ph = new ProcessBuilder("sh","-c",cmdStr)
+            	if (isFile) {
+                	ph = new ProcessBuilder("sh",cmdStr)
+                } else {
+                	ph = new ProcessBuilder("sh","-c",cmdStr)
+                }
             } else {
-                ph = new ProcessBuilder("cmd","/c",cmdStr)
+            	if (isFile) {
+                	ph = new ProcessBuilder("call",cmdStr)
+                } else {
+                	ph = new ProcessBuilder("cmd","/c",cmdStr)
+                }
             }
 
             if (workingDir != null) {
@@ -230,16 +288,13 @@ class Utilities implements Serializable {
 
             String outputStr = new String(readAllBytes(tempFile))
             outputStr = outputStr.trim()
-            //returnStr.append(shell.text.toString())
             returnStr.append(outputStr)
             tempFile.delete()
             Utilities.setOutput(null)
             Utilities.setOutput(outputStr)
+
             LOGGER.log(Level.FINEST, "Command output \"{0}\"",outputStr);
             outputStr = null
-            // Enable this if need to debug commands. Not adding debug facility due
-            // to password concerns
-            //println "[DEBUG] "+returnStr.toString()
 
             int retStatus = shell.exitValue()
             if (retStatus > 0) {
@@ -266,15 +321,35 @@ class Utilities implements Serializable {
                       final File workingDir=null,
                       final Launcher launcher=null,
                       final boolean stripQuotes=false) {
-        final Jenkins jenkins = Jenkins.getInstance()
-        boolean isJenkins = (jenkins!=null && jenkins.getRootDir() != null && !jenkins.getRootDir().getAbsolutePath().isEmpty())
-        int retStatus = -1
-        if (isJenkins || launcher!=null) {
-            retStatus = cmdRunner.CDRunner(cmdStr,returnStr,workingDir,launcher,stripQuotes)
-        } else {
-            retStatus = cmdRunner.OsRunner(cmdStr,returnStr,workingDir)
-        }
-        return retStatus
+        return cmdRunner.runCmd(cmdStr,
+        						returnStr,
+        						workingDir,
+        						launcher,
+        					    stripQuotes,
+        					    false)
+    }
+
+    /**
+     * Utility routine to run a shell command
+     *
+     * @param final File - Script to run
+     * @param StringBuffer - return message
+     * @param final File - workingDir
+     * @param final Launcher - launcher
+     * @param final boolean - stripQuotes
+     * @return int - Exit value
+     */
+    static int runCmd(final File cmdFile,
+                      StringBuffer returnStr,
+                      final File workingDir=null,
+                      final Launcher launcher=null,
+                      final boolean stripQuotes=false) {
+        return cmdRunner.runCmd(cmdFile.getAbsolutePath(),
+        						returnStr,
+        						workingDir,
+        			  			launcher,
+        			  			stripQuotes,
+        			  			true)
     }
 
     /**
