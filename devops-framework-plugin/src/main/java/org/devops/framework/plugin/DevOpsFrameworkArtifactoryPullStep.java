@@ -43,29 +43,33 @@ public class DevOpsFrameworkArtifactoryPullStep extends Step {
     private String targetFile;
     private String userName;
     private String userPwd;
+	private boolean quiet=false;
 
     /**
      * Default constructor
-     * 
+     *
      * @param String - srcFile
      * @param String - targetFile
      * @param String - userName
      * @param String - userPwd
+     * @param boolean - quiet
      */
     @DataBoundConstructor
     public DevOpsFrameworkArtifactoryPullStep(String srcFile, String targetFile,
-                                              String userName, String userPwd) {
+                                        	  String userName, String userPwd,
+                                        	  boolean quiet) {
         this.srcFile = srcFile;
         this.targetFile = targetFile;
         this.userName = userName;
         this.userPwd = userPwd;
+        this.quiet = quiet;
     }
 
     public String getSrcFile() {
         return this.srcFile;
     }
 
-    @DataBoundSetter 
+    @DataBoundSetter
     public void setSrcFile(final String srcFile) {
         this.srcFile = srcFile.trim();
     }
@@ -74,7 +78,7 @@ public class DevOpsFrameworkArtifactoryPullStep extends Step {
         return this.targetFile;
     }
 
-    @DataBoundSetter 
+    @DataBoundSetter
     public void setTargetFile(final String targetFile) {
         this.targetFile = targetFile.trim();
     }
@@ -83,7 +87,7 @@ public class DevOpsFrameworkArtifactoryPullStep extends Step {
         return this.userName;
     }
 
-    @DataBoundSetter 
+    @DataBoundSetter
     public void setUserName(final String userName) {
         this.userName = Util.fixEmptyAndTrim(userName);
     }
@@ -92,11 +96,20 @@ public class DevOpsFrameworkArtifactoryPullStep extends Step {
         return this.userPwd;
     }
 
-    @DataBoundSetter 
+    @DataBoundSetter
     public void setUserPwd(final String userPwd) {
         this.userPwd = Util.fixEmptyAndTrim(userPwd);
     }
-    
+
+    public boolean getQuiet() {
+        return this.quiet;
+    }
+
+    @DataBoundSetter
+    public void setQuiet(final boolean quiet) {
+        this.quiet = quiet;
+    }
+
     @Override
     public StepExecution start(StepContext context) throws Exception {
         return new DevOpsFrameworkArtifactoryPullStepExecution(this, context);
@@ -119,7 +132,7 @@ public class DevOpsFrameworkArtifactoryPullStep extends Step {
         @Override
         public Set<? extends Class<?>> getRequiredContext() {
             return ImmutableSet.of(FilePath.class, Run.class, Launcher.class, TaskListener.class);
-        }        
+        }
     }
 }
 

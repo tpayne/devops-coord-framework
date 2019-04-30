@@ -56,8 +56,8 @@ public class DevOpsFrameworkNexusPullStep extends Step {
      */
     @DataBoundConstructor
     public DevOpsFrameworkNexusPullStep(String srcFile, String targetFile,
-                                              String userName, String userPwd,
-                                              boolean quiet) {
+                                        String userName, String userPwd,
+                                        boolean quiet) {
         this.srcFile = srcFile;
         this.targetFile = targetFile;
         this.userName = userName;

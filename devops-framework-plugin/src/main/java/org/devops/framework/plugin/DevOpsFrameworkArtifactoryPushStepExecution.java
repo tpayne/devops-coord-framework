@@ -93,7 +93,7 @@ public class DevOpsFrameworkArtifactoryPushStepExecution extends SynchronousNonB
                                             step.getTargetFile(),
                                             step.getUserName(),
                                             step.getUserPwd(),
-                                            false);
+                                            step.getQuiet());
         boolean retStat = runTask.invoke();
         return retStat;
     }
