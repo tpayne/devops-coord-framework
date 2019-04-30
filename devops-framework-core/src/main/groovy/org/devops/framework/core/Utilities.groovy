@@ -96,6 +96,7 @@ class Utilities implements Serializable {
 		 * @param final Launcher - launcher
 		 * @param final boolean - stripQuotes
 		 * @param final boolean - isFile
+     	 * @param final boolean - noParams
 		 * @return int - Exit value
 		 */
 		static int runCmd(final String cmdStr,
@@ -103,14 +104,16 @@ class Utilities implements Serializable {
 						  final File workingDir,
 						  final Launcher launcher,
 						  final boolean stripQuotes,
-						  final boolean isFile) {
+						  final boolean isFile,
+						  final boolean noParams) {
 			final Jenkins jenkins = Jenkins.getInstance()
 			boolean isJenkins = (jenkins!=null && jenkins.getRootDir() != null && !jenkins.getRootDir().getAbsolutePath().isEmpty())
 			int retStatus = -1
 			if (isJenkins || launcher!=null) {
 				retStatus = cmdRunner.CDRunner(cmdStr,returnStr,
 				                               workingDir,launcher,
-				                               stripQuotes,isFile)
+				                               stripQuotes,isFile,
+				                               noParams)
 			} else {
 				retStatus = cmdRunner.OsRunner(cmdStr,returnStr,
 				                               workingDir,isFile)
@@ -128,6 +131,7 @@ class Utilities implements Serializable {
          * @param final Launcher - launcher
          * @param final boolean - stripQuotes
          * @param final boolean - isFile
+     	 * @param final boolean - noParams
          * @return int - Exit value
          */
         static int CDRunner(final String cmdStr,
@@ -135,12 +139,13 @@ class Utilities implements Serializable {
                             final File workingDir,
                             final Launcher procLauncher,
                             final boolean stripQuotes,
-                            final boolean isFile) {
+                            final boolean isFile,
+                            final boolean noParams) {
             int retStatus = 0
 
             List<String> args = null
 
-            if (!isFile) {
+            if (!isFile && !noParams) {
             	args = Utilities.parseArgs(cmdStr,stripQuotes)
 			} else {
 				args = new ArrayList<String>()
@@ -159,7 +164,7 @@ class Utilities implements Serializable {
             Launcher launcher = ((procLauncher!=null) ? procLauncher : new LocalLauncher(listener))
             boolean secret = false
 
-			if (!isFile) {
+			if (!isFile && !noParams) {
 				int i = 0;
 				if (args.size() > 1) {
 					for (String astr : args) {
@@ -177,19 +182,26 @@ class Utilities implements Serializable {
 						i++;
 					}
 				}
-			}
+			} else {
+                if (noParams) {
+                    masks[0] = true
+                }
+            }
 
             String outputStr = null
 
             if (!secret) {
                 LOGGER.log(Level.FINEST, "cmd=\"{0}\"",cmdStr)
+                LOGGER.log(Level.FINEST, "cmdArgs=\"{0}\"",args.size())
             }
 
             try {
                 Launcher.ProcStarter ps = launcher.launch();
                 if (args.size() == 1) {
+	                LOGGER.log(Level.FINEST, "Running as single cmd")
                     ps.cmdAsSingleString(cmdStr)
                 } else {
+	                LOGGER.log(Level.FINEST, "Running as args")
                     ps.cmds(args)
                 }
                 ps.stdout(os.getLogger());
@@ -197,7 +209,7 @@ class Utilities implements Serializable {
                 if (workingDir) {
                     ps.pwd(workingDir)
                 }
-                if (args.size() > 1) {
+                if (args.size() > 1 || noParams) {
                     ps.masks(masks);
                 }
                 Proc p = ps.start()
@@ -314,19 +326,27 @@ class Utilities implements Serializable {
      * @param final File - workingDir
      * @param final Launcher - launcher
      * @param final boolean - stripQuotes
+     * @param final boolean - noParams
      * @return int - Exit value
+     * @throws IllegalArgumentException
      */
     static int runCmd(final String cmdStr,
                       StringBuffer returnStr,
                       final File workingDir=null,
                       final Launcher launcher=null,
-                      final boolean stripQuotes=false) {
+                      final boolean stripQuotes=false,
+                      final boolean noParams=false) 
+        throws IllegalArgumentException {
+        if (cmdStr == null || cmdStr.isEmpty()) {
+            throw new IllegalArgumentException("Error: No command specified")
+        }
         return cmdRunner.runCmd(cmdStr,
         						returnStr,
         						workingDir,
         						launcher,
         					    stripQuotes,
-        					    false)
+        					    false,
+        					    noParams)
     }
 
     /**
@@ -338,18 +358,25 @@ class Utilities implements Serializable {
      * @param final Launcher - launcher
      * @param final boolean - stripQuotes
      * @return int - Exit value
+     * @throws IllegalArgumentException
      */
     static int runCmd(final File cmdFile,
                       StringBuffer returnStr,
                       final File workingDir=null,
                       final Launcher launcher=null,
-                      final boolean stripQuotes=false) {
+                      final boolean stripQuotes=false) 
+        throws IllegalArgumentException {
+        if (cmdFile == null) {
+            throw new IllegalArgumentException("Error: No command specified")
+        }
+
         return cmdRunner.runCmd(cmdFile.getAbsolutePath(),
         						returnStr,
         						workingDir,
         			  			launcher,
         			  			stripQuotes,
-        			  			true)
+        			  			true,
+        			  			false)
     }
 
     /**

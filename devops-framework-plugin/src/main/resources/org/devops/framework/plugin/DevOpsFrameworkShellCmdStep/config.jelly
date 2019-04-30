@@ -1,0 +1,18 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
+    <f:block>
+        <table width="100%" style="border:solid">
+            <f:entry field="script" title="${%Shell Script}">
+                <f:textarea/>
+            </f:entry>
+            <f:entry field="workingDir" title="${%Working Directory}">
+                <f:textbox/>
+            </f:entry>
+            <f:advanced>
+  	          	<f:entry title="${%Run in quiet mode}">
+                	<f:checkbox name="quiet" default="false" checked="${instance.quiet}"/>
+            	</f:entry>
+            </f:advanced>
+        </table>
+    </f:block>
+</j:jelly>
