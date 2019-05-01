@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 import java.util.logging.Level;
 
 /**
- * Repo class for DSL remotable logic.
+ * Shell class for DSL remotable logic.
  */
 class ShellCmdTask extends GenericCmdTask {
 
@@ -67,7 +67,7 @@ class ShellCmdTask extends GenericCmdTask {
     }
 
     /**
-     * Process the Repo command
+     * Process the shell command
      */
     @Override
     public Boolean executeMaster() throws IOException, InterruptedException {
@@ -145,7 +145,7 @@ class ShellCmdTask extends GenericCmdTask {
     }
 
     /**
-     * Repo the Repo command
+     * Process the shell command
      */
     @Override
     public Boolean executeSlave() throws IOException, InterruptedException {
