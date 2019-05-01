@@ -629,7 +629,7 @@ This will generate JavaDoc style comments in the `target/` directory
 
 Class Usage Examples and Running Unit-tests
 ===========================================
-Virtually all the class functions documented above have example [unit/functional tests](https://github.com/tpayne/devops-framework/tree/master/src/test/java/org/devops) which are run in the Maven test phase.
+Virtually all the class functions documented above have example [unit/functional tests](https://github.com/tpayne/devops-framework/tree/master/devops-framework-core/src/test/java/org/devops/framework/core) which are run in the Maven test phase.
 
 You can use these as examples to show you how to use the classes. 
 
@@ -637,7 +637,7 @@ Running the unit-tests
 ----------------------
 The values used in the unit-tests for things like slack channels and GitHub repos are currently hardcoded to working values.
 However, these will need to be changed if you wish to run the tests. These values are located in a properties file 
-[`unitTest.properties`](https://github.com/tpayne/devops-framework/blob/master/src/test/resources/unitTest.properties). 
+[`unitTest.properties`](https://github.com/tpayne/devops-framework/blob/master/devops-framework-core/src/test/resources/unitTest.properties). 
 
 These will need to be modified to values more specific for you otherwise some of the tests may fail.
 
@@ -645,14 +645,14 @@ These will need to be modified to values more specific for you otherwise some of
 
 Pipeline Examples
 =================
-Examples of pipelines created using the framework can be found in the [`examples`](https://github.com/tpayne/devops-framework/tree/master/examples) directory.
+Examples of pipelines created using the framework can be found in the [`examples`](https://github.com/tpayne/devops-framework/tree/master/devops-framework-pipeline/examples) directory.
 
 >| Example | Description | 
 >| ------ | ----------- |
->| [`buildJenkinsPluginPipeline.txt`](https://github.com/tpayne/devops-framework/blob/master/examples/buildJenkinsPluginPipeline.txt) | Example build pipeline that fetches code, builds it, commits it to a repo, then updates a component manifest with the new version |
->| [`buildJenkinsPluginPipelineWithSlackNotif.txt`](https://github.com/tpayne/devops-framework/blob/master/examples/buildJenkinsPluginPipelineWithSlackNotif.txt) | As `buildJenkinsPluginPipeline.txt`, but also includes Slack channel notifications and shows how the component manifest can track many different components |
->| [`CIJenkinsPluginPipeline.txt`](https://github.com/tpayne/devops-framework/blob/master/examples/CIJenkinsPluginPipeline.txt) | Example build pipeline that fetches code, builds it, commits it to a repo, creates a baked Docker image, then updates a component manifest with the new version. It is implemented using the CIFramework object |
->| [`IntegrationTestPlugin.txt`](https://github.com/tpayne/devops-framework/blob/master/examples/IntegrationTestPlugin.txt) | Example integration pipeline that fetches binaries from the component manifest, bakes a Docker image using them, then tests the container. It is implemented using the Integration object |
+>| [`buildJenkinsPluginPipeline.txt`](https://github.com/tpayne/devops-framework/tree/master/devops-framework-pipeline/examples/buildJenkinsPluginPipeline.txt) | Example build pipeline that fetches code, builds it, commits it to a repo, then updates a component manifest with the new version |
+>| [`buildJenkinsPluginPipelineWithSlackNotif.txt`](https://github.com/tpayne/devops-framework/tree/master/devops-framework-pipeline/examples/buildJenkinsPluginPipelineWithSlackNotif.txt) | As `buildJenkinsPluginPipeline.txt`, but also includes Slack channel notifications and shows how the component manifest can track many different components |
+>| [`CIJenkinsPluginPipeline.txt`](https://github.com/tpayne/devops-framework/tree/master/devops-framework-pipeline/examples/CIJenkinsPluginPipeline.txt) | Example build pipeline that fetches code, builds it, commits it to a repo, creates a baked Docker image, then updates a component manifest with the new version. It is implemented using the CIFramework object |
+>| [`IntegrationTestPlugin.txt`](https://github.com/tpayne/devops-framework/tree/master/devops-framework-pipeline/examples/IntegrationTestPlugin.txt) | Example integration pipeline that fetches binaries from the component manifest, bakes a Docker image using them, then tests the container. It is implemented using the Integration object |
 
 Screenshots
 -----------
