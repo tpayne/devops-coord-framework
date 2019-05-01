@@ -653,6 +653,7 @@ Examples of pipelines created using the framework can be found in the [`examples
 >| [`buildJenkinsPluginPipelineWithSlackNotif.txt`](https://github.com/tpayne/devops-framework/tree/master/devops-framework-pipeline/examples/buildJenkinsPluginPipelineWithSlackNotif.txt) | As `buildJenkinsPluginPipeline.txt`, but also includes Slack channel notifications and shows how the component manifest can track many different components |
 >| [`CIJenkinsPluginPipeline.txt`](https://github.com/tpayne/devops-framework/tree/master/devops-framework-pipeline/examples/CIJenkinsPluginPipeline.txt) | Example build pipeline that fetches code, builds it, commits it to a repo, creates a baked Docker image, then updates a component manifest with the new version. It is implemented using the CIFramework object |
 >| [`IntegrationTestPlugin.txt`](https://github.com/tpayne/devops-framework/tree/master/devops-framework-pipeline/examples/IntegrationTestPlugin.txt) | Example integration pipeline that fetches binaries from the component manifest, bakes a Docker image using them, then tests the container. It is implemented using the Integration object |
+>| [`DSLPipelineExamples.txt`](https://github.com/tpayne/devops-framework/blob/master/devops-framework-pipeline/examples/DSLPipelineExamples.txt) | Example DSL using the Jenkins DSL extension plugin |
 
 Screenshots
 -----------
