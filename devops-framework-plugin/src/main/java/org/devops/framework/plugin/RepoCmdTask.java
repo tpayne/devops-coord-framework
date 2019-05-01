@@ -49,6 +49,7 @@ class RepoCmdTask extends GenericCmdTask {
      * @param final String - targetFile
      * @param final String - userName
      * @param final String - userPwd
+     * @param final boolean - quiet
      */
     public RepoCmdTask(final String repoType,
             final String cmd,
@@ -116,7 +117,7 @@ class RepoCmdTask extends GenericCmdTask {
     }
 
     /**
-     * Repo the Repo command
+     * Process the Repo command
      */
     @Override
     public Boolean executeSlave() throws IOException, InterruptedException {
@@ -157,7 +158,7 @@ class RepoCmdTask extends GenericCmdTask {
             } else {
                 listener.error(output);
             }
-           return retStat;
+            return retStat;
         } catch(Exception e) {
             throw new IOException(e.getMessage());
         }
