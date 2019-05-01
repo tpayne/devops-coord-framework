@@ -4,7 +4,7 @@
 
 node {
 
-	// Clone code...
+    // Clone code...
     stage('clone') {
         String fetchDirG = "/Volumes/WorkDisk/tmp/BuildJobs/git/"
         String fetchDirS = "/Volumes/WorkDisk/tmp/BuildJobs/svn/"
@@ -51,7 +51,7 @@ node {
         println status
     }
 
-	// File repo ops...
+    // File repo ops...
     stage('file-repo') {
 
         def status = devOpsFrameworkFilePullStep srcFile: '/Volumes/WorkDisk/JAVA/',
@@ -80,7 +80,7 @@ node {
         println status
     }
 
-	// Nexus ops...
+    // Nexus ops...
     stage('nexus-repo') {
 
         def status = devOpsFrameworkNexusPullStep srcFile: 'http://192.168.1.10:8081/nexus/content/sites/generic-local/unitTest/unitTest.properties',
@@ -109,7 +109,7 @@ node {
         println status
     }
 
-	// Artifactory ops...
+    // Artifactory ops...
     stage('artifactory-repo') {
 
         def status = devOpsFrameworkArtifactoryPullStep srcFile: 'http://localhost:8081/artifactory/generic-local/unitTest/unitTest.properties',
