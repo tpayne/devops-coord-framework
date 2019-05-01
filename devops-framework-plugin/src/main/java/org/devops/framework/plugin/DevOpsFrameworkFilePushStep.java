@@ -42,6 +42,12 @@ public class DevOpsFrameworkFilePushStep extends Step {
     private String srcFile;
     private String targetFile;
 
+    /**
+     * Default constructor
+     * 
+     * @param String - srcFile
+     * @param String - targetFile
+     */
     @DataBoundConstructor
     public DevOpsFrameworkFilePushStep(String srcFile, String targetFile) {
         this.srcFile = srcFile;

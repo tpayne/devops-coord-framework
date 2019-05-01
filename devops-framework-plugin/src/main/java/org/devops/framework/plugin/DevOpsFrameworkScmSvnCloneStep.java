@@ -44,6 +44,14 @@ public class DevOpsFrameworkScmSvnCloneStep extends Step {
     private String userPwd;
     private String targetDir;
 
+    /**
+     * Default constructor
+     * 
+     * @param String - repoName
+     * @param String - userName
+     * @param String - userPwd
+     * @param String - targetDir
+     */
     @DataBoundConstructor
     public DevOpsFrameworkScmSvnCloneStep(String repoName, String userName,
                                           String userPwd, String targetDir) {

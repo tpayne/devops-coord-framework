@@ -42,6 +42,12 @@ public class DevOpsFrameworkRunContainerStep extends Step {
     private String containerName;
     private String cmdStr;
 
+    /**
+     * Default constructor
+     * 
+     * @param String - containerName
+     * @param String - cmdStr
+     */
     @DataBoundConstructor
     public DevOpsFrameworkRunContainerStep(String containerName,
                                 String cmdStr) {

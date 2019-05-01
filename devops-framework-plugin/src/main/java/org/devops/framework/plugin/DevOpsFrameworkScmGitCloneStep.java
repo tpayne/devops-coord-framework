@@ -50,6 +50,14 @@ public class DevOpsFrameworkScmGitCloneStep extends Step {
     private String userPwd;
     private String targetDir;
 
+    /**
+     * Default constructor
+     * 
+     * @param String - repoName
+     * @param String - userName
+     * @param String - userPwd
+     * @param String - targetDir
+     */
     @DataBoundConstructor
     public DevOpsFrameworkScmGitCloneStep(String repoName, String userName,
                                           String userPwd, String targetDir) {

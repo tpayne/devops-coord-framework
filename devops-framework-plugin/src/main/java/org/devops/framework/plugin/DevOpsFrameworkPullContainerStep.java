@@ -41,6 +41,11 @@ public class DevOpsFrameworkPullContainerStep extends Step {
 
     private String containerName;
 
+    /**
+     * Default constructor
+     * 
+     * @param String - containerName
+     */
     @DataBoundConstructor
     public DevOpsFrameworkPullContainerStep(String containerName) {
         this.containerName = containerName;

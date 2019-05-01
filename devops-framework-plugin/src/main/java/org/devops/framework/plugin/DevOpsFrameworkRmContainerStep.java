@@ -42,6 +42,12 @@ public class DevOpsFrameworkRmContainerStep extends Step {
     private String containerName;
     private boolean force = false;
 
+    /**
+     * Default constructor
+     * 
+     * @param String - imageName
+     * @param boolean - force
+     */
     @DataBoundConstructor
     public DevOpsFrameworkRmContainerStep(String containerName, boolean force) {
         this.containerName = containerName;

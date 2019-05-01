@@ -41,6 +41,11 @@ public class DevOpsFrameworkPushContainerStep extends Step {
 
     private String imageName;
 
+    /**
+     * Default constructor
+     * 
+     * @param String - imageName
+     */
     @DataBoundConstructor
     public DevOpsFrameworkPushContainerStep(String imageName) {
         this.imageName = imageName;
