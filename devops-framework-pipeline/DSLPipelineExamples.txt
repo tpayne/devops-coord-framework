@@ -1,0 +1,139 @@
+//
+// Sample DSL plugin calls...
+//
+
+node {
+
+	// Clone code...
+    stage('clone') {
+        String fetchDirG = "/Volumes/WorkDisk/tmp/BuildJobs/git/"
+        String fetchDirS = "/Volumes/WorkDisk/tmp/BuildJobs/svn/"
+        String scmURI = "https://github.com/jenkinsci/dimensionsscm-plugin.git"
+        sh label: '', script: 'uname -a; hostname'
+
+        def status = devOpsFrameworkGitCloneStep repoName: scmURI,
+                 targetDir: fetchDirG
+        println status
+
+        status = devOpsFrameworkSvnCloneStep repoName: scmURI,
+                 targetDir: fetchDirS
+        println status
+    }
+
+    // Container ops with Docker...
+    stage('container-ops') {
+
+        def status = devOpsFrameworkPullContainerStep containerName: 'tomcat'
+        println status
+
+        status = devOpsFrameworkRunContainerStep cmdStr: 'ls -l /',
+                        containerName: 'tomcat'
+        println status
+
+        status = devOpsFrameworkPushContainerStep imageName: 'pushImage'
+        println status
+
+        status = devOpsFrameworkTagContainerStep containerName: 'tomcat',
+        			targetName: 'yumi-target'
+        println status
+
+        status = devOpsFrameworkRmContainerStep containerName: 'tomcat', force: true
+        println status
+
+        status = devOpsFrameworkBuildContainerStep buildDirectory: '/home/alexgray/Jenkins/workspace/TestDSL/',
+            		containerFile: '/home/alexgray/Jenkins/workspace/TestDSL/DockerFileSuse.test',
+            		containerName: 'dsfsdf'
+        println status
+
+        status = devOpsFrameworkAnsibleRunbookStep hostFile: '/Volumes/WorkDisk/GROOVY/devops-framework//devops-framework-core/src/test/resources/ansible_hosts',
+                    runFile: '/tmp/playbook.yml',
+                    workingDir: '/tmp'
+        println status
+    }
+
+	// File repo ops...
+    stage('file-repo') {
+
+        def status = devOpsFrameworkFilePullStep srcFile: '/Volumes/WorkDisk/JAVA/',
+                    targetFile: '/Volumes/WorkDisk/tmp/xc/'
+        println status
+
+        status = devOpsFrameworkFilePullStep srcFile: '/Volumes/WorkDisk/me.txt',
+                    targetFile: '/Volumes/WorkDisk/tmp/xc/'
+        println status
+
+        status = devOpsFrameworkFilePullStep srcFile: '/Volumes/WorkDisk/me.txt',
+                    targetFile: '/Volumes/WorkDisk/tmp/xc/me2.txt'
+        println status
+
+
+        status = devOpsFrameworkFilePushStep srcFile: '/Volumes/WorkDisk/JAVA/',
+                    targetFile: '/Volumes/WorkDisk/tmp/xc/'
+        println status
+
+        status = devOpsFrameworkFilePushStep srcFile: '/Volumes/WorkDisk/me.txt',
+                    targetFile: '/Volumes/WorkDisk/tmp/xc/'
+        println status
+
+        status = devOpsFrameworkFilePushStep srcFile: '/Volumes/WorkDisk/me.txt',
+                    targetFile: '/Volumes/WorkDisk/tmp/xc/me2.txt'
+        println status
+    }
+
+	// Nexus ops...
+    stage('nexus-repo') {
+
+        def status = devOpsFrameworkNexusPullStep srcFile: 'http://192.168.1.10:8081/nexus/content/sites/generic-local/unitTest/unitTest.properties',
+            		targetFile: '/tmp/unitTest.prop', quiet: true
+        println status
+
+        status = devOpsFrameworkNexusPullStep srcFile: 'http://192.168.1.10:8081/nexus/content/sites/generic-local/unitTest/unitTest.properties',
+            		targetFile: '/tmp/unitTest.prop', quiet: true,
+            		userName: 'admin',
+            		userPwd: 'admin123'
+        println status
+    }
+
+    stage('nexus-repo-push') {
+
+        def status = devOpsFrameworkNexusPushStep srcFile: '/Volumes/WorkDisk/GROOVY/devops-framework/devops-framework-core/src/test/resources/unitTest.properties',
+                	targetFile: 'http://192.168.1.10:8081/nexus/content/sites/generic-local/unitTest/unitTestZ.properties',
+                	userName: 'admin', quiet: true,
+                	userPwd: 'admin123'
+        println status
+
+        status = devOpsFrameworkNexusPushStep srcFile: '/Volumes/WorkDisk/GROOVY/devops-framework/devops-framework-core/src/test/resources/unitTest.properties',
+                	targetFile: 'http://192.168.1.10:8081/nexus/content/sites/generic-local/unitTest/unitTestCVFS.properties',
+                	userName: 'admin', quiet: true,
+               	 	userPwd: 'admin123'
+        println status
+    }
+
+	// Artifactory ops...
+    stage('artifactory-repo') {
+
+        def status = devOpsFrameworkArtifactoryPullStep srcFile: 'http://localhost:8081/artifactory/generic-local/unitTest/unitTest.properties',
+            		targetFile: '/tmp/unitTest.prop', quiet: true
+        println status
+
+        status = devOpsFrameworkArtifactoryPullStep srcFile: 'http://localhost:8081/artifactory/generic-local/unitTest/unitTest.properties',
+            		targetFile: '/tmp/unitTest-1.prop', quiet: true,
+            		userName: 'admin', userPwd: 'admin123'
+        println status
+    }
+
+    stage('artifactory-repo-push') {
+
+        def status = devOpsFrameworkArtifactoryPushStep srcFile: '/Volumes/WorkDisk/GROOVY/devops-framework/devops-framework-core/src/test/resources/unitTest.properties',
+                targetFile: 'http://localhost:8081/artifactory/generic-local/unitTest/unitTestZ.properties',
+                userName: 'admin', quiet: true,
+                userPwd: 'admin123'
+        println status
+
+        status = devOpsFrameworkArtifactoryPushStep srcFile: '/Volumes/WorkDisk/GROOVY/devops-framework/devops-framework-core/src/test/resources/unitTest.properties',
+                targetFile: 'http://localhost:8081/artifactory/generic-local/unitTest/unitTestCVFS.properties',
+                userName: 'admin', quiet: true,
+                userPwd: 'admin123'
+        println status
+    }
+}
