@@ -891,7 +891,7 @@ _Parameters:_
 | `targetFile` | `'<fileName>'` | Mandatory parameter to specify the target |
 | `userName` | `'<userName>'` | Optional parameter to specify a valid repo username |
 | `userPwd` | `'<password>'` | Optional parameter to specify a valid repo user password |
-| `quiet` | `'true'` | Optional parameter to supressed stdout reporting |
+| `quiet` | `true` | Optional parameter to suppress stdout reporting |
 
 ###### Push Nexus Repo
 
@@ -913,7 +913,7 @@ _Parameters:_
 | `targetFile` | `'<fileName>'` | Mandatory parameter to specify the target |
 | `userName` | `'<userName>'` | Optional parameter to specify a valid repo username |
 | `userPwd` | `'<password>'` | Optional parameter to specify a valid repo user password |
-| `quiet` | `'true'` | Optional parameter to supressed stdout reporting |
+| `quiet` | `true` | Optional parameter to suppress stdout reporting |
 
 ###### Pull Artifactory Repo
 
@@ -935,7 +935,7 @@ _Parameters:_
 | `targetFile` | `'<fileName>'` | Mandatory parameter to specify the target |
 | `userName` | `'<userName>'` | Optional parameter to specify a valid repo username |
 | `userPwd` | `'<password>'` | Optional parameter to specify a valid repo user password |
-| `quiet` | `'true'` | Optional parameter to supressed stdout reporting |
+| `quiet` | `true` | Optional parameter to suppress stdout reporting |
 
 ###### Push Artifactory Repo
 
@@ -957,7 +957,7 @@ _Parameters:_
 | `targetFile` | `'<fileName>'` | Mandatory parameter to specify the target |
 | `userName` | `'<userName>'` | Optional parameter to specify a valid repo username |
 | `userPwd` | `'<password>'` | Optional parameter to specify a valid repo user password |
-| `quiet` | `'true'` | Optional parameter to supressed stdout reporting |
+| `quiet` | `true` | Optional parameter to suppress stdout reporting |
 
 ###### Run an Ansible Playbook
 
@@ -977,7 +977,7 @@ _Parameters:_
 | --------- | ----- | ----------- |
 | `hostFile` | `'<fileName>'` | Mandatory parameter to specify the hosts file to use |
 | `runFile` | `'<fileName>'` | Mandatory parameter to specify the playbook to use |
-| `workingDir` | `'<userName>'` | Optional parameter to specify a working directory |
+| `workingDir` | `'<dirName>'` | Optional parameter to specify a working directory |
 
 ###### Run any Shell script
 
@@ -990,13 +990,14 @@ _Example:_
 	devOpsFrameworkShellCmdStep script: '''
                         ls /tmp; echo 1; echo 2; echo 3''', 
                         workingDir: '/tmp/', quiet: true		
+
 _Parameters:_
 
 | Parameter | Value | Description |
 | --------- | ----- | ----------- |
 | `script` | `'<shell script>'` | Mandatory parameter to specify shell script to run|
-| `workingDir` | `'<userName>'` | Optional parameter to specify a working directory |
-| `quiet` | `'true'` | Optional parameter to supressed stdout reporting |
+| `workingDir` | `'<dirName>'` | Optional parameter to specify a working directory |
+| `quiet` | `true` | Optional parameter to suppress stdout reporting |
 
 ###### Run any Shell Script File
 
@@ -1007,13 +1008,15 @@ _Purpose:_ This step is for running any shell script file
 _Example:_
 
 	devOpsFrameworkShellFileStep cmdFile: '/users/alexgray/build.sh', 
-                        workingDir: '/tmp/', quiet: true_Parameters:_
+                        workingDir: '/tmp/', quiet: true
+			
+_Parameters:_
 
 | Parameter | Value | Description |
 | --------- | ----- | ----------- |
 | `cmdFile` | `'<fileName>'` | Mandatory parameter to specify shell file to run|
-| `workingDir` | `'<userName>'` | Optional parameter to specify a working directory |
-| `quiet` | `'true'` | Optional parameter to supressed stdout reporting |
+| `workingDir` | `'<dirName>'` | Optional parameter to specify a working directory |
+| `quiet` | `true` | Optional parameter to suppress stdout reporting |
 
 Liability Warning
 =================
