@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/tpayne/devops-framework/badge.svg?branch=master)](https://coveralls.io/github/tpayne/devops-framework?branch=master)
+
 Devops Framework
 ================
 
