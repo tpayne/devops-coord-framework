@@ -19,6 +19,7 @@ import java.util.TimeZone;
 final class Values implements Serializable {
     private static final String[] EMPTY_STRING_ARRAY = new String[0];
     static final Locale ROOT_LOCALE = Locale.US;
+    private static final long serialVersionUID = 1L;
 
     private Values() {
         /* prevent instantiation. */

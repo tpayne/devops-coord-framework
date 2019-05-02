@@ -12,6 +12,7 @@ import hudson.FilePath
 class Provision implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger( Provision.class.getName() )
+    private static final long serialVersionUID = 1L;
 
     /**
      * Utility routine to run a provisioning playbook/cookbook

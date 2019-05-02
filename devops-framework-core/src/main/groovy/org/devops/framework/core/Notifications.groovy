@@ -12,7 +12,13 @@ import javax.activation.*
 import javax.mail.internet.MimeMessage
 import javax.mail.PasswordAuthentication
 
+import java.util.logging.Logger
+import java.util.logging.Level
+
 class Notifications implements Serializable {
+
+    private static final Logger LOGGER = Logger.getLogger( Notifications.class.getName() )
+    private static final long serialVersionUID = 1L;
 
     /**
      * Local authenicator class for email 
@@ -164,7 +170,7 @@ class Notifications implements Serializable {
         try {
             // Create a default MimeMessage object.
             new MimeMessage(session).with { message ->
-                
+
                 // Add From, Subject and Content
                 from = new InternetAddress( fromEmailAddress )
                 subject = subjectTxt

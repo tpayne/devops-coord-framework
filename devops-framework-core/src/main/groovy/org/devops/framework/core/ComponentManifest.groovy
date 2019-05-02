@@ -8,7 +8,9 @@ import java.text.SimpleDateFormat
 
 class ComponentManifest implements Serializable {
 
-    private class ManifestFile {
+    private static final long serialVersionUID = 1L;
+
+    private class ManifestFile implements Serializable {
         def version
         def status
         def commitUTCDate

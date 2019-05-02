@@ -14,6 +14,7 @@ import hudson.FilePath
 class ArtifactoryRepoFactory extends RepoFactory {
 
     private static final Logger LOGGER = Logger.getLogger( ArtifactoryRepoFactory.class.getName() )
+    private static final long serialVersionUID = 1L;
 
     /**
      * Utility to pull asset(s) from a repo

@@ -12,6 +12,7 @@ import hudson.FilePath
 class Repository implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger( Repository.class.getName() )
+    private static final long serialVersionUID = 1L;
 
     /**
      * Utility to pull asset(s) from a repo

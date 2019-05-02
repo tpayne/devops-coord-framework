@@ -6,6 +6,7 @@ package org.devops.framework.core;
 import java.util.Locale
 
 public class ConfigPropertiesConstants implements Serializable {
+
 	// Generic properties...
     public static final Locale ROOT_LOCALE = Locale.US
     public static final String XML = "XML"
@@ -31,6 +32,8 @@ public class ConfigPropertiesConstants implements Serializable {
 	//
 	public static final String CHEF = "CHEF"
 	public static final String PUPPET = "PUPPET"
+
+    private static final long serialVersionUID = 1L;
 
 }
 

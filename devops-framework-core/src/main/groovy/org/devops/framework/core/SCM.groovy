@@ -11,7 +11,8 @@ import hudson.FilePath
 
 class SCM implements Serializable {
 
-   private static final Logger LOGGER = Logger.getLogger( SCM.class.getName() )
+    private static final Logger LOGGER = Logger.getLogger( SCM.class.getName() )
+    private static final long serialVersionUID = 1L;
 
     /**
      * Utility routine to clone code into a workarea

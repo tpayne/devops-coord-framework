@@ -49,6 +49,7 @@ import java.util.logging.Level
 class Utilities implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger( Utilities.class.getName() )
+    private static final long serialVersionUID = 1L;
 
     static String outputInternalStr = null
 

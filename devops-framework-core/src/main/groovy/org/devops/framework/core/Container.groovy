@@ -8,6 +8,8 @@ import hudson.FilePath
 
 class Container implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * Utility routine to create a container registry
      * Note: This routine is not intended for use, it is simply

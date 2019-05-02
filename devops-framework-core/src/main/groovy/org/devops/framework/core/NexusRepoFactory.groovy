@@ -15,6 +15,7 @@ import hudson.FilePath
 class NexusRepoFactory extends RepoFactory {
 
     private static final Logger LOGGER = Logger.getLogger( NexusRepoFactory.class.getName() )
+    private static final long serialVersionUID = 1L;
 
     /**
      * Utility to pull asset(s) from a repo
