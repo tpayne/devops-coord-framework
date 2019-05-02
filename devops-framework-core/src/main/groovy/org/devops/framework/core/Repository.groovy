@@ -116,6 +116,7 @@ class Repository implements Serializable {
 
         RepoFactory repo = null
 
+        // Create the required repo processing object...
         if (repoType == ConfigPropertiesConstants.FILE) {
             repo = new FileRepoFactory()
         } else if (repoType == ConfigPropertiesConstants.ARTIFACTORY) {
@@ -166,6 +167,7 @@ class Repository implements Serializable {
         LOGGER.log(Level.FINER, "pullAssetFromRepo srcURI=\"{0}\" targetFile=\"{1}\"",srcAsset.toString(),
                                                 targetAsset.toString());
 
+        // Create the required repo processing object...
         if (repoType == ConfigPropertiesConstants.FILE) {
             repo = new FileRepoFactory()
         } else if (repoType == ConfigPropertiesConstants.ARTIFACTORY) {
@@ -282,6 +284,7 @@ class Repository implements Serializable {
         LOGGER.log(Level.FINER, "pushAssetToRepo srcFile(dir)=\"{0}\" targetFile=(dir)\"{1}\"",srcAsset.isDirectory(),
                                                 targetRepo.isDirectory());
 
+        // Create the required repo processing object...
         if (repoType == ConfigPropertiesConstants.FILE) {
             repo = new FileRepoFactory()
         } else if (repoType == ConfigPropertiesConstants.ARTIFACTORY) {
@@ -332,6 +335,7 @@ class Repository implements Serializable {
         LOGGER.log(Level.FINER, "pushAssetToRepo srcFile=\"{0}\" targetURI=\"{1}\"",srcAsset.getAbsolutePath(),
                                                 targetRepo.toString());
 
+        // Create the required repo processing object...
         if (repoType == ConfigPropertiesConstants.FILE) {
             repo = new FileRepoFactory()
         } else if (repoType == ConfigPropertiesConstants.ARTIFACTORY) {

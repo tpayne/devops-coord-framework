@@ -15,7 +15,7 @@ import javax.mail.PasswordAuthentication
 class Notifications implements Serializable {
 
     /**
-     * Local authenicator class 
+     * Local authenicator class for email 
      */
      static private class SMTPAuth extends Authenticator {
         private PasswordAuthentication authentication

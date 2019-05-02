@@ -1,5 +1,5 @@
 /**
- * Deploy coordinator
+ * Deployment coordinator
  */
 package org.devops;
 
@@ -61,6 +61,11 @@ class Deploy extends BaseCoordinator implements Serializable {
     public void runPipeline() {
         super.runPipeline()
     }
+
+    //
+    // What follows are the callback methods which call into the
+    // super object
+    //
 
     /**
      * Callback method

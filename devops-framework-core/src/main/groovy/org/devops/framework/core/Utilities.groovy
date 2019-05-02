@@ -61,13 +61,14 @@ class Utilities implements Serializable {
 
     /**
      * Set command output
+     * @param final String - output
      */
     private static void setOutput(final String output) {
         this.outputInternalStr = output
     }
 
     /**
-     * This class detects if an operating system is Windows or UNIX
+     * This private class detects if an operating system is Windows or UNIX
      */
     private static class OsDetector {
         private static String OS = System.getProperty("os.name").toLowerCase(ConfigPropertiesConstants.ROOT_LOCALE);
@@ -84,11 +85,12 @@ class Utilities implements Serializable {
     }
 
     /**
-     * This class runs commands
+     * This private class runs OS commands and is fundamental to the service support
      */
     private static class cmdRunner {
 	   /**
-		 * Utility routine to run a shell command
+		 * Utility routine to run a shell command. It delegates it to OS or
+         * Jenkins based on what environment it is invoked from
 		 *
 		 * @param final String - Command to run
 		 * @param StringBuffer - return message
@@ -123,7 +125,7 @@ class Utilities implements Serializable {
 
 
         /**
-         * Utility routine to run a shell command
+         * Utility routine to run a shell command via Jenkins API
          *
          * @param final String - Command to run
          * @param StringBuffer - return message
@@ -249,7 +251,7 @@ class Utilities implements Serializable {
         }
 
         /**
-         * Utility routine to run a shell command
+         * Utility routine to run a shell command via OS API
          *
          * @param final String - Command to run
          * @param StringBuffer - return message
@@ -319,7 +321,7 @@ class Utilities implements Serializable {
     }
 
     /**
-     * Utility routine to run a shell command
+     * Utility routine to run a shell command string
      *
      * @param final String - Command to run
      * @param StringBuffer - return message
@@ -350,8 +352,8 @@ class Utilities implements Serializable {
     }
 
     /**
-     * Utility routine to run a shell command
-     *
+     * Utility routine to run a shell command file
+     * 
      * @param final File - Script to run
      * @param StringBuffer - return message
      * @param final File - workingDir
@@ -380,7 +382,7 @@ class Utilities implements Serializable {
     }
 
     /**
-     * This class provides an implementation for the treeWalker used
+     * This private class provides an implementation for the treeWalker used
      * in copying a directory from one location to another
      */
     public static class CopyDirs extends SimpleFileVisitor<Path> {
@@ -439,7 +441,7 @@ class Utilities implements Serializable {
      * Utility to parse command line into list
      * @param final String - cmdLine
      * @param final boolean - stripQuotes
-     * @return boolean
+     * @return List<String> - parsed arguments
      */
     static List<String> parseArgs(final String cmdLine,
                                   final boolean stripQuotes=false) {
@@ -510,7 +512,7 @@ class Utilities implements Serializable {
      * Utility routine to write file text
      * @param final File - file
      * @param final String - contents
-     * @param final String - encoding
+     * @param final String - encoding (default UTF-8)
      * @throws IOException
      */
     static final void writeFile(final File file, final String contents,
@@ -571,7 +573,7 @@ class Utilities implements Serializable {
 
     /**
      * Utility routine to convert stacktrace to string
-     * @param inal Throwable throwable
+     * @param final Throwable throwable
      * @return String
      */
     static String getStackTraceAsString(final Throwable throwable) {
@@ -609,6 +611,7 @@ class Utilities implements Serializable {
         String outputStr = new String(bytes)
         return outputStr
     }
+
     /**
      * Find a executable in the path
      * @param final String - exeName
@@ -654,7 +657,7 @@ class Utilities implements Serializable {
     }
 
     /**
-     * Find a executable in the path
+     * Find a executable in the path using Jenkins API
      * @param final String - exeName
      * @param final FilePath - remoteArea
      * @return File - Location
@@ -750,7 +753,7 @@ class Utilities implements Serializable {
     /**
      * Utility to copy files around. Does not work with directories
      * @param final File - srcFile
-     * @return final File - targetFile
+     * @param final File - targetFile
      * @throws IOException
      */
      static void copyFile(final File srcFile, final File targetFile)

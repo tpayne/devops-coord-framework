@@ -62,6 +62,11 @@ class Integration extends BaseCoordinator implements Serializable {
         super.runPipeline()
     }
 
+    //
+    // What follows are the callback methods which call into the
+    // super object
+    //
+
     /**
      * Callback method
      * @param Map - args

@@ -1,5 +1,5 @@
 /**
- * Release coordinator
+ * Release candidate coordinator
  */
 package org.devops;
 
@@ -61,6 +61,11 @@ class ReleaseCandidate extends BaseCoordinator implements Serializable {
     public void runPipeline() {
         super.runPipeline()
     }
+
+    //
+    // What follows are the callback methods which call into the
+    // super object
+    //
 
     /**
      * Callback method

@@ -229,6 +229,7 @@ class ArtifactoryRepoFactory extends RepoFactory {
         returnStr = null
         LOGGER.log(Level.FINE, "pushAssetToRepo output=\"{0}\"",returnOutput);
 
+        // Parse output for any errors...
         if (retStat==0) {
             if (returnOutput.contains("\"errors\" : [ {")) {
                 if (returnOutput.contains("\"status\" : 404") ||
