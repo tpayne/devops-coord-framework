@@ -1,12 +1,12 @@
-[![Build Status](https://travis-ci.org/tpayne/devops-framework.svg?branch=master)](https://travis-ci.org/tpayne/devops-framework)
-[![Coverage Status](https://coveralls.io/repos/github/tpayne/devops-framework/badge.svg?branch=master)](https://coveralls.io/github/tpayne/devops-framework?branch=master)
-
 Devops Framework
 ================
 
 ````
 Framework Status: Ready for use
+Build CI/Testing Status:
 ````
+[![Build Status](https://travis-ci.org/tpayne/devops-framework.svg?branch=master)](https://travis-ci.org/tpayne/devops-framework)
+[![Coverage Status](https://coveralls.io/repos/github/tpayne/devops-framework/badge.svg?branch=master)](https://coveralls.io/github/tpayne/devops-framework?branch=master)
 
 Contents
 ========
