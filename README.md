@@ -396,6 +396,10 @@ during the test process. If you want to just build the packages without doing an
 	
 This will build the packages only.
 
+The Jenkins DSL HPI plugin will automatically be built via the `mvn package` command. The HPI file is situated in the 
+`devops-framework-plugin/target` directory and is loaded into Jenkins using the advanced plugin manager option in 
+the Jenkins management console. This is the same as any standard file-based Jenkins plugin.
+
 Service Classes
 ===============
 The following are the main service classes and the methods that they have.
