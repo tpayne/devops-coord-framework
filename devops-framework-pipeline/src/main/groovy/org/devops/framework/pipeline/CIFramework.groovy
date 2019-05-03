@@ -9,6 +9,7 @@ import java.util.logging.Level
 class CIFramework implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger( CIFramework.class.getName() )
+    private static final long serialVersionUID = 1L;
 
     // Process objects
     private Build buildProcess = null

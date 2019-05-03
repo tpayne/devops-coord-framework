@@ -60,8 +60,10 @@ class ScmCloneCmdTask extends GenericCmdTask {
         StringBuffer outputStr = new StringBuffer();
         try {
             listener.getLogger().println("Master cloning repo "+repoName);
-            if (targetDir != null || !targetDir.isEmpty()) {
-               listener.getLogger().println("Using target directory "+targetDir); 
+            if (targetDir != null) {
+                if (!targetDir.isEmpty()) {
+                    listener.getLogger().println("Using target directory "+targetDir); 
+                }
             }
             boolean retStat = true;
             retStat = SCM.scmClone(cmType,
@@ -90,8 +92,10 @@ class ScmCloneCmdTask extends GenericCmdTask {
         StringBuffer outputStr = new StringBuffer();
         try {
             listener.getLogger().println("Slave cloning repo "+repoName);
-            if (targetDir != null || !targetDir.isEmpty()) {
-               listener.getLogger().println("Using target directory "+targetDir); 
+            if (targetDir != null) {
+                if (!targetDir.isEmpty()) {
+                    listener.getLogger().println("Using target directory "+targetDir); 
+                }
             }
             boolean retStat = true;
             retStat = SCM.scmClone(cmType,

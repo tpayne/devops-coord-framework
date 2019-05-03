@@ -10,15 +10,6 @@ class ComponentManifest implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private class ManifestFile implements Serializable {
-        def version
-        def status
-        def commitUTCDate
-        def committer
-        def commitComment
-        Map<String,CompList> compList
-    }
-
     private ManifestFile manifest = null
     private File repoFile = null
 

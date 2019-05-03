@@ -15,6 +15,9 @@ import javax.mail.PasswordAuthentication
 import java.util.logging.Logger
 import java.util.logging.Level
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings
+
+@SuppressFBWarnings(value="SE_NO_SERIALVERSIONID")
 class Notifications implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger( Notifications.class.getName() )
@@ -170,7 +173,7 @@ class Notifications implements Serializable {
         try {
             // Create a default MimeMessage object.
             new MimeMessage(session).with { message ->
-
+                @SuppressWarnings("serial")
                 // Add From, Subject and Content
                 from = new InternetAddress( fromEmailAddress )
                 subject = subjectTxt

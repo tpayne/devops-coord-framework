@@ -9,6 +9,7 @@ import java.util.logging.Level
 class Deploy extends BaseCoordinator implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger( Deploy.class.getName() )
+    private static final long serialVersionUID = 1L;
 
     /**
      * Default Constructor
@@ -47,14 +48,6 @@ class Deploy extends BaseCoordinator implements Serializable {
         return super.convertCalloutsToJSON()
     }
     
-    /**
-     * Method to convert callouts to txt
-     * @return String
-     */
-    final String convertCalloutsToTxT() {
-        return super.convertCalloutsToTxT()
-    }
-
     /**
      * Method to run the pipeline
      */

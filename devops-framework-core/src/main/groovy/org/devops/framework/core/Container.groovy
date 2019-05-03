@@ -5,7 +5,9 @@ package org.devops.framework.core;
 
 import hudson.Launcher
 import hudson.FilePath
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings
 
+@SuppressFBWarnings(value="SE_NO_SERIALVERSIONID")
 class Container implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -63,7 +65,7 @@ class Container implements Serializable {
                         cmdStr += it.value
                     }
                 }
-            }
+            }            
             cmdStr += " -d -p "+portNo+":"+portNo
             cmdStr += " --restart=always --name "
             cmdStr += " "+registryName+" "+imageName
@@ -397,7 +399,7 @@ class Container implements Serializable {
                         cmdStr += it.value
                     }
                 }
-            }
+            }            
             if (force) {
                 cmdStr += " -f "
             }

@@ -22,9 +22,12 @@ import java.io.Serializable;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Base class for Callables using DSL remotable logic.
  */
+@SuppressFBWarnings(value="NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
 abstract class GenericCmdTask implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger( GenericCmdTask.class.getName() );
@@ -55,7 +58,11 @@ abstract class GenericCmdTask implements Serializable {
         throws IOException, InterruptedException  {
         //
         boolean retStatus = true;
-        String hostName = workspace.toComputer().getHostName();
+
+        String hostName = null;
+        if (workspace.toComputer()!=null) {
+            hostName = workspace.toComputer().getHostName();
+        }
 
         try {
             if (hostName != null &&

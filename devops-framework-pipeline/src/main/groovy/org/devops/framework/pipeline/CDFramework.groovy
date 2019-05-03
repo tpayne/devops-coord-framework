@@ -9,6 +9,7 @@ import java.util.logging.Level
 class CDFramework implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger( CDFramework.class.getName() )
+    private static final long serialVersionUID = 1L;
 
     // Process objects
     private Integration intProcess = null

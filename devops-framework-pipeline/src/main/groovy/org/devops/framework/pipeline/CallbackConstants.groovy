@@ -4,6 +4,8 @@
 package org.devops;
 
 class CallbackConstants implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     
     // Generic constants...
     static final String logResults = "logResults"

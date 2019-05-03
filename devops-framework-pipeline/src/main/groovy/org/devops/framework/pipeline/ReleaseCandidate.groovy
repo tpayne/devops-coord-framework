@@ -9,6 +9,7 @@ import java.util.logging.Level
 class ReleaseCandidate extends BaseCoordinator implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger( ReleaseCandidate.class.getName() )
+    private static final long serialVersionUID = 1L;
 
     /**
      * Default Constructor
@@ -45,14 +46,6 @@ class ReleaseCandidate extends BaseCoordinator implements Serializable {
      */
     final String convertCalloutsToJSON() {
         return super.convertCalloutsToJSON()
-    }
-
-    /**
-     * Method to convert callouts to txt
-     * @return String
-     */
-    final String convertCalloutsToTxT() {
-        return super.convertCalloutsToTxT()
     }
 
     /**

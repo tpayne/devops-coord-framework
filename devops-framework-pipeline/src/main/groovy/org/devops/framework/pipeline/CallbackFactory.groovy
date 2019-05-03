@@ -5,10 +5,13 @@ package org.devops;
 
 import java.util.logging.Logger
 import java.util.logging.Level
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings
 
+@SuppressFBWarnings(value="SE_NO_SERIALVERSIONID")
 class CallbackFactory implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger( CallbackFactory.class.getName() )
+    private static final long serialVersionUID = 1L;
 
     /**
      * Gets callback stack to use

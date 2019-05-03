@@ -46,6 +46,9 @@ import jenkins.model.Jenkins
 import java.util.logging.Logger
 import java.util.logging.Level
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings
+
+@SuppressFBWarnings(value="SE_NO_SERIALVERSIONID")
 class Utilities implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger( Utilities.class.getName() )
@@ -487,7 +490,9 @@ class Utilities implements Serializable {
         props.each {
             mapProp.put(it.key,it.value)
         }
-        mapProp = mapProp.sort { a, b -> a.key <=> b.key }
+        mapProp = mapProp.sort { 
+            a, b -> a.key <=> b.key 
+        }
         return mapProp
     }
 
