@@ -16,13 +16,34 @@ public class ContainerTests extends GroovyTestCase {
     * Utility function for getting tmpDir
     */
    File getTmpDir() {
+      if (runUnitTestsOnly()) {
+        return new File(System.getProperty("java.io.tmpdir"))
+      } else {
         return new File((map.get("tmpDir") != null) ? map.get("tmpDir") : System.getProperty("java.io.tmpdir"))
+      }
    }
 
+   /**
+    * Utility function for seeing if need to just run unit-tests
+    */
+   boolean runUnitTestsOnly() {
+      if (System.getenv("DEVOPS_FRAMEWORK_UNITTESTS")!=null) {
+        return true;
+      }
+      String unitTests = map.get("unit_tests_only")
+      if (unitTests != null && !unitTests.isEmpty()) {
+        return(unitTests.contains("true"))
+      }
+      return false
+   }
+   
    /**
     * Unit test for running a container
     */
    void testrunContainerBasic() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       String imgName = map.get("docker_container")
       boolean retStat = Container.runContainer(ConfigPropertiesConstants.DOCKER,imgName)
       assertTrue(retStat)
@@ -32,6 +53,9 @@ public class ContainerTests extends GroovyTestCase {
     * Unit test for running container
     */
    void testrunContainerCmd() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       String imgName = map.get("docker_container")
       String cmdStr = "df"
       boolean retStat = Container.runContainer(ConfigPropertiesConstants.DOCKER,imgName,cmdStr)
@@ -42,6 +66,9 @@ public class ContainerTests extends GroovyTestCase {
     * Unit test for running container with output
     */
    void testrunContainerOutputCmd() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       String imgName = map.get("docker_container")
       String cmdStr = "echo hello"
       StringBuffer outputStr = new StringBuffer()
@@ -55,6 +82,9 @@ public class ContainerTests extends GroovyTestCase {
     * Unit test for running container with options
     */
    void testrunContainerCmdOpts() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       String imgName = map.get("docker_container")
       String cmdStr = "df"
       Random rand = new Random()
@@ -75,6 +105,9 @@ public class ContainerTests extends GroovyTestCase {
     * Unit test for deleting a container
     */
    void testrmContainerBasic() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       String imgName = map.get("docker_container")
       boolean retStat = Container.deleteContainerImage(ConfigPropertiesConstants.DOCKER,imgName, true)
       retStat = Container.runContainer(ConfigPropertiesConstants.DOCKER,imgName)
@@ -87,6 +120,9 @@ public class ContainerTests extends GroovyTestCase {
     * Unit test for deleting a container with failure
     */
    void testrmContainerBasicFail() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       String imgName = map.get("docker_container")
       boolean retStat = Container.deleteContainerImage(ConfigPropertiesConstants.DOCKER,imgName)
       retStat = Container.deleteContainerImage(ConfigPropertiesConstants.DOCKER,imgName)
@@ -97,6 +133,9 @@ public class ContainerTests extends GroovyTestCase {
     * Unit test for deleting a container with output
     */
    void testrmContainerBasicFailOutput() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       String imgName = map.get("docker_container")
       StringBuffer outputStr = new StringBuffer()
       boolean retStat = Container.deleteContainerImage(ConfigPropertiesConstants.DOCKER,imgName, false, outputStr)
@@ -109,6 +148,9 @@ public class ContainerTests extends GroovyTestCase {
     * Unit test for building a container
     */
    void testBuildContainBasic() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       Random rand = new Random()
       Long uid = rand.nextLong()
       String imgName = map.get("docker_container")
@@ -137,6 +179,9 @@ public class ContainerTests extends GroovyTestCase {
     * Unit test for building a container
     */
    void testBuildContainBuildDir() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       Random rand = new Random()
       Long uid = rand.nextLong()
       File   tempDir = this.getTmpDir()
@@ -182,6 +227,9 @@ public class ContainerTests extends GroovyTestCase {
     * Unit test for building a container
     */
    void testBuildContainBuildDirFile() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       Random rand = new Random()
       Long uid = rand.nextLong()
       File   tempDir = this.getTmpDir()
@@ -228,6 +276,9 @@ public class ContainerTests extends GroovyTestCase {
     * Unit test for building a container
     */
    void testBuildContainOutputStr() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       Random rand = new Random()
       Long uid = rand.nextLong()
       File   tempDir = this.getTmpDir()
@@ -278,6 +329,9 @@ public class ContainerTests extends GroovyTestCase {
     * Unit test for building a container
     */
    void testBuildContainOpts() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       Random rand = new Random()
       Long uid = rand.nextLong()
       File   tempDir = this.getTmpDir()
@@ -333,6 +387,9 @@ public class ContainerTests extends GroovyTestCase {
     * Unit test for tagging/pulling/pushing a container
     */
    void testtagContainerBasic() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       String imageName = map.get("docker_container")
       String regName = imageName+"-"
       String regImageName = map.get("docker_registryImage")

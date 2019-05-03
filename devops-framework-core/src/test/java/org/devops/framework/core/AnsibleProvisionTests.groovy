@@ -16,13 +16,34 @@ public class AnsibleProvisionTests extends GroovyTestCase {
     * Utility function for getting tmpDir
     */
    File getTmpDir() {
-      return new File((map.get("tmpDir") != null) ? map.get("tmpDir") : System.getProperty("java.io.tmpdir"))
+      if (runUnitTestsOnly()) {
+        return new File(System.getProperty("java.io.tmpdir"))
+      } else {
+        return new File((map.get("tmpDir") != null) ? map.get("tmpDir") : System.getProperty("java.io.tmpdir"))
+      }
+   }
+
+   /**
+    * Utility function for seeing if need to just run unit-tests
+    */
+   boolean runUnitTestsOnly() {
+      if (System.getenv("DEVOPS_FRAMEWORK_UNITTESTS")!=null) {
+        return true;
+      }
+      String unitTests = map.get("unit_tests_only")
+      if (unitTests != null && !unitTests.isEmpty()) {
+        return(unitTests.contains("true"))
+      }
+      return false
    }
 
    /**
     * Unit test for basic Ansible playbook running
     */
    void testAnsibleBasicFile() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       File hostFile = new File("."+map.get("ansible_hostFile"))
       File playbook = new File("."+map.get("ansible_playbook"))
       
@@ -34,6 +55,10 @@ public class AnsibleProvisionTests extends GroovyTestCase {
     * Unit test for basic Ansible playbook running
     */
    void testAnsibleBasicStr() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
+
       String hostFile = new File("."+map.get("ansible_hostFile")).getAbsolutePath()
       String playbook = new File("."+map.get("ansible_playbook")).getAbsolutePath()
       
@@ -45,6 +70,10 @@ public class AnsibleProvisionTests extends GroovyTestCase {
     * Unit test for basic Ansible playbook running fail
     */
    void testAnsibleBasicStrInvalidFile() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
+
       String hostFile = "doesnotexist.txt"
       String playbook = hostFile
       
@@ -61,6 +90,10 @@ public class AnsibleProvisionTests extends GroovyTestCase {
     * Unit test for basic Ansible playbook running fail
     */
    void testAnsibleBasicStrInvalidInput() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
+
       String hostFile = null
       String playbook = hostFile
       
@@ -77,6 +110,10 @@ public class AnsibleProvisionTests extends GroovyTestCase {
     * Unit test for basic Ansible playbook running with work area fail
     */
    void testAnsibleBasicWithDirFail() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
+
       String hostFile = new File("."+map.get("ansible_hostFile")).getAbsolutePath()
       String playbook = new File("."+map.get("ansible_playbook")).getAbsolutePath()
       File tmpDir = new File("/doesnotexist")
@@ -94,6 +131,10 @@ public class AnsibleProvisionTests extends GroovyTestCase {
     * Unit test for basic Ansible playbook running with work area
     */
    void testAnsibleBasicWithDir() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
+
       String hostFile = new File("."+map.get("ansible_hostFile")).getAbsolutePath()
       String playbook = new File("."+map.get("ansible_playbook")).getAbsolutePath()
       File tmpDir = getTmpDir()
@@ -106,6 +147,10 @@ public class AnsibleProvisionTests extends GroovyTestCase {
     * Unit test for basic Ansible playbook running with outputStr
     */
    void testAnsibleBasicWithStr() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
+
       String hostFile = new File("."+map.get("ansible_hostFile")).getAbsolutePath()
       String playbook = new File("."+map.get("ansible_playbook")).getAbsolutePath()
       File tmpDir = getTmpDir()
@@ -123,6 +168,10 @@ public class AnsibleProvisionTests extends GroovyTestCase {
     * Unit test for basic Ansible playbook running with outputStr and user
     */
    void testAnsibleBasicWithUserPwdStr() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
+
       String hostFile = new File("."+map.get("ansible_hostFile")).getAbsolutePath()
       String playbook = new File("."+map.get("ansible_playbook")).getAbsolutePath()
       String userName = map.get("ansible_User")
@@ -150,6 +199,10 @@ public class AnsibleProvisionTests extends GroovyTestCase {
     * Unit test for basic Ansible playbook running with outputStr and user
     */
    void testAnsibleBasicWithInvalidUserPwdStr() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
+
       String hostFile = new File("."+map.get("ansible_hostFile")).getAbsolutePath()
       String playbook = new File("."+map.get("ansible_playbook")).getAbsolutePath()
       String userName = map.get("ansible_User")

@@ -16,13 +16,34 @@ public class SCMGITCloneTests extends GroovyTestCase {
     * Utility function for getting tmpDir
     */
    File getTmpDir() {
-      return new File((map.get("tmpDir") != null) ? map.get("tmpDir") : System.getProperty("java.io.tmpdir"))
+      if (runUnitTestsOnly()) {
+        return new File(System.getProperty("java.io.tmpdir"))
+      } else {
+        return new File((map.get("tmpDir") != null) ? map.get("tmpDir") : System.getProperty("java.io.tmpdir"))
+      }
+   }
+
+   /**
+    * Utility function for seeing if need to just run unit-tests
+    */
+   boolean runUnitTestsOnly() {
+      if (System.getenv("DEVOPS_FRAMEWORK_UNITTESTS")!=null) {
+        return true;
+      }
+      String unitTests = map.get("unit_tests_only")
+      if (unitTests != null && !unitTests.isEmpty()) {
+        return(unitTests.contains("true"))
+      }
+      return false
    }
 
    /**
     * Unit test for git cloning
     */
    void testScmGitCloneBasic() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       String scmURI = map.get("git_repoURI")
       File tmpDir = new File(map.get("git_repoDir"))
       
@@ -50,6 +71,9 @@ public class SCMGITCloneTests extends GroovyTestCase {
     * Unit test for git cloning
     */
    void testScmGitCloneBasicTrue() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       String scmURI = map.get("git_repoURI")
       File tmpDir = new File(map.get("git_repoDir"))
       
@@ -77,6 +101,9 @@ public class SCMGITCloneTests extends GroovyTestCase {
     * Unit test for git cloning with user/password
     */
    void testScmGitCloneBasicWithUser() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       String scmURI = map.get("git_repoURI")
       File tmpDir = new File(map.get("git_repoDir"))
       
@@ -108,6 +135,9 @@ public class SCMGITCloneTests extends GroovyTestCase {
     * Unit test for git cloning with user/password
     */
    void testScmGitCloneBasicWithUserTrue() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       String scmURI = map.get("git_repoURI")
       File tmpDir = new File(map.get("git_repoDir"))
       
@@ -139,6 +169,9 @@ public class SCMGITCloneTests extends GroovyTestCase {
     * Unit test for git cloning with target
     */
    void testScmGitCloneWithTarget() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       String scmURI = map.get("git_repoURI")
       File   tempDir = this.getTmpDir()
       File tmpDir = new File(tempDir.getCanonicalPath()+File.separator+map.get("git_repoDir")+"/")
@@ -177,6 +210,9 @@ public class SCMGITCloneTests extends GroovyTestCase {
     * Unit test for git cloning with target
     */
    void testScmGitCloneWithTargetTrue() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       String scmURI = map.get("git_repoURI")
       File   tempDir = this.getTmpDir()
       File tmpDir = new File(tempDir.getCanonicalPath()+File.separator+map.get("git_repoDir")+"/")
@@ -217,6 +253,9 @@ public class SCMGITCloneTests extends GroovyTestCase {
     * Unit test for git cloning with target and user/password
     */
    void testScmGitCloneWithTargetAndUser() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       String scmURI = map.get("git_repoURI")
       File   tempDir = this.getTmpDir()
       File tmpDir = new File(tempDir.getCanonicalPath()+File.separator+map.get("git_repoDir")+"/")
@@ -261,6 +300,9 @@ public class SCMGITCloneTests extends GroovyTestCase {
     * Unit test for git cloning with target and user/password
     */
    void testScmGitCloneWithTargetAndUserTrue() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       String scmURI = map.get("git_repoURI")
       File   tempDir = this.getTmpDir()
       File tmpDir = new File(tempDir.getCanonicalPath()+File.separator+map.get("git_repoDir")+"/")

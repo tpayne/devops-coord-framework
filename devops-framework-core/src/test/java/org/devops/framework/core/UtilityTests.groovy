@@ -19,9 +19,26 @@ public class UtilityTests extends GroovyTestCase {
     * Utility function for getting tmpDir
     */
    File getTmpDir() {
-      return new File((map.get("tmpDir") != null) ? map.get("tmpDir") : System.getProperty("java.io.tmpdir"))
+      if (runUnitTestsOnly()) {
+        return new File(System.getProperty("java.io.tmpdir"))
+      } else {
+        return new File((map.get("tmpDir") != null) ? map.get("tmpDir") : System.getProperty("java.io.tmpdir"))
+      }
    }
 
+   /**
+    * Utility function for seeing if need to just run unit-tests
+    */
+   boolean runUnitTestsOnly() {
+      if (System.getenv("DEVOPS_FRAMEWORK_UNITTESTS")!=null) {
+        return true;
+      }
+      String unitTests = map.get("unit_tests_only")
+      if (unitTests != null && !unitTests.isEmpty()) {
+        return(unitTests.contains("true"))
+      }
+      return false
+   }
 
    /**
     * Unit test for read and write functions
@@ -260,6 +277,6 @@ public class UtilityTests extends GroovyTestCase {
     */
   void testCountFiles() {
     long count = Utilities.countFiles(getTmpDir())
-    assertTrue(count>0)
+    assertTrue(count>-1)
   }
 }

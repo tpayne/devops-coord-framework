@@ -12,15 +12,38 @@ public class NexusRepositoryTests extends GroovyTestCase {
    File propFile = new File("."+"/src/test/resources/unitTest.properties")
    def map = Utilities.mapProperties(propFile)
 
-   // Utility function to get temporary directory...
+   /**
+    * Utility function for getting tmpDir
+    */
    File getTmpDir() {
-      return new File((map.get("tmpDir") != null) ? map.get("tmpDir") : System.getProperty("java.io.tmpdir"))
+      if (runUnitTestsOnly()) {
+        return new File(System.getProperty("java.io.tmpdir"))
+      } else {
+        return new File((map.get("tmpDir") != null) ? map.get("tmpDir") : System.getProperty("java.io.tmpdir"))
+      }
    }
 
+   /**
+    * Utility function for seeing if need to just run unit-tests
+    */
+   boolean runUnitTestsOnly() {
+      if (System.getenv("DEVOPS_FRAMEWORK_UNITTESTS")!=null) {
+        return true;
+      }
+      String unitTests = map.get("unit_tests_only")
+      if (unitTests != null && !unitTests.isEmpty()) {
+        return(unitTests.contains("true"))
+      }
+      return false
+   }
+   
    /**
     * Push file to nexus repo 
     */
    void testPushFileToNexus() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       File srcFile = new File(propFile.getAbsolutePath())
       URI targetRepo = new URI(map.get("nexus_repoURI")+"/unitTest/")
 
@@ -40,6 +63,9 @@ public class NexusRepositoryTests extends GroovyTestCase {
     * Pull file from Nexus repo 
     */
    void testPullFileFromNexus() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       Random rand = new Random()
       Long uid = rand.nextLong()
 
@@ -76,6 +102,9 @@ public class NexusRepositoryTests extends GroovyTestCase {
     * Push file to Nexus repo 
     */
    void testPushFileToNexusStr() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       File srcFile = new File(propFile.getAbsolutePath())
       URI targetRepo = new URI(map.get("nexus_repoURI")+"/unitTest/")
 
@@ -97,6 +126,9 @@ public class NexusRepositoryTests extends GroovyTestCase {
     * Pull file from Nexus repo 
     */
    void testPullFileFromNexusStr() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       Random rand = new Random()
       Long uid = rand.nextLong()
 
@@ -134,6 +166,9 @@ public class NexusRepositoryTests extends GroovyTestCase {
     * Pull directory from Nexus repo failure test
     */
    void testPullFileFromNexusStrFailDir() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       Random rand = new Random()
       Long uid = rand.nextLong()
 
@@ -173,6 +208,9 @@ public class NexusRepositoryTests extends GroovyTestCase {
     * Push file to Nexus repo failure test
     */
    void testPushFileToNexusStrFail() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       File srcFile = new File(propFile.getAbsolutePath())
       URI targetRepo = new URI("http://localhost:25/someStupidURIThatDoesNotExist")
 
@@ -195,6 +233,9 @@ public class NexusRepositoryTests extends GroovyTestCase {
     * Pull file from Nexus repo failure test
     */
    void testPullFileFromNexusStrFail() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       Random rand = new Random()
       Long uid = rand.nextLong()
 
@@ -229,6 +270,9 @@ public class NexusRepositoryTests extends GroovyTestCase {
     * Pull file from Nexus repo failure test
     */
    void testPullFileFromNexusStrFailURL() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       Random rand = new Random()
       Long uid = rand.nextLong()
 
@@ -263,6 +307,9 @@ public class NexusRepositoryTests extends GroovyTestCase {
     * Pull non-existing file from Nexus repo 
     */
    void testPullInvalidFileFromNexusStr() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       Random rand = new Random()
       Long uid = rand.nextLong()
 
@@ -304,6 +351,9 @@ public class NexusRepositoryTests extends GroovyTestCase {
     * Authent error pull
     */
    void testPullAuthErrFromNexusStr() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       Random rand = new Random()
       Long uid = rand.nextLong()
 
@@ -344,6 +394,9 @@ public class NexusRepositoryTests extends GroovyTestCase {
     * Authent error push
     */
    void testPushAuthErrFromNexusStr() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       Random rand = new Random()
       Long uid = rand.nextLong()
 

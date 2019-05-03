@@ -12,15 +12,38 @@ public class ArtifactoryRepositoryTests extends GroovyTestCase {
    File propFile = new File("."+"/src/test/resources/unitTest.properties")
    def map = Utilities.mapProperties(propFile)
 
-   // Utility function to get temporary directory...
+   /**
+    * Utility function for getting tmpDir
+    */
    File getTmpDir() {
-      return new File((map.get("tmpDir") != null) ? map.get("tmpDir") : System.getProperty("java.io.tmpdir"))
+      if (runUnitTestsOnly()) {
+        return new File(System.getProperty("java.io.tmpdir"))
+      } else {
+        return new File((map.get("tmpDir") != null) ? map.get("tmpDir") : System.getProperty("java.io.tmpdir"))
+      }
+   }
+
+   /**
+    * Utility function for seeing if need to just run unit-tests
+    */
+   boolean runUnitTestsOnly() {
+      if (System.getenv("DEVOPS_FRAMEWORK_UNITTESTS")!=null) {
+        return true;
+      }
+      String unitTests = map.get("unit_tests_only")
+      if (unitTests != null && !unitTests.isEmpty()) {
+        return(unitTests.contains("true"))
+      }
+      return false
    }
 
    /**
     * Push file to Artifactory repo 
     */
    void testPushFileToArtifactory() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       File srcFile = new File(propFile.getAbsolutePath())
       URI targetRepo = new URI(map.get("artifactory_repoURI")+"/unitTest/")
 
@@ -40,6 +63,9 @@ public class ArtifactoryRepositoryTests extends GroovyTestCase {
     * Pull file from Artifactory repo 
     */
    void testPullFileFromArtifactory() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       Random rand = new Random()
       Long uid = rand.nextLong()
 
@@ -76,6 +102,9 @@ public class ArtifactoryRepositoryTests extends GroovyTestCase {
     * Push file to Artifactory repo 
     */
    void testPushFileToArtifactoryStr() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       File srcFile = new File(propFile.getAbsolutePath())
       URI targetRepo = new URI(map.get("artifactory_repoURI")+"/unitTest/")
 
@@ -97,6 +126,9 @@ public class ArtifactoryRepositoryTests extends GroovyTestCase {
     * Pull file from Artifactory repo 
     */
    void testPullFileFromArtifactoryStr() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       Random rand = new Random()
       Long uid = rand.nextLong()
 
@@ -134,6 +166,9 @@ public class ArtifactoryRepositoryTests extends GroovyTestCase {
     * Pull directory from Artifactory repo failure test
     */
    void testPullFileFromArtifactoryStrFailDir() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       Random rand = new Random()
       Long uid = rand.nextLong()
 
@@ -173,6 +208,9 @@ public class ArtifactoryRepositoryTests extends GroovyTestCase {
     * Push file to Artifactory repo failure test
     */
    void testPushFileToArtifactoryStrFail() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       File srcFile = new File(propFile.getAbsolutePath())
       URI targetRepo = new URI("http://localhost:25/someStupidURIThatDoesNotExist")
 
@@ -195,6 +233,9 @@ public class ArtifactoryRepositoryTests extends GroovyTestCase {
     * Pull file from Artifactory repo failure test
     */
    void testPullFileFromArtifactoryStrFail() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       Random rand = new Random()
       Long uid = rand.nextLong()
 
@@ -229,6 +270,9 @@ public class ArtifactoryRepositoryTests extends GroovyTestCase {
     * Pull file from Artifactory repo failure test
     */
    void testPullFileFromArtifactoryStrFailURL() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       Random rand = new Random()
       Long uid = rand.nextLong()
 
@@ -263,6 +307,9 @@ public class ArtifactoryRepositoryTests extends GroovyTestCase {
     * Pull non-existing file from Artifactory repo 
     */
    void testPullInvalidFileFromArtifactoryStr() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       Random rand = new Random()
       Long uid = rand.nextLong()
 
@@ -304,6 +351,9 @@ public class ArtifactoryRepositoryTests extends GroovyTestCase {
     * Authent error pull
     */
    void testPullAuthErrFromArtifactoryStr() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       Random rand = new Random()
       Long uid = rand.nextLong()
 
@@ -344,6 +394,9 @@ public class ArtifactoryRepositoryTests extends GroovyTestCase {
     * Authent error push
     */
    void testPushAuthErrFromArtifactoryStr() {
+      if (runUnitTestsOnly()) {
+        return;
+      }
       Random rand = new Random()
       Long uid = rand.nextLong()
 
