@@ -16,6 +16,7 @@
     <!--http://start.spring.io/-->
     <name>DevOps-Framework</name>
     <description>This plugin provides a DSL, command-line and Jenkins shared library DevOps framework for CI/CD projects</description>
+    <url>https://github.com/tpayne/devops-framework</url>
 
     <repositories>
         <repository>
@@ -46,6 +47,23 @@
             <organization>HCL Infra, DRYICE</organization>
         </developer>
     </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/tpayne/${project.artifactId}.git</connection>
+        <developerConnection>scm:git:git@github.com:tpayne/${project.artifactId}.git</developerConnection>
+        <url>https://github.com/tpayne/${project.artifactId}</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <ciManagement>
+        <system>Travis CI</system>
+        <url>https://travis-ci.org/tpayne/devops-framework</url>
+    </ciManagement>
+
+    <issueManagement>
+        <system>GitHub Issue Management</system>
+        <url>https://github.com/tpayne/devops-framework/issues</url>
+    </issueManagement>
 
     <properties>
         <jenkins.version>2.164</jenkins.version>
