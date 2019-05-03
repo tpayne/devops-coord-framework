@@ -99,8 +99,6 @@ public class UtilityTests extends GroovyTestCase {
       String returnOutput = returnStr.toString()
       returnOutput = returnOutput.trim()
       assertTrue(retStat>0)
-      assertTrue(returnOutput.contains("lsdx: command not found") ||
-                 returnOutput.contains("\"lsdx\": error=2, No such file or directory"))
    }
 
    /**
