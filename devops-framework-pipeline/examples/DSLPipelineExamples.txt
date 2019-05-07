@@ -6,9 +6,11 @@ node {
 
     // Clone code...
     stage('clone') {
+        // Some constants...
         String fetchDirG = "/Volumes/WorkDisk/tmp/BuildJobs/git/"
         String fetchDirS = "/Volumes/WorkDisk/tmp/BuildJobs/svn/"
         String scmURI = "https://github.com/jenkinsci/dimensionsscm-plugin.git"
+        // Which host is the script running on?
         sh label: '', script: 'uname -a; hostname'
 
         def status = devOpsFrameworkGitCloneStep repoName: scmURI,
@@ -45,7 +47,8 @@ node {
             		containerName: 'dsfsdf'
         println status
 
-        status = devOpsFrameworkAnsibleRunbookStep hostFile: '/Volumes/WorkDisk/GROOVY/devops-framework//devops-framework-core/src/test/resources/ansible_hosts',
+        // Ansible - not container op...
+        status = devOpsFrameworkAnsibleRunbookStep hostFile: '/Volumes/WorkDisk/GROOVY/devops-framework/devops-framework-core/src/test/resources/ansible_hosts',
                     runFile: '/tmp/playbook.yml',
                     workingDir: '/tmp'
         println status
