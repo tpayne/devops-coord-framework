@@ -1051,3 +1051,4 @@ The following are known issues: -
 - Currently, the framework can run both with in and without of Jenkins (if so required), but this duality is not guaranteed to be maintained in the future.
 - Container singletons have been provided to show how they can be created, but these have not been verified in usage
 - Due to a "feature" with Jenkins, any process which takes 5+ mins to run will be killed by Jenkins. This is core Jenkins pipeline and cannot be overriden without writing a custom threading plugin. The Jenkins developers seem to regard long running jobs as errors. To overcome this you will need to use the DevOps-framework DSL plugin for Jenkins. DSL functions have been added that provide the same functionality, but remove the time issue.
+- Any changes on this branch are automatically built & unit-tested for completeness using Travis-CI. If you want to view the job history, click on the 'build' status icon at the beginning on this README.
