@@ -630,6 +630,62 @@ For example, a sample pipeline might look like
 
 This will run the `prepareWorkArea()`, `getCode()`, `runBuild()` and `bakeImage()` callbacks in this
 order.
+
+A DSL plugin example would look like this
+
+	// Sample DSL plugin calls...
+	node {
+
+	    // Clone code...
+	    stage('clone') {
+		// Some constants...
+		String fetchDirG = "/Volumes/WorkDisk/tmp/BuildJobs/git/"
+		String fetchDirS = "/Volumes/WorkDisk/tmp/BuildJobs/svn/"
+		String scmURI = "https://github.com/jenkinsci/dimensionsscm-plugin.git"
+		// Which host is the script running on?
+		sh label: '', script: 'uname -a; hostname'
+
+		def status = devOpsFrameworkGitCloneStep repoName: scmURI,
+			 targetDir: fetchDirG
+		println status
+
+		status = devOpsFrameworkSvnCloneStep repoName: scmURI,
+			 targetDir: fetchDirS
+		println status
+	    }
+
+	    // Container ops with Docker...
+	    stage('container-ops') {
+
+		def status = devOpsFrameworkPullContainerStep containerName: 'tomcat'
+		println status
+
+		status = devOpsFrameworkRunContainerStep cmdStr: 'ls -l /',
+				containerName: 'tomcat'
+		println status
+
+		status = devOpsFrameworkPushContainerStep imageName: 'pushImage'
+		println status
+
+		status = devOpsFrameworkTagContainerStep containerName: 'tomcat',
+					targetName: 'yumi-target'
+		println status
+
+		status = devOpsFrameworkRmContainerStep containerName: 'tomcat', force: true
+		println status
+
+		status = devOpsFrameworkBuildContainerStep buildDirectory: '/home/alexgray/Jenkins/workspace/TestDSL/',
+				containerFile: '/home/alexgray/Jenkins/workspace/TestDSL/DockerFileSuse.test',
+				containerName: 'dsfsdf'
+		println status
+
+		// Ansible - not container op...
+		status = devOpsFrameworkAnsibleRunbookStep hostFile: '/etc/ansible_hosts',
+			    runFile: '/tmp/playbook.yml',
+			    workingDir: '/tmp'
+		println status
+	    }
+	}
 	
 Framework Documentation
 =======================
