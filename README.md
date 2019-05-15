@@ -674,8 +674,8 @@ A DSL plugin example would look like this
 		status = devOpsFrameworkRmContainerStep containerName: 'tomcat', force: true
 		println status
 
-		status = devOpsFrameworkBuildContainerStep buildDirectory: '/home/alexgray/Jenkins/workspace/TestDSL/',
-				containerFile: '/home/alexgray/Jenkins/workspace/TestDSL/DockerFileSuse.test',
+		status = devOpsFrameworkBuildContainerStep buildDirectory: '/home/Jenkins/workspace/TestDSL/',
+				containerFile: '/home/Jenkins/workspace/TestDSL/DockerFileSuse.test',
 				containerName: 'dsfsdf'
 		println status
 
