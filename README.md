@@ -141,7 +141,7 @@ easier to do by providing working services and utilities that are commonly requi
 >| `Container` | For various container management commands - currently only supporting [Docker](https://www.docker.com) |
 >| `Repository` | For pushing and pulling files from repos - currently only file, [Artifactory](https://jfrog.com/artifactory/) and [Nexus OSS v2](https://www.sonatype.com/nexus-repository-oss) are supported |
 >| `ComponentManifest` | For maintaining your manifest of integrated components. This is the list of component names, versions, status and locations that you register with the manifest. These can then be accessed later on for usage in other testing or release processes |
->| `Provision` | For running provisioning scripts |
+>| `Provision` | For running provisioning scripts - currently only Ansible is supported |
 
 So, why have a DevOps framework
 ===============================
