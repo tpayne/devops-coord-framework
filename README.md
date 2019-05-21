@@ -845,7 +845,7 @@ _Parameters:_
 | Parameter | Value | Description |
 | --------- | ----- | ----------- |
 | `containerName` | `'<containerName>'` | Mandatory parameter to specify the container name to delete |
-| `force` | `'<true|false>'` | Optional parameter to force the container to be removed |
+| `force` | `'<true or false>'` | Optional parameter to force the container to be removed |
 
 ###### Tagging a container image
 
