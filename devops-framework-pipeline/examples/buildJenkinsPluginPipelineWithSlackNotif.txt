@@ -24,6 +24,8 @@ node {
     File targetRepoFile = new File(targetRepo.getAbsolutePath()+File.separator+"repo.json")
     File checkInFile = null
     String scmURI = "https://github.com/jenkinsci/dimensionsscm-plugin.git"
+    
+    // Note - This webhook just points to a junk workspace used for testing - so who cares... I don't...
     String slackURI = "https://hooks.slack.com/services/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"
 
     // Where am I building...
