@@ -41,20 +41,28 @@ public class NotificationsTests extends GroovyTestCase {
     * Unit test for using Slack messaging
     */
    void testSlackNotificationOk() {
-      String slackURI = map.get("slack_webhookURI")
-      String text = map.get("slack_channelMsg")
-      boolean retStat = Notifications.messageSlackChannel(slackURI,text)
-      assertTrue(retStat)
+      if (!runUnitTestsOnly()) {
+        String slackURI = map.get("slack_webhookURI")
+        if (slackURI != null && !slackURI.isEmpty()) {
+          String text = map.get("slack_channelMsg")
+          boolean retStat = Notifications.messageSlackChannel(slackURI,text)
+          assertTrue(retStat)
+        } 
+      }
    }
 
    /**
     * Unit test for using Slack messaging
     */
    void testSlackNotificationFail() {
-      String slackURI = "localhost:0:XCVD/"
-      String text = map.get("slack_channelMsg")
-      boolean retStat = Notifications.messageSlackChannel(slackURI,text)
-      assertFalse(retStat)
+      if (!runUnitTestsOnly()) {
+        String slackURI = "localhost:0:XCVD/"
+        String text = map.get("slack_channelMsg")
+        if (text != null && !text.isEmpty()) {
+          boolean retStat = Notifications.messageSlackChannel(slackURI,text)
+          assertFalse(retStat)
+        }
+      }
    }
 
    /**
