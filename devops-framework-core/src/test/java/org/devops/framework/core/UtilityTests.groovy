@@ -136,7 +136,7 @@ public class UtilityTests extends GroovyTestCase {
    void testPropertyFileRead() {
       File propFile = new File("."+"/src/test/resources/unitTest.properties")
       def map = Utilities.mapProperties(propFile)
-      assertTrue(map.containsKey("slack_webhookURI"))
+      assertTrue(map.containsKey("docker_buildFile"))
    }
 
    /**
