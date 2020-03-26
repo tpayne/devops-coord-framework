@@ -144,16 +144,20 @@ node {
         bld.bakeImage(body:{
             // Bake an image...
             StringBuffer outputStr = new StringBuffer()
-            boolean retStat = Container.buildContainer(ConfigPropertiesConstants.DOCKER,packageName.toLowerCase(),
-                                                        fetchDir,null,outputStr)
-            if (retStat) {
+
+            // Used as container builds can take a long time...
+            def status = devOpsFrameworkBuildContainerStep buildDirectory: fetchDir.getAbsolutePath(), 
+                            containerFile: fetchDir.getAbsolutePath()+"/Dockerfile",
+                            containerName: packageName.toLowerCase()
+
+            if (status) {
                 println "Bake worked"
                 Notifications.messageSlackChannel(slackURI,"${label}: Bake worked")
             } else {
-                println "Bake failed "+outputStr
-                Notifications.messageSlackChannel(slackURI,"${label}: Bake failed "+outputStr.toString())
-                error("Bake failed "+outputStr.toString())
-            }
+                println "Bake failed"
+                Notifications.messageSlackChannel(slackURI,"${label}: Bake failed")
+                error("Bake failed")
+            }  
         })
 
         ci.setBuild(bld)
