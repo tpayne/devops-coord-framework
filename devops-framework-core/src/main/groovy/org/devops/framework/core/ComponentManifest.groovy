@@ -3,6 +3,9 @@
  */
 package org.devops.framework.core;
 
+import java.util.logging.Logger
+import java.util.logging.Level
+
 import groovy.json.*
 import java.text.SimpleDateFormat
 
@@ -28,8 +31,10 @@ class ComponentManifest implements Serializable {
      */
     public ComponentManifest(final String jSON) {
         try {
-            def slurper = new JsonSlurper()
-            this.manifest = slurper.parseText(jSON)
+            def slurper = new JsonSlurperClassic()
+            def object = slurper.parseText(jSON)
+            this.manifest = new LinkedHashMap<>(object)
+            object = null
         } catch(Exception ex) {
             this.manifest = new ManifestFile()
             this.manifest.compList = new LinkedHashMap<String,CompList>()
@@ -43,8 +48,10 @@ class ComponentManifest implements Serializable {
      */
     public ComponentManifest(final File jSON) {
         try {
-            def slurper = new JsonSlurper()
-            this.manifest = slurper.parse(jSON)
+            def slurper = new JsonSlurperClassic()
+            def object = slurper.parse(jSON)
+            this.manifest = new LinkedHashMap<>(object)
+            object = null
             this.repoFile = jSON
         } catch(Exception ex) {
             this.manifest = new ManifestFile()
@@ -135,9 +142,9 @@ class ComponentManifest implements Serializable {
 
     /**
      * Get the component list
-     * @return final Map
+     * @return final HashMap
      */ 
-    final Map getComponentList() {
+    final HashMap getComponentList() {
         return manifest.compList
     }
 

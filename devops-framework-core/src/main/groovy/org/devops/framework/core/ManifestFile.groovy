@@ -9,7 +9,7 @@ class ManifestFile implements Serializable {
     def commitUTCDate
     def committer
     def commitComment
-    Map<String,CompList> compList
+    HashMap<String,CompList> compList
 
     private static final long serialVersionUID = 1L;
 
