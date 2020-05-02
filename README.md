@@ -797,6 +797,7 @@ _Parameters:_
 | `buildDirectory` | `'<someDirectory>'` | Mandatory parameter to specify which directory to run the build in |
 | `containerFile` | `'<fileName>'` | Optional parameter to specify which build file to use. The default is Dockerfile |
 | `containerName` | `'<containerName>'` | Mandatory parameter to specify the container name to build |
+| `quiet` | `true` | Optional parameter to suppress stdout reporting |
 
 ###### Pulling a container image
 
@@ -813,6 +814,7 @@ _Parameters:_
 | Parameter | Value | Description |
 | --------- | ----- | ----------- |
 | `containerName` | `'<containerName>'` | Mandatory parameter to specify the container name to pull |
+| `quiet` | `true` | Optional parameter to suppress stdout reporting |
 
 ###### Running a container image
 
@@ -830,7 +832,7 @@ _Parameters:_
 | --------- | ----- | ----------- |
 | `containerName` | `'<containerName>'` | Mandatory parameter to specify the container name to run |
 | `cmdStr` | `'<commandString>'` | Mandatory parameter to specify the command string to run |
-
+| `quiet` | `true` | Optional parameter to suppress stdout reporting |
 
 ###### Removing a container image
 
@@ -848,6 +850,7 @@ _Parameters:_
 | --------- | ----- | ----------- |
 | `containerName` | `'<containerName>'` | Mandatory parameter to specify the container name to delete |
 | `force` | `'<true or false>'` | Optional parameter to force the container to be removed |
+| `quiet` | `true` | Optional parameter to suppress stdout reporting |
 
 ###### Tagging a container image
 
@@ -865,6 +868,7 @@ _Parameters:_
 | --------- | ----- | ----------- |
 | `containerName` | `'<containerName>'` | Mandatory parameter to specify the container name to tag |
 | `targetName` | `'<targetName>'` | Mandatory parameter to specify the target tag |
+| `quiet` | `true` | Optional parameter to suppress stdout reporting |
 	
 ###### Clone SVN Repo
 
