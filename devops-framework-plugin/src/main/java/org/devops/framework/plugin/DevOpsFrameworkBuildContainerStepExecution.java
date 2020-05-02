@@ -94,7 +94,8 @@ public class DevOpsFrameworkBuildContainerStepExecution extends SynchronousNonBl
                                             false,
                                             null,
                                             step.getBuildDirectory(),
-                                            step.getContainerFile());
+                                            step.getContainerFile(),
+                                            step.getQuiet());
         boolean retStat = runTask.invoke();
         return retStat;
     }

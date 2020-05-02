@@ -40,15 +40,19 @@ import java.util.Set;
 public class DevOpsFrameworkPushContainerStep extends Step {
 
     private String imageName;
+    private boolean quiet=false;
 
     /**
      * Default constructor
      * 
      * @param String - imageName
+     * @param boolean - quiet
      */
     @DataBoundConstructor
-    public DevOpsFrameworkPushContainerStep(String imageName) {
+    public DevOpsFrameworkPushContainerStep(String imageName,
+                                            boolean quiet) {
         this.imageName = imageName;
+        this.quiet = quiet;
     }
 
     public String getImageName() {
@@ -60,6 +64,14 @@ public class DevOpsFrameworkPushContainerStep extends Step {
         this.imageName = Util.fixEmptyAndTrim(imageName);
     }
 
+    public boolean getQuiet() {
+        return this.quiet;
+    }
+
+    @DataBoundSetter
+    public void setQuiet(final boolean quiet) {
+        this.quiet = quiet;
+    }
 
     @Override
     public StepExecution start(StepContext context) throws Exception {

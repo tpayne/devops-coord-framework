@@ -93,7 +93,8 @@ public class DevOpsFrameworkTagContainerStepExecution extends SynchronousNonBloc
                                             false,
                                             step.getTargetName(),
                                             null,
-                                            null);
+                                            null,
+                                            step.getQuiet());
         boolean retStat = runTask.invoke();
         return retStat;
     }

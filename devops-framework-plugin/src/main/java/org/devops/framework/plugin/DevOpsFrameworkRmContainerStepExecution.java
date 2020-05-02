@@ -93,7 +93,8 @@ public class DevOpsFrameworkRmContainerStepExecution extends SynchronousNonBlock
                                             step.getForce(),
                                             null,
                                             null,
-                                            null);
+                                            null,
+                                            step.getQuiet());
         boolean retStat = runTask.invoke();
         return retStat;
     }

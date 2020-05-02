@@ -11,6 +11,9 @@
             <f:entry field="buildDirectory" title="${%Container Directory}">
                 <f:textbox/>
             </f:entry>        
+            <f:entry title="${%Run in quiet mode}">
+                <f:checkbox name="quiet" default="false" checked="${instance.quiet}"/>
+            </f:entry>
         </table>
     </f:block>
 </j:jelly>

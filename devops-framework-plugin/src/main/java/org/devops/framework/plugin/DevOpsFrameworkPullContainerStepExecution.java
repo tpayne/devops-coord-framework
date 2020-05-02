@@ -93,7 +93,8 @@ public class DevOpsFrameworkPullContainerStepExecution extends SynchronousNonBlo
                                             false,
                                             null,
                                             null,
-                                            null);
+                                            null,
+                                            step.getQuiet());
         boolean retStat = runTask.invoke();
         return retStat;
     }

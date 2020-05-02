@@ -16,10 +16,15 @@ import org.devops.framework.core.ConfigPropertiesConstants;
 import org.devops.framework.core.Container;
 import org.devops.framework.core.Utilities;
 
+import java.util.logging.Logger;
+import java.util.logging.Level;
+
 /**
  * Container class for DSL remotable logic.
  */
 class ContainerCmdTask extends GenericCmdTask {
+
+    private static final Logger LOGGER = Logger.getLogger( ContainerCmdTask.class.getName() );
 
     // Local variables...
     private String containerName;
@@ -28,6 +33,7 @@ class ContainerCmdTask extends GenericCmdTask {
     private String buildDir;
     private String containerFile;
     private boolean force;
+    private boolean quiet=false;
 
     private String containerType;
     private String cmd;
@@ -47,6 +53,7 @@ class ContainerCmdTask extends GenericCmdTask {
      * @param final String - targetName
      * @param final String - buildDir
      * @param final String - containerFile          
+     * @param final boolean - quiet          
      */
     public ContainerCmdTask(final String containerType, 
             final String cmd,
@@ -59,7 +66,8 @@ class ContainerCmdTask extends GenericCmdTask {
             final boolean force,
             final String targetName, 
             final String buildDir,
-            final String containerFile) {
+            final String containerFile,
+            final boolean quiet) {
         super(workspace, listener, build, launcher);
         this.containerName = containerName;
         this.cmdStr = cmdStr;
@@ -69,6 +77,7 @@ class ContainerCmdTask extends GenericCmdTask {
         this.containerFile = containerFile;
         this.containerType = containerType;
         this.cmd = cmd;
+        this.quiet = quiet;
     }
 
     /**
@@ -78,6 +87,13 @@ class ContainerCmdTask extends GenericCmdTask {
     public Boolean executeMaster() throws IOException, InterruptedException {
         StringBuffer outputStr = new StringBuffer();
         boolean retStat = false;
+
+        if (quiet) {
+            LOGGER.log(Level.FINE, "Master Silent mode enabled");
+        } else {
+            LOGGER.log(Level.FINE, "Master Silent mode disabled");
+        }
+
         try {
             if (cmd.equals("TAG")) {
                 retStat = Container.tagContainer(containerType,
@@ -111,7 +127,10 @@ class ContainerCmdTask extends GenericCmdTask {
             }                  
             String output = outputStr.toString();
             if (retStat) {
-                listener.getLogger().println(output);
+                if (quiet) {
+                } else {
+                    listener.getLogger().println(output);
+                }
             } else {
                 listener.error(output);
             }
@@ -128,6 +147,13 @@ class ContainerCmdTask extends GenericCmdTask {
     public Boolean executeSlave() throws IOException, InterruptedException {
         StringBuffer outputStr = new StringBuffer();
         boolean retStat = false;
+
+        if (quiet) {
+            LOGGER.log(Level.FINE, "Slave Silent mode enabled");
+        } else {
+            LOGGER.log(Level.FINE, "Slave Silent mode disabled");
+        }
+
         try {
             if (cmd.equals("TAG")) {
                 retStat = Container.tagContainer(containerType,
@@ -176,7 +202,10 @@ class ContainerCmdTask extends GenericCmdTask {
             }            
             String output = outputStr.toString();
             if (retStat) {
-                listener.getLogger().println(output);
+                if (quiet) {
+                } else {
+                    listener.getLogger().println(output);
+                }
             } else {
                 listener.error(output);
             }

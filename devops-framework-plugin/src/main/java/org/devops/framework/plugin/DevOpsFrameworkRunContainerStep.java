@@ -41,18 +41,22 @@ public class DevOpsFrameworkRunContainerStep extends Step {
 
     private String containerName;
     private String cmdStr;
+    private boolean quiet=false;
 
     /**
      * Default constructor
      * 
      * @param String - containerName
      * @param String - cmdStr
+     * @param boolean - quiet
      */
     @DataBoundConstructor
     public DevOpsFrameworkRunContainerStep(String containerName,
-                                String cmdStr) {
+                                String cmdStr,
+                                boolean quiet) {
         this.containerName = containerName;
         this.cmdStr = cmdStr;
+        this.quiet = quiet;
     }
 
     public String getContainerName() {
@@ -71,6 +75,15 @@ public class DevOpsFrameworkRunContainerStep extends Step {
     @DataBoundSetter 
     public void setCmdStr(final String cmdStr) {
         this.cmdStr = Util.fixEmptyAndTrim(cmdStr);
+    }
+
+    public boolean getQuiet() {
+        return this.quiet;
+    }
+
+    @DataBoundSetter
+    public void setQuiet(final boolean quiet) {
+        this.quiet = quiet;
     }
 
     @Override

@@ -41,6 +41,7 @@ public class DevOpsFrameworkTagContainerStep extends Step {
 
     private String containerName;
     private String targetName;
+    private boolean quiet=false;
 
 
     /**
@@ -48,11 +49,14 @@ public class DevOpsFrameworkTagContainerStep extends Step {
      * 
      * @param String - containerName
      * @param String - targetName
+     * @param boolean - quiet
      */
     @DataBoundConstructor
-    public DevOpsFrameworkTagContainerStep(String containerName, String targetName) {
+    public DevOpsFrameworkTagContainerStep(String containerName, String targetName,
+                                           boolean quiet) {
         this.containerName = containerName;
         this.targetName = targetName;
+        this.quiet = quiet;
     }
 
     public String getContainerName() {
@@ -73,6 +77,14 @@ public class DevOpsFrameworkTagContainerStep extends Step {
         this.targetName = Util.fixEmptyAndTrim(targetName);
     }
 
+    public boolean getQuiet() {
+        return this.quiet;
+    }
+
+    @DataBoundSetter
+    public void setQuiet(final boolean quiet) {
+        this.quiet = quiet;
+    }
 
     @Override
     public StepExecution start(StepContext context) throws Exception {

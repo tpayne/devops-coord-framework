@@ -116,11 +116,13 @@ class Utilities implements Serializable {
 			boolean isJenkins = (jenkins!=null && jenkins.getRootDir() != null && !jenkins.getRootDir().getAbsolutePath().isEmpty())
 			int retStatus = -1
 			if (isJenkins || launcher!=null) {
+                LOGGER.log(Level.FINEST, "Running CDRunner()")
 				retStatus = cmdRunner.CDRunner(cmdStr,returnStr,
 				                               workingDir,launcher,
 				                               stripQuotes,isFile,
 				                               noParams)
 			} else {
+                LOGGER.log(Level.FINEST, "Running OsRunner()")
 				retStatus = cmdRunner.OsRunner(cmdStr,returnStr,
 				                               workingDir,isFile)
 			}

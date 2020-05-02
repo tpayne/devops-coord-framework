@@ -41,17 +41,21 @@ public class DevOpsFrameworkRmContainerStep extends Step {
 
     private String containerName;
     private boolean force = false;
+    private boolean quiet=false;
 
     /**
      * Default constructor
      * 
      * @param String - imageName
      * @param boolean - force
+     * @param boolean - quiet
      */
     @DataBoundConstructor
-    public DevOpsFrameworkRmContainerStep(String containerName, boolean force) {
+    public DevOpsFrameworkRmContainerStep(String containerName, boolean force,
+                                          boolean quiet) {
         this.containerName = containerName;
         this.force = force;
+        this.quiet = quiet;
     }
 
     public String getContainerName() {
@@ -70,6 +74,15 @@ public class DevOpsFrameworkRmContainerStep extends Step {
     @DataBoundSetter 
     public void setForce(final boolean force) {
         this.force = force;
+    }
+
+    public boolean getQuiet() {
+        return this.quiet;
+    }
+
+    @DataBoundSetter
+    public void setQuiet(final boolean quiet) {
+        this.quiet = quiet;
     }
 
     @Override

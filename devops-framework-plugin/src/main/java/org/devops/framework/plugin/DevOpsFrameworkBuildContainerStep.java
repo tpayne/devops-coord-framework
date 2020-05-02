@@ -42,6 +42,7 @@ public class DevOpsFrameworkBuildContainerStep extends Step {
     private String containerName;
     private String containerFile;
     private String buildDirectory;
+    private boolean quiet=false;
 
     /**
      * Default constructor
@@ -49,14 +50,17 @@ public class DevOpsFrameworkBuildContainerStep extends Step {
      * @param String - containerName
      * @param String - containerFile
      * @param String - buildDirectory
+     * @param boolean - quiet
      */
     @DataBoundConstructor
     public DevOpsFrameworkBuildContainerStep(String containerName,
                                 String containerFile,
-                                String buildDirectory) {
+                                String buildDirectory,
+                                boolean quiet) {
         this.containerName = containerName;
         this.containerFile = containerFile;
         this.buildDirectory = buildDirectory;
+        this.quiet = quiet;
     }
 
     public String getContainerName() {
@@ -84,6 +88,15 @@ public class DevOpsFrameworkBuildContainerStep extends Step {
     @DataBoundSetter 
     public void setBuildDirectory(final String buildDirectory) {
         this.buildDirectory = Util.fixEmptyAndTrim(buildDirectory);
+    }
+
+    public boolean getQuiet() {
+        return this.quiet;
+    }
+
+    @DataBoundSetter
+    public void setQuiet(final boolean quiet) {
+        this.quiet = quiet;
     }
 
     @Override
