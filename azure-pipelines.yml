@@ -12,16 +12,52 @@ pool:
 
 steps:
 - task: Maven@3
+  target: host
   inputs:
     mavenPomFile: 'pom.xml'
-    mavenOptions: '-Xmx3072m -Denv.DEVOPS_FRAMEWORK_UNITTESTS=true'
+    goals: 'verify package'
+    options: '-Denv.DEVOPS_FRAMEWORK_UNITTESTS=true'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    codeCoverageToolOption: 'Cobertura'
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: '1.8'
-    jdkArchitectureOption: 'x64'
-    publishJUnitResults: true
-    options: '-Denv.DEVOPS_FRAMEWORK_UNITTESTS=true'
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    goals: 'verify'
+    mavenVersionOption: 'Default'
+    mavenOptions: '-Xmx3072m -Denv.DEVOPS_FRAMEWORK_UNITTESTS=true'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
 
 # - task: SonarQubeAnalyze@4
 # If needed will need configuring
+- task: CopyFiles@2
+  inputs:
+    contents: '**/target/*.zip'
+    targetFolder: $(Build.ArtifactStagingDirectory)
+
+- task: CopyFiles@2
+  inputs:
+    contents: '**/target/*.hpi'
+    targetFolder: $(Build.ArtifactStagingDirectory)
+
+- task: CopyFiles@2
+  inputs:
+    contents: '**/target/devops-framework-core.jar'
+    targetFolder: $(Build.ArtifactStagingDirectory)
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: $(Build.ArtifactStagingDirectory)
+    artifactName: MyBuildOutputs
+    
+- task: Bash@3
+  target: host
+  inputs:
+    targetType: 'inline'
+    script: |
+      # Write your commands here
+      echo "$(Build.ArtifactStagingDirectory)"
+      pwd
+      env
+      uname -a
+      ls -laR
+    workingDirectory: '$(Build.ArtifactStagingDirectory)'
