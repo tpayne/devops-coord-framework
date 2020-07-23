@@ -60,9 +60,12 @@ abstract class GenericCmdTask implements Serializable {
         boolean retStatus = true;
 
         String hostName = null;
-        if (workspace.toComputer()!=null) {
-            hostName = workspace.toComputer().getHostName();
-        }
+	try {
+		if (workspace.toComputer()!=null) {
+		    hostName = workspace.toComputer().getHostName();
+		}
+	} catch(Exception e) {
+	}
 
         try {
             if (hostName != null &&

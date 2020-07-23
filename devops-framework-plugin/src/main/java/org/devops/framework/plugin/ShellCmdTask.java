@@ -12,6 +12,8 @@ import hudson.Launcher;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
+import java.security.SecureRandom;
+import java.security.NoSuchAlgorithmException;
 
 import org.devops.framework.core.ConfigPropertiesConstants;
 import org.devops.framework.core.Repository;
@@ -35,6 +37,7 @@ class ShellCmdTask extends GenericCmdTask {
     private String cmd;
     private boolean quiet=false;
     private String cmdF = "#!/bin/sh\nset -x\n\n";
+    private Random rand = null; 
 
     /**
      * Default constructor
@@ -75,9 +78,15 @@ class ShellCmdTask extends GenericCmdTask {
         boolean retStat = false;
         File wd = null;
         File cmdFile = null;
+	Long uid = 012345L;
 
-		Random rand = new Random();
-		Long uid = rand.nextLong();
+	if (this.rand == null) {
+		try {
+			this.rand = SecureRandom.getInstanceStrong();
+			uid = this.rand.nextLong();
+    		} catch (NoSuchAlgorithmException e) {
+    		}
+	}
 
         if (workingDir != null && !workingDir.isEmpty()) {
         	wd = new File(workingDir);
@@ -154,8 +163,15 @@ class ShellCmdTask extends GenericCmdTask {
         File wd = null;
         File cmdFile = null;
 
-        Random rand = new Random();
-        Long uid = rand.nextLong();
+	Long uid = 054321L;
+
+	if (this.rand == null) {
+		try {
+			this.rand = SecureRandom.getInstanceStrong();
+			uid = this.rand.nextLong();
+    		} catch (NoSuchAlgorithmException e) {
+    		}
+	}
 
         if (workingDir != null && !workingDir.isEmpty()) {
             FilePath area = new FilePath(workspace.getChannel(),workingDir);
