@@ -16,6 +16,7 @@ import java.io.IOException;
 
 import org.devops.framework.core.Utilities;
 import org.devops.framework.core.Values;
+import java.lang.NullPointerException;
 
 import java.io.Serializable;
 
@@ -64,7 +65,7 @@ abstract class GenericCmdTask implements Serializable {
 		if (workspace.toComputer()!=null) {
 		    hostName = workspace.toComputer().getHostName();
 		}
-	} catch(Exception e) {
+	} catch(NullPointerException e) {
 	}
 
         try {
