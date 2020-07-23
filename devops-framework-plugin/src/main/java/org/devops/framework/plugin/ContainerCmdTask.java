@@ -5,16 +5,12 @@ package org.devops.framework.plugin;
 
 import hudson.FilePath;
 import hudson.model.TaskListener;
-import hudson.remoting.VirtualChannel;
 import hudson.model.Run;
 import hudson.Launcher;
 
-import java.io.File;
 import java.io.IOException;
 
-import org.devops.framework.core.ConfigPropertiesConstants;
 import org.devops.framework.core.Container;
-import org.devops.framework.core.Utilities;
 
 import java.util.logging.Logger;
 import java.util.logging.Level;
