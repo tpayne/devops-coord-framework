@@ -12,7 +12,7 @@ Framework Status: Ready for use
 Build CI/Testing Status
 -----------------------
 The following indicates the CI and coverage status.
-SonarCloud analysis is in prototyping.
+[SonarCloud](https://sonarcloud.io/dashboard?id=org.devops.framework%3Adevops-framework) analysis is in prototyping.
 
 [![Build Status](https://travis-ci.org/tpayne/devops-framework.svg?branch=master)](https://travis-ci.org/tpayne/devops-framework)
 [![Coverage Status](https://coveralls.io/repos/github/tpayne/devops-framework/badge.svg?branch=master)](https://coveralls.io/github/tpayne/devops-framework?branch=master)
