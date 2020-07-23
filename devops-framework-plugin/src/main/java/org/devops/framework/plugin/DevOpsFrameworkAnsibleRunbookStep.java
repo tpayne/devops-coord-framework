@@ -4,7 +4,6 @@
 package org.devops.framework.plugin;
 
 import hudson.Extension;
-import hudson.Util;
 import hudson.FilePath;
 import hudson.Launcher;
 import hudson.model.Run;
