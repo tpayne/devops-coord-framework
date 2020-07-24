@@ -505,6 +505,7 @@ The manifest file (by default) is a JSON file stored in the repository file. Thi
 	      "componentName": "gitplugin",
 	      "componentLocation": "/Volumes/WorkDisk/tmp/Repos/github.hpi.1553692812066",
 	      "componentStatus": "Integration Test"
+	      "componentMd5Sum": "4446d771"	      
 	    },
 	    "dimensionsscm": {
 	      "componentVersion": "1553692305487",
@@ -545,6 +546,7 @@ The `compList` is formatted as: -
 >| `componentName` | Used to hold the registered component name |
 >| `componentLocation` | Used to hold the registered component location, i.e. where it is stored |
 >| `componentStatus` | Used to hold the registered component status |
+>| `componentMd5Sum` | Used to hold the registered component MD5 checksum |
 
 The values of these keys are free text and are set by the appropriate `set...()` methods. What formats
 you use are up to you.
