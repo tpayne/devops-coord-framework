@@ -11,4 +11,5 @@ class CompList implements Serializable {
     String componentVersion
     String componentStatus
     String componentLocation
+    String componentMd5Sum
 }

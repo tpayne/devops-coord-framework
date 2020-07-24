@@ -162,13 +162,16 @@ class ComponentManifest implements Serializable {
      * @param final String - component version
      * @param final String - component status
      * @param final String - component location
+     * @param final String - component md5     
      */    
      void addComponent(final String compName,
                       final String version,
                       final String status,
-                      final String location) {
+                      final String location,
+                      final String md5) {
         CompList tmp = new CompList(componentName:compName, componentVersion:version,
-                                    componentStatus:status, componentLocation:location)
+                                    componentStatus:status, componentLocation:location,
+                                    componentMd5Sum:md5)
         manifest.compList.put(compName,tmp)
     } 
 
@@ -178,12 +181,14 @@ class ComponentManifest implements Serializable {
      * @param final String - component version
      * @param final String - component status
      * @param final String - component location
+     * @param final String - component md5     
      */  
      void updateComponent(final String compName,
                          final String version,
                          final String status,
-                         final String location) {
-        addComponent(compName,version,status,location)
+                         final String location,
+                         final String md5) {
+        addComponent(compName,version,status,location,md5)
     }
 
     /**
