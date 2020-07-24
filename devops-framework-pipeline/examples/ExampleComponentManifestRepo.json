@@ -1,1 +1,30 @@
-{"commitComment":"Committed version 45 by alexgray at 22:36:18 17/04/2019","compList":{"gitplugin":{"componentVersion":"1554830435257","componentName":"gitplugin","componentLocation":"/Volumes/WorkDisk/tmp/Repos/github.hpi.1554830435257","componentStatus":"Integration Test"},"dimensionsscm":{"componentVersion":"1555536976396","componentName":"dimensionsscm","componentLocation":"/Volumes/WorkDisk/tmp/Repos/dimensionsscm.hpi.1555536976396","componentStatus":"Integration Test"},"JavaAppCICD":{"componentVersion":"1554830569399","componentName":"JavaAppCICD","componentLocation":"/Volumes/WorkDisk/tmp/Repos/jpetstore.war.1554830569399","componentStatus":"Integration Test"}},"committer":"alexgray","status":"Integration Test","version":"45","commitUTCDate":1555536978127}
+{
+  "commitComment" : "Committed version 45 by alexgray at 22:36:18 17/04/2019",
+  "compList" : {
+    "gitplugin" : {
+      "componentVersion" : "1554830435257",
+      "componentName" : "gitplugin",
+      "componentLocation" : "/Volumes/WorkDisk/tmp/Repos/github.hpi.1554830435257",
+      "componentStatus" : "Integration Test",
+      "componentMd5Sum" : "db8c6088e5e789db8c850075d98dc373"
+    },
+    "dimensionsscm" : {
+      "componentVersion" : "1555536976396",
+      "componentName" : "dimensionsscm",
+      "componentLocation" : "/Volumes/WorkDisk/tmp/Repos/dimensionsscm.hpi.1555536976396",
+      "componentStatus" : "Integration Test",
+      "componentMd5Sum" : "9f8628f68ce0865348ade6d2a4d568af"
+    },
+    "JavaAppCICD" : {
+      "componentVersion" : "1554830569399",
+      "componentName" : "JavaAppCICD",
+      "componentLocation" : "/Volumes/WorkDisk/tmp/Repos/jpetstore.war.1554830569399",
+      "componentStatus" : "Integration Test",
+      "componentMd5Sum" : "7251e4a7b0d77264940db7baa8c58756"
+    }
+  },
+  "committer" : "alexgray",
+  "status" : "Integration Test",
+  "version" : "45",
+  "commitUTCDate" : 1555536978127
+}

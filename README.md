@@ -504,20 +504,22 @@ The manifest file (by default) is a JSON file stored in the repository file. Thi
 	      "componentVersion": "1553692812066",
 	      "componentName": "gitplugin",
 	      "componentLocation": "/Volumes/WorkDisk/tmp/Repos/github.hpi.1553692812066",
-	      "componentStatus": "Integration Test"
-	      "componentMd5Sum": "4446d771"	      
+	      "componentStatus": "Integration Test",
+	      "componentMd5Sum": "9f8628f68ce0865348ade6d2a4d568af"	      
 	    },
 	    "dimensionsscm": {
 	      "componentVersion": "1553692305487",
 	      "componentName": "dimensionsscm",
 	      "componentLocation": "/Volumes/WorkDisk/tmp/Repos/dimensionsscm.hpi.1553692305487",
-	      "componentStatus": "Integration Test"
+	      "componentStatus": "Integration Test",
+	      "componentMd5Sum": "7251e4a7b0d77264940db7baa8c58756"	      
 	    },
 	    "JavaAppCICD": {
 	      "componentVersion": "1553609424273",
 	      "componentName": "JavaAppCICD",
 	      "componentLocation": "/Volumes/WorkDisk/tmp/Repos/jpetstore.war.1553609424273",
-	      "componentStatus": "Integration Test"
+	      "componentStatus": "Integration Test",
+	      "componentMd5Sum": "db8c6088e5e789db8c850075d98dc373"	      
 	    }
 	  },
 	  "committer": "alexgray",
