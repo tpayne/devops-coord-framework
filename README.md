@@ -1,5 +1,5 @@
-Devops Framework
-================
+Devops Coordination Framework
+=============================
 
 If you find this framework useful or would like something added to it, feel free to drop a comment.
 
