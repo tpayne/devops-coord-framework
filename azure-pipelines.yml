@@ -11,6 +11,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+
 - task: Maven@3
   target: host
   inputs:
@@ -26,6 +27,16 @@ steps:
     mavenOptions: '-Xmx3072m -Denv.DEVOPS_FRAMEWORK_UNITTESTS=true'
     mavenAuthenticateFeed: false
     effectivePomSkip: false
+    sonarQubeRunAnalysis: false
+    checkStyleRunAnalysis: true
+    pmdRunAnalysis: true
+    findBugsRunAnalysis: true
+
+- task: WhiteSource Bolt@20
+  inputs:
+    cwd: '$(Build.SourcesDirectory)'
+    advance: true
+
 
 # - task: SonarQubeAnalyze@4
 # If needed will need configuring
