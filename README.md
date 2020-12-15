@@ -553,7 +553,7 @@ The `compList` is formatted as: -
 The values of these keys are free text and are set by the appropriate `set...()` methods. What formats
 you use are up to you.
 
-Further keys can be added like MD5 checksum by modifying the `ComponentManifest.groovy` file as needed.
+Further keys can be added by modifying the `ComponentManifest.groovy` file as needed.
 
 Provision
 ----------
