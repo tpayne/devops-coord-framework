@@ -2,4 +2,4 @@ image:
   file: .gitpod.Dockerfile
 
 tasks:
-  - init: mvn install -DskipTests=false
+  - init: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
