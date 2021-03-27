@@ -415,7 +415,7 @@ This class provides various useful utilities that are used and has the following
 >| ------ | ----------- |
 >| `isUnix()` | Used to detect UNIX based OS |
 >| `isWindows()` | Used to detect Windows based OS |
->| `mapProperties()` | Used to map a properties file intp a Map |
+>| `mapProperties()` | Used to map a properties file into a Map |
 >| `getDefaultProperties()` | Used to read any default properties that might have been setup for the framework to use |
 >| `readAllBytes()` | Used to read a file into memory as an array of bytes. Mostly for binary files |
 >| `readFile()` | Used to read a text file into memory as a string |
