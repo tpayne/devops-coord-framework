@@ -15,7 +15,7 @@ The following indicates the CI and coverage status.
 [SonarCloud](https://sonarcloud.io/dashboard?id=org.devops.framework%3Adevops-framework) analysis is in prototyping.
 
 [![Build Status](https://travis-ci.org/tpayne/devops-coord-framework.svg?branch=master)](https://travis-ci.org/tpayne/devops-coord-framework)
-
+[![Java CI with Maven](https://github.com/tpayne/devops-coord-framework/actions/workflows/maven.yml/badge.svg)](https://github.com/tpayne/devops-coord-framework/actions/workflows/maven.yml)
 
 Contents
 ========
