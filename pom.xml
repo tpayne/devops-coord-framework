@@ -68,7 +68,7 @@
     <properties>
         <jenkins.version>2.164</jenkins.version>
         <java.level>8</java.level>
-        <dependency-check-maven.version>5.3.0</dependency-check-maven.version>
+        <dependency-check-maven.version>6.1.5</dependency-check-maven.version>
         <!-- If we want to be strict...
             <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
             <maven.compiler.showWarnings>true</maven.compiler.showWarnings>
@@ -81,7 +81,7 @@
         <module>devops-framework-pipeline</module>
     </modules>
 
-    <!--  To run a security/vulnerability check run 'mvn clean install -Psecruity-scans' 
+    <!--  To run a security/vulnerability check run 'mvn clean install -Psecurity-scans' 
           The process will take about 5-15 mins to run, so do not do it as part of normal build
             
            For more info, see 
@@ -89,7 +89,7 @@
     -->
     <profiles>
         <profile>
-        <id>secruity-scans</id>
+        <id>security-scans</id>
         <build>
             <plugins>
                 <!-- Security scanners -->
