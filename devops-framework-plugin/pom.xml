@@ -55,7 +55,13 @@
             <organization>HCL Infra, DRYICE</organization>
         </developer>
     </developers>
-
+ 
+    <properties>
+        <sonar.projectKey>org.devops.framework:devops-framework</sonar.projectKey>
+        <sonar.organization>tpayne</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+    </properties>
+         
     <dependencies>
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
