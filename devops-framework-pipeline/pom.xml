@@ -20,7 +20,7 @@
     <repositories>
         <repository>
           <id>repo.jenkins-ci.org</id>
-          <url>https://repo.jenkins-ci.org/public/</url>
+          <url>https://repo.jenkins-ci.org/releases/</url>
         </repository>
         <repository>
             <id>lib</id>
@@ -36,7 +36,7 @@
     <pluginRepositories>
         <pluginRepository>
             <id>repo.jenkins-ci.org</id>
-            <url>http://repo.jenkins-ci.org/public/</url>
+            <url>https://repo.jenkins-ci.org/releases/</url>
         </pluginRepository>
     </pluginRepositories>
 
@@ -52,7 +52,7 @@
         <developer>
             <id>tim.tpayne@gmail.com</id>
             <name>Tim Payne</name>
-            <organization>HCL Infra, DRYICE</organization>
+            <organization>AND Digital</organization>
         </developer>
     </developers>
 
@@ -72,7 +72,7 @@
             <groupId>org.devops.framework.core</groupId>
             <artifactId>devops-framework-core</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-        </dependency>        
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -93,7 +93,7 @@
                 <groupId>org.codehaus.gmavenplus</groupId>
                 <artifactId>gmavenplus-plugin</artifactId>
                 <version>1.6.2</version>
-            </plugin>        
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -171,7 +171,7 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>   
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -181,7 +181,7 @@
                         <include>**/*.class</include>
                     </includes>
                 </configuration>
-            </plugin>        
-        </plugins>    
+            </plugin>
+        </plugins>
     </build>
 </project>
