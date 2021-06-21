@@ -66,6 +66,9 @@
     </issueManagement>
 
     <properties>
+        <sonar.projectKey>org.devops.framework:devops-framework</sonar.projectKey>
+        <sonar.organization>tpayne</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>             
         <jenkins.version>2.164</jenkins.version>
         <java.level>8</java.level>
         <dependency-check-maven.version>6.1.5</dependency-check-maven.version>
