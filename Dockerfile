@@ -19,8 +19,8 @@ FROM jenkins/jenkins:lts as jenkins
 ARG HPI_FILE=/app/devops-framework-plugin/target/devops-framework-plugin.hpi
 WORKDIR /var/jenkins_home/plugins/
 
-RUN chown -R jenkins:jenkins /var/jenkins_home/plugins/
-RUN chmod -R o+rwx /var/jenkins_home/plugins/
+#RUN chown -R jenkins:jenkins /var/jenkins_home/plugins/
+#RUN chmod -R o+rwx /var/jenkins_home/plugins/
 
 COPY --from=imagebuilder ${HPI_FILE} /var/jenkins_home/devops-framework-plugin.hpi
 COPY jenkins.sh /usr/local/bin/jenkins.sh
