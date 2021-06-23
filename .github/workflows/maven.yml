@@ -25,4 +25,6 @@ jobs:
       run:  mvn clean verify -Denv.DEVOPS_FRAMEWORK_UNITTESTS=true -DskipTests=true
     - name: Build with Maven security checking
       run:  mvn clean install -Psecurity-scans -Denv.DEVOPS_FRAMEWORK_UNITTESTS=true -DskipTests=true
+    - name: Build Docker image
+      run:  docker build . -t testimage
       
