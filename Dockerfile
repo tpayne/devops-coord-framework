@@ -13,16 +13,20 @@ COPY devops-framework-plugin ./devops-framework-plugin
 RUN mvn -q clean install -Psecurity-scans -Denv.DEVOPS_FRAMEWORK_UNITTESTS=true -Dmaven.test.skip=true
 RUN mvn -q -B clean package -Denv.DEVOPS_FRAMEWORK_UNITTESTS=true -Dmaven.test.skip=true
 
+# Jenkins image which we will modify...
 FROM jenkins/jenkins:lts as jenkins
 
 ARG HPI_FILE=/app/devops-framework-plugin/target/devops-framework-plugin.hpi
-RUN mkdir /var/jenkins_home/plugins/
+WORKDIR /var/jenkins_home/plugins/
+
 RUN chown -R jenkins:jenkins /var/jenkins_home/plugins/
 RUN chmod -R o+rwx /var/jenkins_home/plugins/
 
 COPY --from=imagebuilder ${HPI_FILE} /var/jenkins_home/devops-framework-plugin.hpi
 COPY jenkins.sh /usr/local/bin/jenkins.sh
 COPY install-plugins.sh /usr/local/bin/install-plugins.sh
+
+VOLUME /var/jenkins_home/
 
 CMD ["/bin/bash","-e","/usr/local/bin/jenkins.sh"]
 
