@@ -32,10 +32,11 @@ steps:
     pmdRunAnalysis: true
     findBugsRunAnalysis: true
 
-- task: WhiteSource Bolt@20
-  inputs:
-    cwd: '$(Build.SourcesDirectory)'
-    advance: true
+# Need to install extension for this to work
+# - task: WhiteSource Bolt@20
+#   inputs:
+#     cwd: '$(Build.SourcesDirectory)'
+#     advance: true
 
 
 # - task: SonarQubeAnalyze@4
