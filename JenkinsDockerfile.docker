@@ -14,8 +14,13 @@ RUN add-apt-repository \
       "deb [arch=amd64] https://download.docker.com/linux/debian \
       $(lsb_release -cs) stable"
 
+RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+RUN echo "deb https://packages.cloud.google.com/apt cloud-sdk main" | \
+      tee -a /etc/apt/sources.list.d/google-cloud-sdk.list 
+      
 RUN apt-get update 
 RUN apt-get install -y docker-ce-cli
+RUN apt-get install -y google-cloud-sdk
 
 USER jenkins
 
