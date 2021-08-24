@@ -23,7 +23,7 @@ pipeline {
                     sh "gcloud auth configure-docker --quiet"
                     echo "Pushing image To GCR"
                     sh "docker push gcr.io/testdemo-311716/runimage:latest"
-                  }
+                }
             }
         }
     }
