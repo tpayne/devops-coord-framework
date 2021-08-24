@@ -1,4 +1,4 @@
-# Extending base jenkins to add Docker cli installation
+# Extending base jenkins to add Docker, GCP, AWS & AZ cli installation
 FROM jenkins/jenkins:lts as jenkins
 
 USER root
@@ -29,6 +29,7 @@ RUN apt-get update
 RUN apt-get install -y docker-ce-cli
 RUN apt-get install -y google-cloud-sdk
 RUN apt-get install -y azure-cli
+RUN apt-get update 
 
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
 RUN unzip -d /tmp/ /tmp/awscliv2.zip 
