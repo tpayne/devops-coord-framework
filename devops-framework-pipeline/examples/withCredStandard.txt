@@ -1,0 +1,30 @@
+//
+// This is a standard pipeline that uses a cred example (GCP) to upload images to GCP repo
+// Note - You need to create a GCP service account, then...
+// gcloud iam service-accounts list
+// gcloud iam service-accounts keys create --iam-account <serviceAccountEmail> service-account.json
+// Use Jenkins credential manager to upload 'service-account.json' as a named id of type 'secret file'
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                // Get some code from a GitHub repository
+                git 'https://github.com/tpayne/devops-coord-framework.git'
+
+                sh "docker build . -t runimage:latest"
+                sh "docker tag runimage:latest gcr.io/testdemo-311716/runimage:latest"
+                
+                withCredentials([file(credentialsId: 'service-account', variable: 'GC_KEY')]){
+                    sh "cat '$GC_KEY' | docker login -u _json_key --password-stdin https://gcr.io"
+                    sh "gcloud auth activate-service-account --key-file='$GC_KEY'"
+                    sh "gcloud auth configure-docker --quiet"
+                    echo "Pushing image To GCR"
+                    sh "docker push gcr.io/testdemo-311716/runimage:latest"
+                  }
+            }
+        }
+    }
+}
