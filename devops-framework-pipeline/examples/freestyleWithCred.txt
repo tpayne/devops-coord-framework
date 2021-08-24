@@ -4,6 +4,10 @@
 # In the freestyle job, specify an env var to hold the key - e.g. GC_KEY 
 # Use it as below...
 
+# // gcloud iam service-accounts list
+# // gcloud iam service-accounts keys create --iam-account <serviceAccountEmail> service-account.json
+# // Use Jenkins credential manager to upload 'service-account.json' as a named id of type 'secret file'
+
 gcloud auth configure-docker --quiet
 docker build . -t runimage:latest
 docker tag runimage:latest gcr.io/testdemo-311716/runimage:latest
