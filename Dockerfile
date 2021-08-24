@@ -10,7 +10,8 @@ COPY devops-framework-core ./devops-framework-core
 COPY devops-framework-pipeline ./devops-framework-pipeline
 COPY devops-framework-plugin ./devops-framework-plugin
 
-RUN mvn -q clean install -Psecurity-scans -Denv.DEVOPS_FRAMEWORK_UNITTESTS=true -Dmaven.test.skip=true
+# Comment out security scan unless really needed, it takes too long to run
+# RUN mvn -q clean install -Psecurity-scans -Denv.DEVOPS_FRAMEWORK_UNITTESTS=true -Dmaven.test.skip=true
 RUN mvn -q -B clean package -Denv.DEVOPS_FRAMEWORK_UNITTESTS=true -Dmaven.test.skip=true
 
 # Jenkins image which we will modify...
