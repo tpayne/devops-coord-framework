@@ -3,7 +3,7 @@
 # Commands adapted from https://www.jenkins.io/doc/book/installing/docker/
 
 # Build docker image...
-docker build . -f JenkinsDockerfile.docker -t jenkinsdocker:latest
+docker build . -f docker/JenkinsDockerfile.docker -t jenkinsdocker:latest
 
 # Create & install network service...
 docker network create jenkins

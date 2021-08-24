@@ -22,6 +22,11 @@ RUN apt-get update
 RUN apt-get install -y docker-ce-cli
 RUN apt-get install -y google-cloud-sdk
 
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
+RUN unzip -d /tmp/ /tmp/awscliv2.zip 
+RUN /tmp/aws/install
+RUN rm -fr /tmp/aws/ /tmp/awscliv2.zip
+
 USER jenkins
 
 VOLUME /var/jenkins_home/
