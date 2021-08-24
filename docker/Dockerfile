@@ -24,8 +24,8 @@ WORKDIR /var/jenkins_home/plugins/
 #RUN chmod -R o+rwx /var/jenkins_home/plugins/
 
 COPY --from=imagebuilder ${HPI_FILE} /var/jenkins_home/devops-framework-plugin.hpi
-COPY jenkins.sh /usr/local/bin/jenkins.sh
-COPY install-plugins.sh /usr/local/bin/install-plugins.sh
+COPY scripts/jenkins.sh /usr/local/bin/jenkins.sh
+COPY scripts/install-plugins.sh /usr/local/bin/install-plugins.sh
 
 VOLUME /var/jenkins_home/
 
