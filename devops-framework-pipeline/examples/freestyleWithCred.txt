@@ -1,0 +1,13 @@
+# You can also do a creds freestyle shell build
+# Install the Masking password plugin
+# Get a cred secrets file and upload it to Cred manager
+# In the freestyle job, specify an env var to hold the key - e.g. GC_KEY 
+# Use it as below...
+
+gcloud auth configure-docker --quiet
+docker build . -t runimage:latest
+docker tag runimage:latest gcr.io/testdemo-311716/runimage:latest
+cat "$GC_KEY" | docker login -u _json_key --password-stdin https://gcr.io
+gcloud auth activate-service-account --key-file="$GC_KEY"
+docker push gcr.io/testdemo-311716/runimage:latest
+
