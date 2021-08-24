@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# Commands adapted from https://www.jenkins.io/doc/book/installing/docker/
+
 # Build docker image...
 docker build . -f JenkinsDockerfile.docker -t jenkinsdocker:latest
 
