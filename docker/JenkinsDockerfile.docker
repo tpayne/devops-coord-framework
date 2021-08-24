@@ -6,7 +6,8 @@ USER root
 RUN apt-get update 
 RUN apt-get install -y apt-transport-https \
       ca-certificates curl gnupg2 \
-      software-properties-common
+      software-properties-common \
+      lsb-release
 
 RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
 RUN apt-key fingerprint 0EBFCD88
@@ -17,10 +18,17 @@ RUN add-apt-repository \
 RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 RUN echo "deb https://packages.cloud.google.com/apt cloud-sdk main" | \
       tee -a /etc/apt/sources.list.d/google-cloud-sdk.list 
-      
+
+RUN curl -sL https://packages.microsoft.com/keys/microsoft.asc | \
+    gpg --dearmor | \
+    tee /etc/apt/trusted.gpg.d/microsoft.gpg > /dev/null      
+RUN echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $(lsb_release -cs) main" |\
+    tee /etc/apt/sources.list.d/azure-cli.list
+
 RUN apt-get update 
 RUN apt-get install -y docker-ce-cli
 RUN apt-get install -y google-cloud-sdk
+RUN apt-get install -y azure-cli
 
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
 RUN unzip -d /tmp/ /tmp/awscliv2.zip 
