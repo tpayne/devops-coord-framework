@@ -5,6 +5,10 @@
 # Build docker image...
 docker build . -f docker/JenkinsDockerfile.docker -t jenkinsdocker:latest --pull
 
+# The following are not needed, but just create additional tags for naming
+docker tag jenkinsdocker:latest local/jenkinsdocker:stable
+docker tag jenkinsdocker:latest local/jenkinsdocker:latest
+
 # Create & install network service...
 docker network create jenkins
 docker run --name jenkins-docker --rm --detach \
