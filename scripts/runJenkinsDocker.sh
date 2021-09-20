@@ -3,7 +3,7 @@
 # Commands adapted from https://www.jenkins.io/doc/book/installing/docker/
 
 # Build docker image...
-docker build . -f docker/JenkinsDockerfile.docker -t jenkinsdocker:latest --pull
+docker build docker -f docker/JenkinsDockerfile.docker -t jenkinsdocker:latest --pull
 
 # The following are not needed, but just create additional tags for naming
 docker tag jenkinsdocker:latest local/jenkinsdocker:stable
