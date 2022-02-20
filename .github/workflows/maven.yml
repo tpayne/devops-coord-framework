@@ -21,10 +21,14 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
+    - name: Login to DockerHub Registry
+      run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
     - name: Build with Maven
       run:  mvn clean verify -Denv.DEVOPS_FRAMEWORK_UNITTESTS=true -DskipTests=true
     - name: Build with Maven security checking
       run:  mvn clean install -Psecurity-scans -Denv.DEVOPS_FRAMEWORK_UNITTESTS=true -DskipTests=true
     - name: Build Docker image
-      run:  docker build . -f docker/Dockerfile -t tpayne666/jenkinsdsl:latest
+      run:  |
+        docker build . -f docker/Dockerfile -t ${{ secrets.DOCKERHUB_USERNAME }}/jenkinsdsl:latest
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/jenkinsdsl:latest
       
