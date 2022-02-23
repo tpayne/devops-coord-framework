@@ -15,6 +15,7 @@ The following indicates the CI and coverage status.
 [SonarCloud](https://sonarcloud.io/dashboard?id=org.devops.framework%3Adevops-framework) analysis is in prototyping.
 
 [![Java CI with Maven](https://github.com/tpayne/devops-coord-framework/actions/workflows/maven.yml/badge.svg)](https://github.com/tpayne/devops-coord-framework/actions/workflows/maven.yml)
+[![CodeQL](https://github.com/tpayne/devops-coord-framework/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/tpayne/devops-coord-framework/actions/workflows/codeql-analysis.yml)
 
 Contents
 ========
