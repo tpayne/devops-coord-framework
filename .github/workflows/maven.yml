@@ -21,14 +21,22 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
-    - name: Login to DockerHub Registry
-      run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
     - name: Build with Maven
       run:  mvn clean verify -Denv.DEVOPS_FRAMEWORK_UNITTESTS=true -DskipTests=true
     - name: Build with Maven security checking
       run:  mvn clean install -Psecurity-scans -Denv.DEVOPS_FRAMEWORK_UNITTESTS=true -DskipTests=true
+      
+  docker-build:
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: Login to DockerHub...
+      run: |
+        echo ${{ secrets.DOCKERHUB_PASSWORD }} | \
+          docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
     - name: Build Docker image
       run:  |
         docker build . -f docker/Dockerfile -t ${{ secrets.DOCKERHUB_USERNAME }}/jenkinsdsl:latest
         docker push ${{ secrets.DOCKERHUB_USERNAME }}/jenkinsdsl:latest
-      
