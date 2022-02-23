@@ -33,4 +33,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify -Denv.DEVOPS_FRAMEWORK_UNITTESTS=true -DskipTests=true org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+        run: |
+          mvn -B verify -Denv.DEVOPS_FRAMEWORK_UNITTESTS=true -DskipTests=true \
+            org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=$SONAR_TOKEN \
+            -Dsonar.projectKey=DevOps-Framework
+
