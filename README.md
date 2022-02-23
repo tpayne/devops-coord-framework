@@ -16,6 +16,7 @@ The following indicates the CI and coverage status.
 
 [![Java CI with Maven](https://github.com/tpayne/devops-coord-framework/actions/workflows/maven.yml/badge.svg)](https://github.com/tpayne/devops-coord-framework/actions/workflows/maven.yml)
 [![CodeQL](https://github.com/tpayne/devops-coord-framework/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/tpayne/devops-coord-framework/actions/workflows/codeql-analysis.yml)
+[![pages-build-deployment](https://github.com/tpayne/devops-coord-framework/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/tpayne/devops-coord-framework/actions/workflows/pages/pages-build-deployment)
 
 Contents
 ========
