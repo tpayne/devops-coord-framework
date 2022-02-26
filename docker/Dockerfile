@@ -2,6 +2,7 @@
 # and putting it into a docker image...
 
 FROM maven:3.8-jdk-11 as imagebuilder
+RUN apt-get update
 
 WORKDIR /app
 
