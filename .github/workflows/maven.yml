@@ -22,9 +22,9 @@ jobs:
         java-version: '11'
         distribution: 'adopt'
     - name: Build with Maven
-      run:  mvn clean verify -Denv.DEVOPS_FRAMEWORK_UNITTESTS=true -DskipTests=true
+      run:  mvn -q clean verify -Denv.DEVOPS_FRAMEWORK_UNITTESTS=true -DskipTests=true
     - name: Build with Maven security checking
-      run:  mvn clean install -Psecurity-scans -Denv.DEVOPS_FRAMEWORK_UNITTESTS=true -DskipTests=true
+      run:  mvn -q clean install -Psecurity-scans -Denv.DEVOPS_FRAMEWORK_UNITTESTS=true -DskipTests=true
       
   docker-build:
     runs-on: ubuntu-latest
