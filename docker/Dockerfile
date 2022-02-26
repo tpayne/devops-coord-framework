@@ -17,7 +17,6 @@ RUN mvn -q -B clean package -Denv.DEVOPS_FRAMEWORK_UNITTESTS=true -Dmaven.test.s
 
 # Jenkins image which we will modify...
 FROM jenkins/jenkins:lts as jenkins
-RUN apt-get update 
 
 ARG HPI_FILE=/app/devops-framework-plugin/target/devops-framework-plugin.hpi
 WORKDIR /var/jenkins_home/plugins/
