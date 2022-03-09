@@ -500,7 +500,7 @@ This class provides repository related functionality for maintaining your compon
 The manifest file (by default) is a JSON file stored in the repository file. This manifest file looks like this: -
 
 	{
-	  "commitComment": "Committed version 30 by alexgray at 13:20:12 27/03/2019",
+	  "commitComment": "Committed version 30 by user1 at 13:20:12 27/03/2019",
 	  "compList": {
 	    "gitplugin": {
 	      "componentVersion": "1553692812066",
@@ -524,7 +524,7 @@ The manifest file (by default) is a JSON file stored in the repository file. Thi
 	      "componentMd5Sum": "db8c6088e5e789db8c850075d98dc373"	      
 	    }
 	  },
-	  "committer": "alexgray",
+	  "committer": "user1",
 	  "status": "Integration Test",
 	  "version": "30",
 	  "commitUTCDate": 1553692812367
