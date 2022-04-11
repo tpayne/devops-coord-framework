@@ -48,7 +48,7 @@ jobs:
       with:
         repository: tpayne/codefresh-csdp-samples.git
         path: HelmRepo
-        with: main
+        ref: main
     - name: Update deployment repo
       run: |
         cd HelmRepo
