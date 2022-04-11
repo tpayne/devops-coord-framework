@@ -42,3 +42,4 @@ jobs:
       run:  |
         docker build . -f docker/Dockerfile -t ${{ secrets.DOCKERHUB_USERNAME }}/jenkinsdsl:latest
         docker push ${{ secrets.DOCKERHUB_USERNAME }}/jenkinsdsl:latest
+        docker inspect --format '{{index .RepoDigests 0}}' ${{ secrets.DOCKERHUB_USERNAME }}/jenkinsdsl:latest
