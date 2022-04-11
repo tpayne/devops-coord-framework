@@ -63,5 +63,5 @@ jobs:
         destination_repo: 'tpayne/codefresh-csdp-samples'
         destination_folder: 'helm/dev/'
         user_email: ${{ secrets.XGITHUB_EMAIL }}
-        user_name: ${{ secrets.GITHUB_ACTOR }}
+        user_name: ${{ secrets.XGITHUB_USER }}
         commit_message: 'Modifying repo file for Dev'
