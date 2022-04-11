@@ -43,6 +43,9 @@ jobs:
       run:  |
         docker build . -f docker/Dockerfile -t ${{ secrets.DOCKERHUB_USERNAME }}/jenkinsdsl:latest
         docker push ${{ secrets.DOCKERHUB_USERNAME }}/jenkinsdsl:latest
+        #
+        ¢ This will update an ArgoCD with the new versions...
+        #
         docker inspect --format '{{index .RepoDigests 0}}' ${{ secrets.DOCKERHUB_USERNAME }}/jenkinsdsl:latest
         export NEWTAG=$(docker inspect --format '{{index .RepoDigests 0}}' ${{ secrets.DOCKERHUB_USERNAME }}/jenkinsdsl:latest | awk '{ str = substr($0,match($0,"@")+1); print str; }')
         echo New tag to use is $NEWTAG
