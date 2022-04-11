@@ -54,10 +54,14 @@ jobs:
         IMAGETAG=$(yq eval '.jenkinscd-framework-deployment.image.tag' helm/dev/values.yaml)
         echo Update $IMAGETAG with $NEWTAG
         yq eval --inplace ".jenkinscd-framework-deployment.image.tag=\"$NEWTAG\"" helm/dev/values.yaml
-    - name: GitHub Push
-      uses: ad-m/github-push-action@v0.6.0
+    - name: Pushes changed config to GitOps repo
+      uses: dmnemec/copy_file_to_another_repo_action@main
+      env:
+        API_TOKEN_GITHUB: ${{ secrets.XGITHUB_PAT }}
       with:
-        github_token: ${{ secrets.XGITHUB_PAT }}
-        repository: tpayne/codefresh-csdp-samples
-        branch: main
-        directory: HelmRepo     
+        source_file: 'HelmRepo/helm/dev/values.yaml'
+        destination_repo: 'tpayne/codefresh-csdp-samples'
+        destination_folder: 'helm/dev/'
+        user_email: ${{ secrets.XGITHUB_EMAIL }}
+        user_name: ${{ secrets.GITHUB_ACTOR }}
+        commit_message: 'Modifying repo file for Dev'
