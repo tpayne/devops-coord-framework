@@ -54,4 +54,10 @@ jobs:
         IMAGETAG=$(yq eval '.jenkinscd-framework-deployment.image.tag' helm/dev/values.yaml)
         echo Update $IMAGETAG with $NEWTAG
         yq eval --inplace ".jenkinscd-framework-deployment.image.tag=\"$NEWTAG\"" helm/dev/values.yaml
-        
+    - name: GitHub Push
+      uses: ad-m/github-push-action@v0.6.0
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        repository: tpayne/codefresh-csdp-samples.git
+        branch: main
+        directory: HelmRepo     
