@@ -29,8 +29,8 @@ jobs:
     needs: build
     
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v2 # Checkout the source
+    - uses: actions/checkout@v2 # Checkout the GitOps repo
       with:
         repository: tpayne/codefresh-csdp-samples.git
         path: HelmRepo
@@ -39,7 +39,7 @@ jobs:
       run: |
         echo ${{ secrets.DOCKERHUB_PASSWORD }} | \
           docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-    - name: Build Docker image & Update
+    - name: Build Docker image & Update the GitOps SHA digest
       run:  |
         docker build . -f docker/Dockerfile -t ${{ secrets.DOCKERHUB_USERNAME }}/jenkinsdsl:latest
         docker push ${{ secrets.DOCKERHUB_USERNAME }}/jenkinsdsl:latest
@@ -58,7 +58,10 @@ jobs:
         IMAGETAG=$(yq eval '.jenkinscd-framework-deployment.image.tag' helm/dev/values.yaml)
         echo Update ${IMAGETAG} with ${NEWTAG}
         yq eval --inplace ".jenkinscd-framework-deployment.image.tag=\"${NEWTAG}\"" helm/dev/values.yaml
-    - name: Pushes changed config to GitOps repo
+    # 
+    # Update the GitOps repo...
+    #
+    - name: Pushes changed config to GitOps repo...
       uses: dmnemec/copy_file_to_another_repo_action@main
       env:
         API_TOKEN_GITHUB: ${{ secrets.XGITHUB_PAT }}
