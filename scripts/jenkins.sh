@@ -1,4 +1,5 @@
 #! /bin/bash -e
+# This script runs Jenkins
 
 : "${JENKINS_WAR:="/usr/share/jenkins/jenkins.war"}"
 : "${JENKINS_HOME:="/var/jenkins_home"}"
