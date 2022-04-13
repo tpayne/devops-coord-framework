@@ -11,6 +11,7 @@ on:
   schedule:
     - cron: '0 0 1 * *'
 
+# The jobs...
 jobs:
   build:
     runs-on: ubuntu-latest
