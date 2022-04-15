@@ -74,4 +74,19 @@ jobs:
         user_name: ${{ secrets.XGITHUB_USER }}
         commit_message: 'Modifying repo file for Dev'
 
+    - name: GitOps Helm Update
+      uses: tpayne/github-actions/productmanifest@main
+      env:
+        API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+      with:
+        gitops-repo-url: tpayne/codefresh-csdp-samples
+        manifest-file: helm/dev/values.yaml
+        github-username: ${{ secrets.XGITHUB_USER }}
+        github-email: ${{ secrets.XGITHUB_EMAIL }}
+        image-list: wscs-deployment:tpayne666/nodejs:master,wsnodejs-b-deployment:tpayne666/nodejs:1.0 
+        git-token: ${{ secrets.API_TOKEN_GITHUB }}
+        registry-server: docker.io
+        docker-username: ${{ secrets.DOCKERHUB_USERNAME }}
+        docker-passwd: ${{ secrets.DOCKERHUB_PASSWORD }}
+
 # End of job
