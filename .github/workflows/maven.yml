@@ -79,7 +79,7 @@ jobs:
       env:
         API_TOKEN_GITHUB: ${{ secrets.XGITHUB_PAT }}
       with:
-        gitops-repo-url: tpayne/codefresh-csdp-samples
+        gitops-repo-url: https://github.com/tpayne/codefresh-csdp-samples
         manifest-file: helm/dev/values.yaml
         github-username: ${{ secrets.XGITHUB_USER }}
         github-email: ${{ secrets.XGITHUB_EMAIL }}
