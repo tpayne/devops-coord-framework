@@ -45,7 +45,7 @@ jobs:
         docker build . -f docker/Dockerfile -t ${{ secrets.DOCKERHUB_USERNAME }}/jenkinsdsl:latest
         docker push ${{ secrets.DOCKERHUB_USERNAME }}/jenkinsdsl:latest
         
-    - name: GitOps Helm Update
+    - name: GitOps Helm Chart Update(s)
       uses: tpayne/github-actions/productmanifest@main
       env:
         API_TOKEN_GITHUB: ${{ secrets.XGITHUB_PAT }}
