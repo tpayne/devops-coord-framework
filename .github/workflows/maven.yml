@@ -44,36 +44,7 @@ jobs:
       run:  |
         docker build . -f docker/Dockerfile -t ${{ secrets.DOCKERHUB_USERNAME }}/jenkinsdsl:latest
         docker push ${{ secrets.DOCKERHUB_USERNAME }}/jenkinsdsl:latest
-        #
-        # Get the details of the image just created...
-        #
-        docker inspect --format '{{index .RepoDigests 0}}' ${{ secrets.DOCKERHUB_USERNAME }}/jenkinsdsl:latest
-        export NEWTAG=$(docker inspect --format '{{index .RepoDigests 0}}' ${{ secrets.DOCKERHUB_USERNAME }}/jenkinsdsl:latest | awk '{ str = substr($0,match($0,"@")+1); print str; }')
-        echo New tag to use is ${NEWTAG}
-        #
-        # Update the GitOps repo file with new image digest created...
-        #
-        cd HelmRepo
-        curl -SL https://github.com/mikefarah/yq/releases/download/v4.23.1/yq_linux_amd64 -o /usr/bin/yq
-        chmod +x /usr/bin/yq
-        IMAGETAG=$(yq eval '.jenkinscd-framework-deployment.image.tag' helm/dev/values.yaml)
-        echo Update ${IMAGETAG} with ${NEWTAG}
-        yq eval --inplace ".jenkinscd-framework-deployment.image.tag=\"${NEWTAG}\"" helm/dev/values.yaml
-    # 
-    # Update the GitOps repo...
-    #
-    - name: Pushes changed config to GitOps repo...
-      uses: dmnemec/copy_file_to_another_repo_action@main
-      env:
-        API_TOKEN_GITHUB: ${{ secrets.XGITHUB_PAT }}
-      with:
-        source_file: 'HelmRepo/helm/dev/values.yaml'
-        destination_repo: 'tpayne/codefresh-csdp-samples'
-        destination_folder: 'helm/dev/'
-        user_email: ${{ secrets.XGITHUB_EMAIL }}
-        user_name: ${{ secrets.XGITHUB_USER }}
-        commit_message: 'Modifying repo file for Dev'
-
+        
     - name: GitOps Helm Update
       uses: tpayne/github-actions/productmanifest@main
       env:
@@ -83,11 +54,10 @@ jobs:
         manifest-file: helm/dev/values.yaml
         github-username: ${{ secrets.XGITHUB_USER }}
         github-email: ${{ secrets.XGITHUB_EMAIL }}
-        image-list: wscs-deployment:tpayne666/nodejs:master,wsnodejs-b-deployment:tpayne666/nodejs:1.0 
+        image-list: jenkinscd-framework-deployment:tpayne666/jenkinsdsl:latest
         git-token: ${{ secrets.XGITHUB_PAT }}
         registry-server: docker.io
         docker-username: ${{ secrets.DOCKERHUB_USERNAME }}
         docker-passwd: ${{ secrets.DOCKERHUB_PASSWORD }}
-        debug: --debug
 
 # End of job
