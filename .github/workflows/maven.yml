@@ -31,11 +31,6 @@ jobs:
     
     steps:
     - uses: actions/checkout@v2 # Checkout the source
-    - uses: actions/checkout@v2 # Checkout the GitOps repo
-      with:
-        repository: tpayne/codefresh-csdp-samples.git
-        path: HelmRepo
-        ref: main    
     - name: Login to DockerHub...
       run: |
         echo ${{ secrets.DOCKERHUB_PASSWORD }} | \
