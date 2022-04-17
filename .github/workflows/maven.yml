@@ -40,7 +40,8 @@ jobs:
       run:  |
         docker build . -f docker/Dockerfile -t ${{ secrets.DOCKERHUB_USERNAME }}/jenkinsdsl:latest
         docker push ${{ secrets.DOCKERHUB_USERNAME }}/jenkinsdsl:latest
-        
+    
+    # Action to get the digest...
     - name: GitOps Helm Chart Update(s)
       uses: tpayne/github-actions/productmanifest@main
       env:
