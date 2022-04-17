@@ -53,7 +53,8 @@ jobs:
         github-email: ${{ secrets.XGITHUB_EMAIL }}
         image-list: >-
           jenkinscd-framework-deployment:${{ secrets.DOCKERHUB_USERNAME }}/jenkinsdsl:latest,
-          jenkinscd-framework-deployment:${{ secrets.DOCKERHUB_USERNAME }}/jenkinsdsl:latest
+          jenkinscd-framework-deployment:${{ secrets.DOCKERHUB_USERNAME }}/jenkinsdsl:1.0,
+          jenkinscd-framework-deployment:${{ secrets.DOCKERHUB_USERNAME }}/jenkinsdsl:1.1
         git-token: ${{ secrets.XGITHUB_PAT }}
         registry-server: docker.io
         docker-username: ${{ secrets.DOCKERHUB_USERNAME }}
