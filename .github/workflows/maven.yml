@@ -2,6 +2,7 @@
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
 
 # Note - This action is temporary being used to help drive a GitOps trial and will be removed in the future
+
 # Updated with custom plugin/action 
 
 name: Java CI with Maven
