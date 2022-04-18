@@ -1,4 +1,7 @@
 #!/bin/bash
+#
+# This script will install Jenkins plugins and their dependencies...
+#
 
 set -e
 
