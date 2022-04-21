@@ -38,7 +38,7 @@ jobs:
 
       # Login against a Docker registry except on PR
       # https://github.com/docker/login-action
-      - name: Log into registry ${{ env.REGISTRY }}
+      - name: Log into registry...
         if: github.event_name == 'push'
         uses: docker/login-action@1edf6180e07d2ffb423fc48a1a552855c0a1f508
         with:
