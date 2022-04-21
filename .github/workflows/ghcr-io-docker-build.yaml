@@ -67,3 +67,19 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      # Action to get the digest...
+      - name: GitOps Helm Chart Update(s)
+        uses: tpayne/github-actions/productmanifest@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.XGITHUB_PAT }}
+        with:
+          gitops-repo-url: https://github.com/tpayne/codefresh-csdp-samples
+          manifest-file: helm/dev/values.yaml
+          github-username: ${{ secrets.XGITHUB_USER }}
+          github-email: ${{ secrets.XGITHUB_EMAIL }}
+          image-list: jenkinscd-framework-deployment:${{ github.actor }/jenkinsdsl:latest
+          git-token: ${{ secrets.XGITHUB_PAT }}
+          registry-server: ${{ env.REGISTRY }
+          docker-username: ${{ github.actor }
+          docker-passwd: ${{ secrets.XGITHUB_PAT }}
