@@ -78,7 +78,7 @@ jobs:
           manifest-file: helm/dev/values.yaml
           github-username: ${{ secrets.XGITHUB_USER }}
           github-email: ${{ secrets.XGITHUB_EMAIL }}
-          image-list: jenkinscd-framework-deployment:${{ github.actor }}/jenkinsdsl:${{ steps.meta.outputs.tags }}
+          image-list: jenkinscd-framework-deployment:${{ steps.meta.outputs.tags }}
           git-token: ${{ secrets.XGITHUB_PAT }}
           registry-server: ${{ env.REGISTRY }}
           docker-username: ${{ github.actor }}
