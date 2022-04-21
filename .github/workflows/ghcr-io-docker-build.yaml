@@ -6,20 +6,22 @@ name: GitHub CR Build and Push
 # documentation.
 
 on:
-  workflow_dispatch:
-
   push:
-    branches: [ main ]
+    branches: [ master ]
+    # Publish semver tags as releases.
+    tags: [ 'v*.*.*' ]
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
+  schedule:
+    - cron: '0 0 1 * *'
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  # IMAGE_NAME: ${{ github.repository }}
   # github.repository as <account>/<repo>
   
 jobs:
-  build:
+  buildPush:
     runs-on: ubuntu-latest
     permissions:
         contents: read
@@ -38,9 +40,9 @@ jobs:
 
       # Login against a Docker registry except on PR
       # https://github.com/docker/login-action
-      - name: Log into registry...
-        if: github.event_name == 'push'
-        uses: docker/login-action@1edf6180e07d2ffb423fc48a1a552855c0a1f508
+      - name: Log into registry ${{ env.REGISTRY }}
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
@@ -48,18 +50,17 @@ jobs:
 
       # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
-      - name: Extract Product Manifest GitAction Docker metadata
+      - name: Extract .Net Docker metadata
         id: meta
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: ${{ env.REGISTRY }}/jenkinsdsl
+          images: ${{ env.REGISTRY }}/${{ github.actor }}/jenkinsdsl
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
-      - name: Build and Push Product Manifest GitAction Docker image
+      - name: Build and Push Jenkins image
         id: build-and-push
-        if: github.event_name == 'push'
-        uses: docker/build-push-action@9472e9021074a3cb3279ba431598b8836d40433f
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: docker/
           push: ${{ github.event_name != 'pull_request' }}
