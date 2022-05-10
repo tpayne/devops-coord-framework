@@ -82,4 +82,4 @@ jobs:
           git-token: ${{ secrets.XGITHUB_PAT }}
           registry-server: ${{ env.REGISTRY }}
           docker-username: ${{ github.actor }}
-          docker-passwd: ${{ secrets.XGITHUB_PAT }}
+          docker-password: ${{ secrets.XGITHUB_PAT }}
