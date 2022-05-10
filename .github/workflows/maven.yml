@@ -58,6 +58,6 @@ jobs:
         git-token: ${{ secrets.XGITHUB_PAT }}
         registry-server: docker.io
         docker-username: ${{ secrets.DOCKERHUB_USERNAME }}
-        docker-passwd: ${{ secrets.DOCKERHUB_PASSWORD }}
+        docker-password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
 # End of job
