@@ -59,6 +59,5 @@ jobs:
         registry-server: docker.io
         docker-username: ${{ secrets.DOCKERHUB_USERNAME }}
         docker-password: ${{ secrets.DOCKERHUB_PASSWORD }}
-        debug: --debug
 
 # End of job
