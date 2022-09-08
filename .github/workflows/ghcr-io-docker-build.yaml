@@ -60,7 +60,7 @@ jobs:
       # https://github.com/docker/build-push-action
       - name: Build and Push Jenkins image
         id: build-and-push
-        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        uses: docker/build-push-action@e27bcee4eb9e7b4bc168418e3364c4482120393a
         with:
           context: .
           file: docker/Dockerfile
