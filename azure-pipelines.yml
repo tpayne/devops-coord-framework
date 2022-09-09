@@ -61,7 +61,7 @@ steps:
     pathToPublish: $(Build.ArtifactStagingDirectory)
     artifactName: MyBuildOutputs
     
-- task: Bash@3
+- task: Bash@3.201.1
   target: host
   inputs:
     targetType: 'inline'
