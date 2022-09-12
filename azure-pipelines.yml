@@ -41,17 +41,17 @@ steps:
 
 # - task: SonarQubeAnalyze@4
 # If needed will need configuring
-- task: CopyFiles@2
+- task: CopyFiles@2.209.0
   inputs:
     contents: '**/target/*.zip'
     targetFolder: $(Build.ArtifactStagingDirectory)
 
-- task: CopyFiles@2
+- task: CopyFiles@2.209.0
   inputs:
     contents: '**/target/*.hpi'
     targetFolder: $(Build.ArtifactStagingDirectory)
 
-- task: CopyFiles@2
+- task: CopyFiles@2.209.0
   inputs:
     contents: '**/target/devops-framework-core.jar'
     targetFolder: $(Build.ArtifactStagingDirectory)
