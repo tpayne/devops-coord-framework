@@ -12,7 +12,7 @@ pool:
 
 steps:
 
-- task: Maven@3
+- task: Maven@3.209.0
   target: host
   inputs:
     mavenPomFile: 'pom.xml'
