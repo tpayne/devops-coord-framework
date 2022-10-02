@@ -56,7 +56,7 @@ steps:
     contents: '**/target/devops-framework-core.jar'
     targetFolder: $(Build.ArtifactStagingDirectory)
 
-- task: PublishBuildArtifacts@1
+- task: PublishBuildArtifacts@1.211.0
   inputs:
     pathToPublish: $(Build.ArtifactStagingDirectory)
     artifactName: MyBuildOutputs
