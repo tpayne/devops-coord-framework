@@ -95,7 +95,7 @@
             <plugin>
                 <groupId>org.codehaus.gmavenplus</groupId>
                 <artifactId>gmavenplus-plugin</artifactId>
-                <version>1.6.2</version>
+                <version>1.13.1</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
