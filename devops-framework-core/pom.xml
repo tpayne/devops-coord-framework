@@ -85,7 +85,7 @@
         <dependency>
             <groupId>com.cloudbees</groupId>
             <artifactId>groovy-cps</artifactId>
-            <version>1.34</version>
+            <version>3653.v07ea_433c90b_4</version>
         </dependency>
     </dependencies>
 
