@@ -52,7 +52,7 @@ jobs:
       # https://github.com/docker/metadata-action
       - name: Extract Jenkins Docker metadata
         id: meta
-        uses: docker/metadata-action@314ddf6d4a82333bf1bc7630399df41bf68eba09
+        uses: docker/metadata-action@c314eea2b27e3cb3c7d7be0618510234d8f6178e
         with:
           images: ${{ env.REGISTRY }}/${{ github.actor }}/jenkinsdsl
 
