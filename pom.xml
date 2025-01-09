@@ -96,7 +96,7 @@
                 <plugin>
                     <groupId>com.sonatype.clm</groupId>
                     <artifactId>clm-maven-plugin</artifactId>
-                    <version>2.48.5-01</version>
+                    <version>2.48.7-01</version>
                     <executions>
                         <execution>
                             <goals>
